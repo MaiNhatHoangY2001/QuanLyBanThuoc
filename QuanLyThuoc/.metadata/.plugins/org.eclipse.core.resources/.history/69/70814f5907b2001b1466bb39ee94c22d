@@ -1,0 +1,10 @@
+package entity;
+
+import java.io.Serializable;
+
+public class NhaCungCap implements Serializable{
+	private String maNCC;
+	private String tenNCC;
+	private String diaChi;
+	
+}

@@ -1,0 +1,12 @@
+package entity;
+
+import java.time.LocalDate;
+
+public class KhachHang {
+	private String maKH;
+	private String hoTen;
+	private LocalDate ngaySinh;
+	private String hoTen;
+	private String maKH;
+	private String hoTen;
+}

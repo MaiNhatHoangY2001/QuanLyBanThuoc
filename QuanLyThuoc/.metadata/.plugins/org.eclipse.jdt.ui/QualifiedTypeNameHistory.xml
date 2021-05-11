@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="entity.KhachHang"/>
+    <fullyQualifiedTypeName name="entity.HoaDon"/>
+    <fullyQualifiedTypeName name="entity.ChiTietHoaDon"/>
+    <fullyQualifiedTypeName name="entity.Thuoc"/>
+    <fullyQualifiedTypeName name="entity.NhanVien"/>
+    <fullyQualifiedTypeName name="java.io.Serializable"/>
+    <fullyQualifiedTypeName name="entity.NhaCungCap"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="entity.LoaiThuoc"/>
+    <fullyQualifiedTypeName name="entity.NuocSX"/>
+</qualifiedTypeNameHistroy>
