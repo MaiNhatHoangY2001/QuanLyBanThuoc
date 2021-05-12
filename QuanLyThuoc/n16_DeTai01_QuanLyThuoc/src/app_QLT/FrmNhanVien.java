@@ -7,10 +7,15 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public class FrmNhanVien extends JPanel implements ActionListener, MouseListener {
 
@@ -18,16 +23,23 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField txtMaNV, txtTenNV, txtNgaySinh, txtLuong, txtDiaChi, txtSDT;
+	private JTextField txtMaNV, txtTenNV, txtNgaySinh, txtLuong, txtDiaChi, txtSDT, txtTim;
 	private JRadioButton radNam, radNu;
+	private JComboBox<String> cboLoaiTK;
+	private JButton btnTim, btnThem, btnXoa, btnXoaRong, btnSua;
+	private String column[] = { "Mã nhân viên", "Tên nhân viên", "Ngày sinh", "Giới tính", "Lương", "Số điện thoại",
+			"Địa chỉ" };
+	private JTable tableNV;
+	private DefaultTableModel modelNV;
+
 	public FrmNhanVien() {
-		
+
 		setLayout(null);
-		
-		JPanel pThongTin = new JPanel();
-		pThongTin.setBorder(BorderFactory.createTitledBorder("Thông tin nhân viên"));
-		pThongTin.setBounds(10, 10, 760, 220);
-		
+
+		JPanel border1 = new JPanel();
+		border1.setBorder(BorderFactory.createTitledBorder("Nhập Thông tin nhân viên"));
+		border1.setBounds(10, 10, 760, 220);
+
 		JLabel lblMa = new JLabel("Mã nhân viên");
 		lblMa.setBounds(50, 40, 100, 20);
 		add(lblMa);
@@ -40,7 +52,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		JLabel lblDiaChi = new JLabel("Địa chỉ");
 		lblDiaChi.setBounds(50, 160, 100, 20);
 		add(lblDiaChi);
-		
+
 		txtMaNV = new JTextField();
 		txtMaNV.setBounds(180, 40, 200, 30);
 		add(txtMaNV);
@@ -53,14 +65,14 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		txtDiaChi = new JTextField();
 		txtDiaChi.setBounds(180, 160, 550, 30);
 		add(txtDiaChi);
-		
+
 		JLabel lblTen = new JLabel("Tên nhân viên");
 		lblTen.setBounds(400, 40, 100, 20);
 		add(lblTen);
 		txtTenNV = new JTextField();
 		txtTenNV.setBounds(510, 40, 220, 30);
 		add(txtTenNV);
-		
+
 		JLabel lblGioiTinh = new JLabel("Giới tính");
 		lblGioiTinh.setBounds(400, 80, 100, 20);
 		add(lblGioiTinh);
@@ -73,16 +85,74 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		bg.add(radNu);
 		add(radNam);
 		add(radNu);
-		
+
 		JLabel lblSDT = new JLabel("Số điện thoại");
 		lblSDT.setBounds(400, 120, 100, 20);
 		add(lblSDT);
 		txtSDT = new JTextField();
 		txtSDT.setBounds(510, 120, 220, 30);
 		add(txtSDT);
-		
-		add(pThongTin);
-		
+
+		JPanel border2 = new JPanel();
+		border2.setBorder(BorderFactory.createTitledBorder("Tìm kiếm theo tên/mã nhân viên"));
+		border2.setBounds(10, 240, 420, 120);
+
+		JLabel lblLoaiTK = new JLabel("Chọn loại tìm kiếm");
+		lblLoaiTK.setBounds(40, 270, 150, 20);
+		add(lblLoaiTK);
+		cboLoaiTK = new JComboBox<String>();
+		cboLoaiTK.addItem("Tìm kiếm theo tên");
+		cboLoaiTK.addItem("Tìm kiếm theo mã");
+		cboLoaiTK.setBounds(200, 270, 210, 25);
+		add(cboLoaiTK);
+
+		JLabel lblThongTinTK = new JLabel("Nhập thông tin tìm kiếm");
+		lblThongTinTK.setBounds(40, 310, 150, 20);
+		add(lblThongTinTK);
+		txtTim = new JTextField();
+		txtTim.setBounds(200, 310, 120, 30);
+		add(txtTim);
+		btnTim = new JButton("Tìm");
+		btnTim.setBounds(330, 310, 80, 30);
+		add(btnTim);
+
+		JPanel border3 = new JPanel();
+		border3.setBorder(BorderFactory.createTitledBorder("Tác vụ"));
+		border3.setBounds(450, 240, 320, 120);
+
+		btnThem = new JButton("Thêm");
+		btnThem.setBounds(480, 270, 120, 30);
+		add(btnThem);
+		btnXoa = new JButton("Xóa");
+		btnXoa.setBounds(635, 270, 120, 30);
+		add(btnXoa);
+		btnXoaRong = new JButton("Xóa rỗng");
+		btnXoaRong.setBounds(480, 315, 120, 30);
+		add(btnXoaRong);
+		btnSua = new JButton("Sửa");
+		btnSua.setBounds(635, 315, 120, 30);
+		add(btnSua);
+
+		modelNV = new DefaultTableModel(column, 0);
+		tableNV = new JTable(modelNV);
+		JScrollPane sp = new JScrollPane(tableNV);
+		sp.setBounds(20, 400, 740, 240);
+		add(sp);
+		JPanel border4 = new JPanel();
+		border4.setBorder(BorderFactory.createTitledBorder("Thông tin nhân viên"));
+		border4.setBounds(10, 380, 760, 270);
+		// border title
+		add(border4);
+		add(border3);
+		add(border2);
+		add(border1);
+
+		// thêm sự kiện
+		btnThem.addActionListener(this);
+		btnSua.addActionListener(this);
+		btnTim.addActionListener(this);
+		btnXoa.addActionListener(this);
+		btnXoaRong.addActionListener(this);
 	}
 
 	@Override

@@ -27,7 +27,8 @@ public class FrmMain extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(800, 800);
 		setLocationRelativeTo(null);
-		
+		setResizable(false);
+
 		JPanel pNorth = new JPanel();
 		JLabel tieuDe = new JLabel();
 		pNorth.setLayout(new GridBagLayout());
@@ -35,7 +36,7 @@ public class FrmMain extends JFrame {
 		pNorth.add(tieuDe = new JLabel("Hệ Thống Quản Lý thuốc"));
 		tieuDe.setFont(new Font(Font.SERIF, Font.BOLD, 20));
 		add(pNorth, BorderLayout.NORTH);
-		
+
 		tabPane.add("Quản lý thuốc", frmThuoc);
 		tabPane.add("Quản lý nhân viên", frmNhanVien);
 		tabPane.add("Quản lý bán hàng", frmBanHang);
