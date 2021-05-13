@@ -36,35 +36,15 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 
 		setLayout(null);
 
-		JPanel border1 = new JPanel();
-		border1.setBorder(BorderFactory.createTitledBorder("Nhập Thông tin nhân viên"));
-		border1.setBounds(10, 10, 760, 220);
-
+		/**
+		 * Phần nhập thông tin nhân viên
+		 */
 		JLabel lblMa = new JLabel("Mã nhân viên");
 		lblMa.setBounds(50, 40, 100, 20);
 		add(lblMa);
-		JLabel lblNgay = new JLabel("Ngày sinh");
-		lblNgay.setBounds(50, 80, 100, 20);
-		add(lblNgay);
-		JLabel lblLuong = new JLabel("Lương nhân viên");
-		lblLuong.setBounds(50, 120, 100, 20);
-		add(lblLuong);
-		JLabel lblDiaChi = new JLabel("Địa chỉ");
-		lblDiaChi.setBounds(50, 160, 100, 20);
-		add(lblDiaChi);
-
 		txtMaNV = new JTextField();
 		txtMaNV.setBounds(180, 40, 200, 30);
 		add(txtMaNV);
-		txtNgaySinh = new JTextField();
-		txtNgaySinh.setBounds(180, 80, 200, 30);
-		add(txtNgaySinh);
-		txtLuong = new JTextField();
-		txtLuong.setBounds(180, 120, 200, 30);
-		add(txtLuong);
-		txtDiaChi = new JTextField();
-		txtDiaChi.setBounds(180, 160, 550, 30);
-		add(txtDiaChi);
 
 		JLabel lblTen = new JLabel("Tên nhân viên");
 		lblTen.setBounds(400, 40, 100, 20);
@@ -72,6 +52,34 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		txtTenNV = new JTextField();
 		txtTenNV.setBounds(510, 40, 220, 30);
 		add(txtTenNV);
+
+		JLabel lblNgay = new JLabel("Ngày sinh");
+		lblNgay.setBounds(50, 80, 100, 20);
+		add(lblNgay);
+		txtNgaySinh = new JTextField();
+		txtNgaySinh.setBounds(180, 80, 200, 30);
+		add(txtNgaySinh);
+
+		JLabel lblLuong = new JLabel("Lương nhân viên");
+		lblLuong.setBounds(50, 120, 100, 20);
+		add(lblLuong);
+		txtLuong = new JTextField();
+		txtLuong.setBounds(180, 120, 200, 30);
+		add(txtLuong);
+
+		JLabel lblDiaChi = new JLabel("Địa chỉ");
+		lblDiaChi.setBounds(50, 160, 100, 20);
+		add(lblDiaChi);
+		txtDiaChi = new JTextField();
+		txtDiaChi.setBounds(180, 160, 550, 30);
+		add(txtDiaChi);
+
+		JLabel lblSDT = new JLabel("Số điện thoại");
+		lblSDT.setBounds(400, 120, 100, 20);
+		add(lblSDT);
+		txtSDT = new JTextField();
+		txtSDT.setBounds(510, 120, 220, 30);
+		add(txtSDT);
 
 		JLabel lblGioiTinh = new JLabel("Giới tính");
 		lblGioiTinh.setBounds(400, 80, 100, 20);
@@ -86,17 +94,9 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		add(radNam);
 		add(radNu);
 
-		JLabel lblSDT = new JLabel("Số điện thoại");
-		lblSDT.setBounds(400, 120, 100, 20);
-		add(lblSDT);
-		txtSDT = new JTextField();
-		txtSDT.setBounds(510, 120, 220, 30);
-		add(txtSDT);
-
-		JPanel border2 = new JPanel();
-		border2.setBorder(BorderFactory.createTitledBorder("Tìm kiếm theo tên/mã nhân viên"));
-		border2.setBounds(10, 240, 420, 120);
-
+		/**
+		 * Phần tìm kiếm
+		 */
 		JLabel lblLoaiTK = new JLabel("Chọn loại tìm kiếm");
 		lblLoaiTK.setBounds(40, 270, 150, 20);
 		add(lblLoaiTK);
@@ -116,38 +116,60 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		btnTim.setBounds(330, 310, 80, 30);
 		add(btnTim);
 
-		JPanel border3 = new JPanel();
-		border3.setBorder(BorderFactory.createTitledBorder("Tác vụ"));
-		border3.setBounds(450, 240, 320, 120);
-
+		/**
+		 * Phần tác vụ
+		 */
 		btnThem = new JButton("Thêm");
 		btnThem.setBounds(480, 270, 120, 30);
 		add(btnThem);
+		
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBounds(635, 270, 120, 30);
 		add(btnXoa);
+		
 		btnXoaRong = new JButton("Xóa rỗng");
 		btnXoaRong.setBounds(480, 315, 120, 30);
 		add(btnXoaRong);
+		
 		btnSua = new JButton("Sửa");
 		btnSua.setBounds(635, 315, 120, 30);
 		add(btnSua);
 
+		/**
+		 * Phần bảng
+		 */
 		modelNV = new DefaultTableModel(column, 0);
 		tableNV = new JTable(modelNV);
 		JScrollPane sp = new JScrollPane(tableNV);
 		sp.setBounds(20, 400, 740, 240);
 		add(sp);
+
+		/**
+		 * thêm border title
+		 */
 		JPanel border4 = new JPanel();
 		border4.setBorder(BorderFactory.createTitledBorder("Thông tin nhân viên"));
 		border4.setBounds(10, 380, 760, 270);
-		// border title
 		add(border4);
+
+		JPanel border3 = new JPanel();
+		border3.setBorder(BorderFactory.createTitledBorder("Tác vụ"));
+		border3.setBounds(450, 240, 320, 120);
 		add(border3);
+
+		JPanel border2 = new JPanel();
+		border2.setBorder(BorderFactory.createTitledBorder("Tìm kiếm theo tên/mã nhân viên"));
+		border2.setBounds(10, 240, 420, 120);
 		add(border2);
+
+		JPanel border1 = new JPanel();
+		border1.setBorder(BorderFactory.createTitledBorder("Nhập Thông tin nhân viên"));
+		border1.setBounds(10, 10, 760, 220);
 		add(border1);
 
-		// thêm sự kiện
+		/**
+		 * thêm sự kiện
+		 */
 		btnThem.addActionListener(this);
 		btnSua.addActionListener(this);
 		btnTim.addActionListener(this);
