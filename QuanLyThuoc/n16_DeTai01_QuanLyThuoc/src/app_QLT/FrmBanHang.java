@@ -122,17 +122,17 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		add(cboLoaiThuoc);
 		
 		JLabel lbTenThuoc = new JLabel("Tên thuốc");
-		lbTenThuoc.setBounds(415, 100, 100, 30);
+		lbTenThuoc.setBounds(415, 110, 100, 30);
 		add(lbTenThuoc);
 		cboTenThuoc = new JComboBox<String>();
-		cboTenThuoc.setBounds(515, 100, 235, 30);
+		cboTenThuoc.setBounds(515, 110, 235, 30);
 		add(cboTenThuoc);
 		
 		JLabel lbSoLuongThuoc = new JLabel("Số lượng thuốc");
-		lbSoLuongThuoc.setBounds(415, 130, 100, 30);
+		lbSoLuongThuoc.setBounds(415, 150, 100, 30);
 		add(lbSoLuongThuoc);
 		txtSoLuongThuoc = new JTextField();
-		txtSoLuongThuoc.setBounds(515, 130, 235, 30);
+		txtSoLuongThuoc.setBounds(515, 150, 235, 30);
 		add(txtSoLuongThuoc);
 		
 		btnThemVaoHD = new JButton("Thêm vào hoá đơn");
@@ -143,7 +143,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		
 //		btn
 		btnXoaHD = new JButton("Xoá hoá đơn");
-		btnXoaHD.setBounds(220, 290, 100, 35);
+		btnXoaHD.setBounds(200, 290, 120, 35);
 		add(btnXoaHD);
 		
 		btnXoaRong = new JButton("Xoá rỗng");
@@ -188,7 +188,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		lbTongTienBH.setBounds(450, 550, 100, 40);
 		add(lbTongTienBH);
 		txtTongTienBH = new JTextField();
-		txtTongTienBH.setBounds(580, 550, 190, 40);
+		txtTongTienBH.setBounds(580, 555, 190, 40);
 		add(txtTongTienBH);
 		
 //		thanh toan
