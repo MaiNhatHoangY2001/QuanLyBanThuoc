@@ -7,9 +7,17 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+<<<<<<< HEAD
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+=======
+
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+>>>>>>> 09095a2e735cfbe6c7af9a5a803e5a78f3a9c967
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
