@@ -1,7 +1,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class NhanVien implements Serializable {
 
@@ -12,7 +12,7 @@ public class NhanVien implements Serializable {
 	private String maNV;
 	private String hoTen;
 	private String soDienThoai;
-	private LocalDate ngaySinh;
+	private Date ngaySinh;
 	private boolean gioiTinh;
 	private String diaChi;
 	private double luong;
@@ -41,11 +41,11 @@ public class NhanVien implements Serializable {
 		this.soDienThoai = soDienThoai;
 	}
 
-	public LocalDate getNgaySinh() {
+	public Date getNgaySinh() {
 		return ngaySinh;
 	}
 
-	public void setNgaySinh(LocalDate ngaySinh) {
+	public void setNgaySinh(Date ngaySinh) {
 		this.ngaySinh = ngaySinh;
 	}
 
@@ -73,7 +73,7 @@ public class NhanVien implements Serializable {
 		this.luong = luong;
 	}
 
-	public NhanVien(String maNV, String hoTen, String soDienThoai, LocalDate ngaySinh, boolean gioiTinh, String diaChi,
+	public NhanVien(String maNV, String hoTen, String soDienThoai, Date ngaySinh, boolean gioiTinh, String diaChi,
 			double luong) {
 		super();
 		this.maNV = maNV;
