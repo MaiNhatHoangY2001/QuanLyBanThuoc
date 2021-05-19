@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import connectDB.ConnectDB;
 import entity.ChiTietHoaDon;
-import entity.KhachHang;
 
 public class CTHoaDon_DAO {
 	public boolean update(ChiTietHoaDon cthd) {

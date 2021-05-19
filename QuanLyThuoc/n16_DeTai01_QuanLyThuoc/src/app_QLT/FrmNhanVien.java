@@ -116,8 +116,8 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		add(lblGioiTinh);
 		radNam = new JRadioButton("Nam");
 		radNu = new JRadioButton("Nữ");
-		radNam.setBounds(510, 80, 50, 20);
-		radNu.setBounds(600, 80, 50, 20);
+		radNam.setBounds(510, 80, 60, 20);
+		radNu.setBounds(600, 80, 60, 20);
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(radNam);
 		bg.add(radNu);
