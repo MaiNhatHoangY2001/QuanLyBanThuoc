@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class HoaDon implements Serializable {
@@ -10,7 +11,7 @@ public class HoaDon implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String maHoaDon;
-	private LocalDate ngayLap;
+	private Date ngayLap;
 	private NhanVien nv;
 	private KhachHang kh;
 	private ChiTietHoaDon ctHD;
@@ -23,11 +24,11 @@ public class HoaDon implements Serializable {
 		this.maHoaDon = maHoaDon;
 	}
 
-	public LocalDate getNgayLap() {
+	public Date getNgayLap() {
 		return ngayLap;
 	}
 
-	public void setNgayLap(LocalDate ngayLap) {
+	public void setNgayLap(Date ngayLap) {
 		this.ngayLap = ngayLap;
 	}
 
@@ -55,7 +56,7 @@ public class HoaDon implements Serializable {
 		this.ctHD = ctHD;
 	}
 
-	public HoaDon(String maHoaDon, LocalDate ngayLap, NhanVien nv, KhachHang kh, ChiTietHoaDon ctHD) {
+	public HoaDon(String maHoaDon, Date ngayLap, NhanVien nv, KhachHang kh, ChiTietHoaDon ctHD) {
 		super();
 		this.maHoaDon = maHoaDon;
 		this.ngayLap = ngayLap;
