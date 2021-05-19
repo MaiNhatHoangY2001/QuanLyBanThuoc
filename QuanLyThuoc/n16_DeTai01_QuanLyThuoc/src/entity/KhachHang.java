@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class KhachHang implements Serializable {
@@ -10,7 +11,7 @@ public class KhachHang implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String maKH;
 	private String hoTen;
-	private LocalDate ngaySinh;
+	private Date ngaySinh;
 	private boolean gioiTinh;
 	private String diaChi;
 	private String SDT;
@@ -31,11 +32,11 @@ public class KhachHang implements Serializable {
 		this.hoTen = hoTen;
 	}
 
-	public LocalDate getNgaySinh() {
+	public Date getNgaySinh() {
 		return ngaySinh;
 	}
 
-	public void setNgaySinh(LocalDate ngaySinh) {
+	public void setNgaySinh(Date ngaySinh) {
 		this.ngaySinh = ngaySinh;
 	}
 
@@ -63,7 +64,7 @@ public class KhachHang implements Serializable {
 		SDT = sDT;
 	}
 
-	public KhachHang(String maKH, String hoTen, LocalDate ngaySinh, boolean gioiTinh, String diaChi, String sDT) {
+	public KhachHang(String maKH, String hoTen, Date ngaySinh, boolean gioiTinh, String diaChi, String sDT) {
 		super();
 		this.maKH = maKH;
 		this.hoTen = hoTen;
