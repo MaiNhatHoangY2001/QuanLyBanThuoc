@@ -25,8 +25,10 @@ import javax.swing.table.DefaultTableModel;
 import connectDB.ConnectDB;
 import dao.KhachHang_DAO;
 import dao.NhanVien_DAO;
+import dao.Thuoc_DAO;
 import entity.KhachHang;
 import entity.NhanVien;
+import entity.Thuoc;
 
 
 
@@ -45,6 +47,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private JButton btnThongKe,btnTimKiem,btnThongKeAll;
 	private JLabel lbTimKiem,lbNhapTK,lbtongthuoc,lbtongkh;
 	private KhachHang_DAO kh_dao;
+	private Thuoc_DAO thuoc_dao;
 	public FrmThongKe() {
 		setLayout(new BorderLayout());
 
@@ -135,7 +138,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		b2.add(scroll,BorderLayout.CENTER);
 		
 		//bang thong tin thuoc ma khach hang da mua
-		String []headerthuoc= {"Mã thuốc","Tên thuốc","Ngày sản xuất","Hạn sử dụng","Đơn giá","Tên nhà cung cấp","Loại thuốc","Nước sản xuất"};
+		String []headerthuoc= {"Mã thuốc","Tên thuốc","Đơn giá","Số lượng","Tên nhà cung cấp","Loại thuốc","Nước sản xuất"};
 		dfThuoc=new DefaultTableModel(headerthuoc,0);
 		tableThuoc=new JTable(dfThuoc);
 		tableThuoc.setRowHeight(20);
@@ -206,6 +209,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 			e.printStackTrace();
 		}
 		kh_dao = new KhachHang_DAO();
+		thuoc_dao=new Thuoc_DAO();
 		txtMaKH=new JTextField(10);//luu ma khach hang
 	}
 
@@ -223,19 +227,22 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		}
 		if(o.equals(btnThongKe)) {
 			timKHTheoNgay();
+			
 		}
-		
+		if(o.equals(btnThongKeAll)) {
+			thongKeTatCaKH();
+		}
 	}
 	//Tim thong tin khach hang
 	private void timKH() {
 		ArrayList<KhachHang> dskh;
 			if (cbTimKiem.getSelectedIndex() == 1)
-				dskh = kh_dao.getkhachHangDaMuaThuocTheoMaKH(txttimKiem.getText());
+				dskh = kh_dao.getKhachHangTheoMa(txttimKiem.getText());
 			else {
 				if (cbTimKiem.getSelectedIndex() == 0)
-				dskh = kh_dao.getKhachHangTheoTenKH(txttimKiem.getText());
+				dskh = kh_dao.getKhachHangTheoTen(txttimKiem.getText());
 				else
-				dskh=kh_dao.getKhachHangDaMuaThuocTheoSDT(txttimKiem.getText());
+				dskh=kh_dao.getKhachHangTheoSDT(txttimKiem.getText());
 			}
 			clearTable();// xóa bảng
 			if (!dskh.isEmpty()) {
@@ -248,6 +255,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 				JOptionPane.showMessageDialog(this, "Không có khách hàng nào theo thông tin tìm");
 			}
 	}
+	//Thong ke khach hang theo ngay
 	private void timKHTheoNgay() {
 		ArrayList<KhachHang> dskh;
 		dskh=kh_dao.getKhachHangDaMuaThuocTheoNgay((int)cbNgay.getSelectedItem(), (int)cbThang.getSelectedItem(), (int)cbNam.getSelectedItem());
@@ -262,9 +270,24 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 			JOptionPane.showMessageDialog(this, "Không có khách hàng nào theo thông tin tìm");
 		}
 	}
+	//Thong ke tat ca khach hang da mua thuoc
+	private void thongKeTatCaKH() {
+		ArrayList<KhachHang> dskh;
+		dskh=kh_dao.getAllKhachHang();
+		clearTable();// xóa bảng
+			for (KhachHang kh : dskh) {
+				dfKhachHang.addRow(new Object[] { kh.getMaKH(), kh.getHoTen(), kh.getNgaySinh(),
+						strGioiTinh(kh.isGioiTinh()), kh.getDiaChi(), kh.getSDT()});
+			}
+	}
 	private void clearTable() {
 		while (tableKhachHang.getRowCount() > 0) {
 			dfKhachHang.removeRow(0);
+		}
+	}
+	private void clearTableThuoc() {
+		while (tableThuoc.getRowCount() > 0) {
+			dfThuoc.removeRow(0);
 		}
 	}
 	public String strGioiTinh(Boolean nv) {
@@ -273,13 +296,29 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		}
 		return "Nữ";
 	}
+//	public int tongKH() {
+//		int i=0;
+//		while(tableKhachHang.) {
+//			i=i+1;
+//		}
+//	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		Object o=e.getSource();
 		if(o.equals(tableKhachHang)) {
-			
+			int row = tableKhachHang.getSelectedRow();
+			txtMaKH.setText(dfKhachHang.getValueAt(row, 0).toString());
+			ArrayList<Thuoc> dsthuoc;
+			dsthuoc=thuoc_dao.getThuocKhachHangDaMua(txtMaKH.getText());
+			clearTableThuoc();// xóa bảng
+				for (Thuoc thuoc : dsthuoc) {
+					dfThuoc.addRow(new Object[] {
+							thuoc.getMaThuoc(),thuoc.getTenThuoc(),thuoc.getDonGia(),thuoc.getSLTon(),
+							thuoc.getNcc().getMaNCC(),thuoc.getLoaiThuoc().getMaLoai(),thuoc.getNuocSX().getIdNuoc()
+					});
+				}
 		}
 	}
 

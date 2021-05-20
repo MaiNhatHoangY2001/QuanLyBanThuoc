@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +17,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+
+import entity.DateLabelFormatter;
 
 public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 
@@ -46,6 +53,17 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 	private JTable tableBanHang;
 	private JTextField txtTongTienBH;
 	private JButton btnThanhToan;
+	private JComboBox<String> cboMaNVNhap;
+	private JTextField txtmaNVNhap;
+	private SqlDateModel modelNgayKH;
+	private Properties p;
+	private JDatePanelImpl datePanel;
+	private JDatePickerImpl datePicker;
+	private SqlDateModel modelNgay;
+	private SqlDateModel modelNgayLapHD;
+	private Properties p1;
+	private JDatePanelImpl datePanel1;
+	private JDatePickerImpl datePicker1;
 	public FrmBanHang() {
 		setLayout(null);
 //		tim sdt
@@ -82,9 +100,18 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		JLabel lbNgaySinh = new JLabel("Ngày sinh");
 		lbNgaySinh.setBounds(30, 130, 100, 30);
 		add(lbNgaySinh);
-		txtNgaySinh = new JTextField();
-		txtNgaySinh.setBounds(150, 130, 215, 30);
-		add(txtNgaySinh);
+//		150 130 215 30;
+		modelNgayKH = new SqlDateModel();
+		p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		datePanel = new JDatePanelImpl(modelNgayKH, p);
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setBounds(150, 130, 215, 30);
+		modelNgayKH.setDate(2000, 0, 1);
+		modelNgayKH.setSelected(true);
+		add(datePicker);
 		
 		JLabel lbDiaChi = new JLabel("Địa chỉ");
 		lbDiaChi.setBounds(30, 160, 100, 30);
@@ -167,9 +194,19 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		JLabel lbNgayLapHD = new JLabel("Ngày lập hoá đơn: ");
 		lbNgayLapHD.setBounds(395, 330, 150, 30);
 		add(lbNgayLapHD);
-		txtNgayLapHD = new JTextField();
-		txtNgayLapHD.setBounds(545, 330, 225, 30);
-		add(txtNgayLapHD);
+		
+//		txtNgayLapHD.setBounds(545, 330, 225, 30);
+		modelNgayLapHD = new SqlDateModel();
+		p1 = new Properties();
+		p1.put("text.today", "Today");
+		p1.put("text.month", "Month");
+		p1.put("text.year", "Year");
+		datePanel1 = new JDatePanelImpl(modelNgayLapHD, p1);
+		datePicker1 = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
+		datePicker1.setBounds(545, 330,225, 30);
+		modelNgayLapHD.setDate(2000, 0, 1);
+		modelNgayLapHD.setSelected(true);
+		add(datePicker1);
 		
 //		table
 		modelBanHang = new DefaultTableModel(column,0);
@@ -190,6 +227,13 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		txtTongTienBH = new JTextField();
 		txtTongTienBH.setBounds(580, 555, 190, 40);
 		add(txtTongTienBH);
+		
+		JLabel lbmaNVNhap = new JLabel("Mã nhân viên nhập hóa đơn: ");
+		lbmaNVNhap.setBounds(20, 570, 200, 30);
+		add(lbmaNVNhap);
+		txtmaNVNhap = new JTextField();
+		txtmaNVNhap.setBounds(200, 570, 100, 30);
+		add(txtmaNVNhap);
 		
 //		thanh toan
 		btnThanhToan = new JButton("Thanh toán");
