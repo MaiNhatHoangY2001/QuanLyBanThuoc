@@ -2,7 +2,6 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Thuoc implements Serializable {
 	/**
@@ -100,13 +99,15 @@ public class Thuoc implements Serializable {
 
 
 	public Thuoc(String maThuoc, String tenThuoc, double donGia, Date ngaySX2, Date hanSD,
-			LoaiThuoc loaiThuoc, NuocSX nuocSX) {
+			int sLTon,NhaCungCap ncc2, LoaiThuoc loaiThuoc, NuocSX nuocSX) {
 		super();
 		this.maThuoc = maThuoc;
 		this.tenThuoc = tenThuoc;
 		this.donGia = donGia;
 		this.ngaySX = ngaySX2;
+		this.ncc = ncc2;
 		this.hanSuDung = hanSD;
+		this.SLTon = sLTon;
 		this.loaiThuoc = loaiThuoc;
 		this.nuocSX = nuocSX;
 	}

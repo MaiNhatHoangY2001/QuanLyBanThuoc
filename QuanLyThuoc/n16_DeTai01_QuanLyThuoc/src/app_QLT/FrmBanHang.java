@@ -3,14 +3,23 @@ package app_QLT;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -22,9 +31,21 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
+import connectDB.ConnectDB;
+import dao.CTHoaDon_DAO;
+import dao.HoaDon_DAO;
+import dao.KhachHang_DAO;
+import dao.LoaiThuoc_DAO;
+import dao.PhatSinhMa;
+import dao.Thuoc_DAO;
+import entity.ChiTietHoaDon;
 import entity.DateLabelFormatter;
+import entity.KhachHang;
+import entity.LoaiThuoc;
+import entity.Regex;
+import entity.Thuoc;
 
-public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
+public class FrmBanHang extends JPanel implements ActionListener, MouseListener,ItemListener{
 
 	/**
 	 * 
@@ -59,12 +80,34 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 	private Properties p;
 	private JDatePanelImpl datePanel;
 	private JDatePickerImpl datePicker;
-	private SqlDateModel modelNgay;
 	private SqlDateModel modelNgayLapHD;
 	private Properties p1;
 	private JDatePanelImpl datePanel1;
 	private JDatePickerImpl datePicker1;
+	private JComboBox<String> cbmaNVNhap;
+	private Regex regex;
+	private KhachHang_DAO kh_dao;
+	private Thuoc_DAO thuoc_dao;
+	private HoaDon_DAO hoadon_dao;
+	private CTHoaDon_DAO cthd_dao;
+	private LoaiThuoc_DAO loaithuoc_dao;
+	private DecimalFormat df = new DecimalFormat("#");
 	public FrmBanHang() {
+		
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		kh_dao = new KhachHang_DAO();
+		thuoc_dao = new Thuoc_DAO();
+		loaithuoc_dao = new LoaiThuoc_DAO();
+		hoadon_dao = new HoaDon_DAO();
+		cthd_dao = new CTHoaDon_DAO();
+		regex = new Regex();
+		
+		
 		setLayout(null);
 //		tim sdt
 		
@@ -109,7 +152,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		datePanel = new JDatePanelImpl(modelNgayKH, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setBounds(150, 130, 215, 30);
-		modelNgayKH.setDate(2000, 0, 1);
+		modelNgayKH.setDate(1990, 0, 1);
 		modelNgayKH.setSelected(true);
 		add(datePicker);
 		
@@ -127,6 +170,10 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		radNu = new JRadioButton("Nữ");
 		radNam.setBounds(150, 190, 70, 30);
 		radNu.setBounds(230, 190, 70, 30);
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(radNam);
+		bg.add(radNu);
+		radNam.setSelected(true);
 		add(radNam);
 		add(radNu);
 		
@@ -146,7 +193,13 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		add(lbLoaiThuoc);
 		cboLoaiThuoc = new JComboBox<String>();
 		cboLoaiThuoc.setBounds(515, 70, 235, 30);
+		ArrayList<LoaiThuoc> lsLThuoc = loaithuoc_dao.getallLoaiThuoc();
+		for (LoaiThuoc t : lsLThuoc) {
+			cboLoaiThuoc.addItem(t.getTenLoai());
+		}
 		add(cboLoaiThuoc);
+		
+		
 		
 		JLabel lbTenThuoc = new JLabel("Tên thuốc");
 		lbTenThuoc.setBounds(415, 110, 100, 30);
@@ -187,7 +240,6 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		add(lbTenKHHD);
 		lbXuatTenKH = new JLabel();
 		lbXuatTenKH.setFont(new Font(Font.SERIF, Font.BOLD, 16));
-		lbXuatTenKH.setText("DEMO");
 		lbXuatTenKH.setBounds(120, 332, 200, 30);
 		add(lbXuatTenKH);
 		
@@ -231,9 +283,9 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		JLabel lbmaNVNhap = new JLabel("Mã nhân viên nhập hóa đơn: ");
 		lbmaNVNhap.setBounds(20, 570, 200, 30);
 		add(lbmaNVNhap);
-		txtmaNVNhap = new JTextField();
-		txtmaNVNhap.setBounds(200, 570, 100, 30);
-		add(txtmaNVNhap);
+		cbmaNVNhap = new JComboBox<String>();
+		cbmaNVNhap.setBounds(200, 570, 100, 30);
+		add(cbmaNVNhap);
 		
 //		thanh toan
 		btnThanhToan = new JButton("Thanh toán");
@@ -249,12 +301,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		btnTimSDT.addActionListener(this);
 		btnXoaHD.addActionListener(this);
 		btnXoaRong.addActionListener(this);
-		
-		
-		
-		
-		
-		
+		cboLoaiThuoc.addItemListener(this);
+		cboTenThuoc.addItemListener(this);
 		
 		
 		
@@ -285,10 +333,161 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(btnXoaRong))
+			xoaRong();
+		if(o.equals(btnThemKH))
+			themKH();
+		if(o.equals(btnThemVaoHD))
+			themVaoHD();
+	}
+	
+	private void xoaRong() {
+		txtTimSDT.setText("");
+		txtTenKH.setText("");
+		txtSDT.setText("");
+		txtDiaChi.setText("");
+		radNam.setSelected(false);
+		radNu.setSelected(false);
+		txtSoLuongThuoc.setText("");
+		modelNgayKH.setDate(1990, 0, 1);
+		tableBanHang.clearSelection();
+		lbXuatTenKH.setText("");
+		clearTable();
+		cboTenThuoc.removeAllItems();
+		txtTenKH.requestFocus();
+	}
+	
+	private void themKH() {
+		if(kiemTraKH()) {
+			PhatSinhMa makh = new PhatSinhMa();
+			String tenKH =txtTenKH.getText();
+			String sDT = txtSDT.getText();
+			String diaChi = txtDiaChi.getText();
+			boolean gioiTinh = radNam.isSelected();
+			Date ngaySinh = (Date) datePicker.getModel().getValue();
+			KhachHang kh = new KhachHang(makh.maKH(), tenKH, ngaySinh, gioiTinh, diaChi, sDT);
+			if(kh_dao.getKhachHangTheoSDT(sDT) == null)
+				if(kh_dao.createKH(kh)) {
+					JOptionPane.showMessageDialog(this, "Them khach hang thanh cong!");
+					lbXuatTenKH.setText(kh.getHoTen());
+					
+				} else
+					JOptionPane.showMessageDialog(this, "Trùng mã khách hàng");
+			
+			else 
+				JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại");
+				
+		}
+	}
+	
+	private void themVaoHD() {
+		if(kiemTraThuoc()&&kiemTraKH())
+		{
+			PhatSinhMa maCTHD = new PhatSinhMa();
+			int soLuongThuoc = Integer.parseInt(txtSoLuongThuoc.getText().trim());
+			String tenT = (String) cboTenThuoc.getSelectedItem();
+			String loaiT = (String) cboLoaiThuoc.getSelectedItem();
+			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
+			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
+			
+				modelBanHang.addRow(new Object [] {
+						thuoc.getTenThuoc(), loaiT,df.format(cthd.getSoLuong()),df.format( thuoc.getDonGia()),df.format(thuoc.getDonGia()*cthd.getSoLuong()) });
+			
+			
+		}
 		
 	}
+//	thêm vào chi tiết hóa đơn
+	private void themCTHD() {
+		if(kiemTraThuoc()&&kiemTraKH())
+		{
+			PhatSinhMa maCTHD = new PhatSinhMa();
+			int soLuongThuoc = Integer.parseInt(txtSoLuongThuoc.getText().trim());
+			String tenT = (String) cboTenThuoc.getSelectedItem();
+			String loaiT = (String) cboLoaiThuoc.getSelectedItem();
+			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
+			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
+			if(cthd_dao.createCTHD(cthd))
+			{
+				modelBanHang.addRow(new Object [] {
+						thuoc.getTenThuoc(), loaiT,df.format(cthd.getSoLuong()),df.format( thuoc.getDonGia()),df.format(thuoc.getDonGia()*cthd.getSoLuong()) });
+			}
+			
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	public String strGioiTinh(Boolean nv) {
+		if (nv) {
+			return "Nam";
+		}
+		return "Nữ";
+	}
+	
+	private void clearTable() {
+		while (tableBanHang.getRowCount() > 0) {
+			modelBanHang.removeRow(0);
+		}
+	}
+	
+	private boolean kiemTraKH() {
+		if (regex.kiemTraRong(txtTenKH))
+			return false;
+		if (regex.RegexTen(txtTenKH))
+			return false;
+		if (regex.kiemTraRong(txtSDT))
+			return false;
+		if (regex.RegexSDT(txtSDT))
+			return false;
+		if (regex.kiemTraRong(txtDiaChi))
+			return false;
+		if (regex.RegexDiaChi(txtDiaChi))
+			return false;
+		if (regex.kiemTraTuoi(modelNgayKH))
+			return false;
+		return true;
+	}
+	private boolean kiemTraThuoc() {
+		if(regex.kiemTraRong(txtSoLuongThuoc))
+			return false;
+		if(regex.regexSoLuong(txtSoLuongThuoc))
+			return false;
+		return true;	
+	}
+	
+	private void nhapCBTen() {
+		String s = (String) cboLoaiThuoc.getSelectedItem();
+		
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getItem() == cboLoaiThuoc.getSelectedItem()) {
+			String s = (String) cboLoaiThuoc.getSelectedItem();
+			String MaLT = loaithuoc_dao.getMaLoaiThuocTheoTen(s);
+			ArrayList<Thuoc> dsThuoc = thuoc_dao.getThuocTheoLoai(MaLT);
+			cboTenThuoc.removeAllItems();
+			for (Thuoc t : dsThuoc)
+			{
+				
+				cboTenThuoc.addItem(t.getTenThuoc());
+			}
+		}
+		
+		
+	}
+	
 
 }

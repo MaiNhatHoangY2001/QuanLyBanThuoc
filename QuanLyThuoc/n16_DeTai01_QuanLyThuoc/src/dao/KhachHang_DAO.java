@@ -46,7 +46,8 @@ public class KhachHang_DAO {
 		PreparedStatement stmt = null;
 		int n=0;
 		try {
-			stmt = con.prepareStatement("insert into KhachHang values (?,?,?,?,?,?) ");
+			stmt = con.prepareStatement(" insert into KhachHang values (?,?,?,?,?,?)");
+			
 			stmt.setString(1, kh.getMaKH());
 			stmt.setString(2, kh.getHoTen());
 			stmt.setDate(3, kh.getNgaySinh());
@@ -118,7 +119,35 @@ public class KhachHang_DAO {
 		return dsKH;
 	}
 	
-	public ArrayList<KhachHang> getKhachHangTheoSDT(String SDT){
+	public KhachHang getKhachHangTheoSDT(String SDT){
+		KhachHang kh= null;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from KhachHang where SDT = '"+SDT+"'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				String maKh = rs.getString(1);
+				String hoTen =  rs.getString(2);
+				Date ngaySinh = rs.getDate(3);
+				boolean gioiTinh = rs.getBoolean(4);
+				String diaCHi = rs.getString(5);
+				String sdt = rs.getString(6);
+				kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
+				
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return kh;
+		
+		
+	}
+	public ArrayList<KhachHang> getDSKhachHangTheoSDT(String SDT){
 		ArrayList<KhachHang> dsKH = new ArrayList<KhachHang>();
 		
 		ConnectDB.getInstance();

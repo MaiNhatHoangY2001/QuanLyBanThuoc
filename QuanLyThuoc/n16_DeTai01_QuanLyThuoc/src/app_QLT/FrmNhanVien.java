@@ -341,7 +341,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 			boolean gioiTinh = radNam.isSelected();
 			String diaChi = txtDiaChi.getText();
 			NhanVien nv = new NhanVien(maNV, hoTen, soDienThoai, ngaySinh, gioiTinh, diaChi, luong);
-
+			
 			if (nv_dao.create(nv)) {
 				modelNV.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.getNgaySinh(),
 						strGioiTinh(nv.isGioiTinh()), nv.getDiaChi(), df.format(nv.getLuong()) });

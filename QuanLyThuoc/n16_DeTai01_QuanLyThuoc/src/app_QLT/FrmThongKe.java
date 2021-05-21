@@ -242,7 +242,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 				if (cbTimKiem.getSelectedIndex() == 0)
 				dskh = kh_dao.getKhachHangTheoTen(txttimKiem.getText());
 				else
-				dskh=kh_dao.getKhachHangTheoSDT(txttimKiem.getText());
+				dskh=kh_dao.getDSKhachHangTheoSDT(txttimKiem.getText());
 			}
 			clearTable();// xóa bảng
 			if (!dskh.isEmpty()) {
