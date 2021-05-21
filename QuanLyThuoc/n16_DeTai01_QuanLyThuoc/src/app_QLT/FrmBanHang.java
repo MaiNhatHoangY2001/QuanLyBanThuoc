@@ -345,6 +345,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			themKH();
 		if(o.equals(btnThemVaoHD))
 			themVaoHD();
+		if(o.equals(btnTimSDT))
+			timSDTKH();
 	}
 	
 	private void xoaRong() {
@@ -395,10 +397,10 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			String loaiT = (String) cboLoaiThuoc.getSelectedItem();
 			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
 			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
-			
+			if(soLuongThuoc>0)
 				modelBanHang.addRow(new Object [] {
 						thuoc.getTenThuoc(), loaiT,df.format(cthd.getSoLuong()),df.format( thuoc.getDonGia()),df.format(thuoc.getDonGia()*cthd.getSoLuong()) });
-			
+			else JOptionPane.showMessageDialog(this, "Số lượng thuốc phải lớn hơn 0");
 			
 		}
 		
@@ -413,17 +415,36 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			String loaiT = (String) cboLoaiThuoc.getSelectedItem();
 			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
 			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
-			if(cthd_dao.createCTHD(cthd))
-			{
-				modelBanHang.addRow(new Object [] {
-						thuoc.getTenThuoc(), loaiT,df.format(cthd.getSoLuong()),df.format( thuoc.getDonGia()),df.format(thuoc.getDonGia()*cthd.getSoLuong()) });
+			if(!cthd_dao.createCTHD(cthd)||soLuongThuoc<=0)
+			{	
+				JOptionPane.showMessageDialog(this, "Số lượng thuốc phải lớn hơn 0");
 			}
-			
 		}
 		
 	}
 	
-	
+	private void timSDTKH()
+	{
+		ArrayList<KhachHang> dsKH;
+		String sdt = txtTimSDT.getText().trim();
+		KhachHang kh = kh_dao.getKhachHangTheoSDT(sdt);
+		if(kh!=null)
+		{
+			txtTenKH.setText(kh.getHoTen());
+			txtSDT.setText(kh.getSDT());
+			modelNgayKH.setValue(kh.getNgaySinh());
+			txtDiaChi.setText(kh.getDiaChi());
+			
+			if (kh.isGioiTinh()) {
+				radNam.setSelected(true);
+				radNu.setSelected(false);
+			} else {
+				radNam.setSelected(false);
+				radNu.setSelected(true);
+			}
+		}
+		else JOptionPane.showMessageDialog(this, "Khách hàng không tồn tại");
+	}
 	
 	
 	

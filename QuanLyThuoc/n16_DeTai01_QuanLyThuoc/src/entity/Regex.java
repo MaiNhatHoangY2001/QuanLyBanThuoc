@@ -109,7 +109,7 @@ public class Regex implements Serializable {
 //	SỐ LƯỢNG
 	public boolean regexSoLuong(JTextField txtSoluong) {
 		String input = txtSoluong.getText();
-		String regex = "^[0-9]$";
+		String regex = "^[0-9]+$";
 		if(!input.matches(regex))
 		{	JOptionPane.showMessageDialog(null, "Số lượng phải là số nguyên và lớn hơn 0 (ví dụ nhập: 1000)");
 			txtSoluong.requestFocus();
