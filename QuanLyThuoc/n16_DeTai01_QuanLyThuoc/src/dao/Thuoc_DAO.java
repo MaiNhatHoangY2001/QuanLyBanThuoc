@@ -231,4 +231,234 @@ public class Thuoc_DAO {
 		}
 		return dsThuoc;
 	}
+	public int getTongSoLuongThuoc(){
+		int soluong=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT Tong=sum(ChiTietHoaDon.soLuong)\r\n" + 
+					"FROM ChiTietHoaDon INNER JOIN\r\n" + 
+					"HoaDon ON ChiTietHoaDon.maChiTietHD = HoaDon.maChiTietHD ";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				soluong = Integer.parseInt(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return soluong;
+	}
+	public int getTongSoLuongThuocTheoNgay(int ngay,int thang,int nam){
+		int soluong=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT Tong=sum(ChiTietHoaDon.soLuong)\r\n" + 
+					"FROM ChiTietHoaDon INNER JOIN\r\n" + 
+					"HoaDon ON ChiTietHoaDon.maChiTietHD = HoaDon.maChiTietHD \r\n" + 
+					"where day([ngayLap])='" + ngay + "' and MONTH([ngayLap])='" + thang + "' and YEAR([ngayLap])='" + nam + "'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				soluong = Integer.parseInt(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return soluong;
+	}
+	
+	public int getTongSoLuongThuocTheoTen(String ten){
+		int soluong=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT Tong=sum(ChiTietHoaDon.soLuong)\r\n" + 
+					"FROM ChiTietHoaDon INNER JOIN\r\n" + 
+					"HoaDon ON ChiTietHoaDon.maChiTietHD = HoaDon.maChiTietHD INNER JOIN\r\n" + 
+					"KhachHang ON HoaDon.maKH = KhachHang.maKh\r\n" + 
+					"where hoTen=N'"+ten+"'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				soluong = Integer.parseInt(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return soluong;
+	}
+	public int getTongSoLuongThuocTheoMa(String ma){
+		int soluong=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT Tong=sum(ChiTietHoaDon.soLuong)\r\n" + 
+					"FROM ChiTietHoaDon INNER JOIN\r\n" + 
+					"HoaDon ON ChiTietHoaDon.maChiTietHD = HoaDon.maChiTietHD INNER JOIN\r\n" + 
+					"KhachHang ON HoaDon.maKH = KhachHang.maKh\r\n" + 
+					"where KhachHang.maKh='"+ma+"'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				soluong = Integer.parseInt(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return soluong;
+	}
+	
+	public int getTongSoLuongThuocTheoSDT(String sdt){
+		int soluong=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT Tong=sum(ChiTietHoaDon.soLuong)\r\n" + 
+					"FROM ChiTietHoaDon INNER JOIN\r\n" + 
+					"HoaDon ON ChiTietHoaDon.maChiTietHD = HoaDon.maChiTietHD INNER JOIN\r\n" + 
+					"KhachHang ON HoaDon.maKH = KhachHang.maKh\r\n" + 
+					"where KhachHang.SDT='"+sdt+"'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				soluong = Integer.parseInt(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return soluong;
+	}
+	public double getTongDoanhThuThuoc(){
+		double doanhthu=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT doanhthu=sum(ChiTietHoaDon.soLuong*Thuoc.donGia)\r\n" + 
+					"FROM Thuoc INNER JOIN\r\n" + 
+					"ChiTietHoaDon ON Thuoc.maThuoc = ChiTietHoaDon.maThuoc";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				doanhthu = Double.parseDouble(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return doanhthu;
+	}
+	public double getTongDoanhThuThuocTheoNgay(int ngay,int thang,int nam){
+		double doanhthu=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT doanhthu=sum(ChiTietHoaDon.soLuong*Thuoc.donGia)\r\n" + 
+					"FROM ChiTietHoaDon INNER JOIN\r\n" + 
+					"HoaDon ON ChiTietHoaDon.maChiTietHD = HoaDon.maChiTietHD INNER JOIN\r\n" + 
+					"Thuoc ON ChiTietHoaDon.maThuoc = Thuoc.maThuoc\r\n" + 
+					"where day([ngayLap])='" + ngay + "' and MONTH([ngayLap])='" + thang + "' and YEAR([ngayLap])='" + nam + "'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				doanhthu = Double.parseDouble(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return doanhthu;
+	}
+	public double getTongDoanhTheoTen(String ten){
+		double doanhthu=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT doanhthu=sum(ChiTietHoaDon.soLuong*Thuoc.donGia)\r\n" + 
+					"FROM HoaDon INNER JOIN\r\n" + 
+					"ChiTietHoaDon ON HoaDon.maChiTietHD = ChiTietHoaDon.maChiTietHD INNER JOIN\r\n" + 
+					"Thuoc ON ChiTietHoaDon.maThuoc = Thuoc.maThuoc INNER JOIN\r\n" + 
+					"KhachHang ON HoaDon.maKH = KhachHang.maKh\r\n" + 
+					"where hoTen=N'"+ten+"'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				doanhthu = Double.parseDouble(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return doanhthu;
+	}
+	public double getTongDoanhTheoMa(String ma){
+		double doanhthu=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT doanhthu=sum(ChiTietHoaDon.soLuong*Thuoc.donGia)\r\n" + 
+					"FROM HoaDon INNER JOIN\r\n" + 
+					"ChiTietHoaDon ON HoaDon.maChiTietHD = ChiTietHoaDon.maChiTietHD INNER JOIN\r\n" + 
+					"Thuoc ON ChiTietHoaDon.maThuoc = Thuoc.maThuoc INNER JOIN\r\n" + 
+					"KhachHang ON HoaDon.maKH = KhachHang.maKh\r\n" + 
+					"where KhachHang.maKh=N'"+ma+"'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				doanhthu = Double.parseDouble(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return doanhthu;
+	}
+	public double getTongDoanhTheoSDT(String sdt){
+		double doanhthu=0;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT doanhthu=sum(ChiTietHoaDon.soLuong*Thuoc.donGia)\r\n" + 
+					"FROM HoaDon INNER JOIN\r\n" + 
+					"ChiTietHoaDon ON HoaDon.maChiTietHD = ChiTietHoaDon.maChiTietHD INNER JOIN\r\n" + 
+					"Thuoc ON ChiTietHoaDon.maThuoc = Thuoc.maThuoc INNER JOIN\r\n" + 
+					"KhachHang ON HoaDon.maKH = KhachHang.maKh\r\n" + 
+					"where KhachHang.SDT=N'"+sdt+"'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				doanhthu = Double.parseDouble(rs.getString(1));
+			}
+				 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return doanhthu;
+	}
 }
