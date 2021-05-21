@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Thuoc implements Serializable {
@@ -11,8 +12,8 @@ public class Thuoc implements Serializable {
 	private String maThuoc;
 	private String tenThuoc;
 	private double donGia;
-	private LocalDate ngaySX;
-	private LocalDate hanSuDung;
+	private Date ngaySX;
+	private Date hanSuDung;
 	private int SLTon;
 	private NhaCungCap ncc;
 	private LoaiThuoc loaiThuoc;
@@ -42,19 +43,19 @@ public class Thuoc implements Serializable {
 		this.donGia = donGia;
 	}
 
-	public LocalDate getNgaySX() {
+	public Date getNgaySX() {
 		return ngaySX;
 	}
 
-	public void setNgaySX(LocalDate ngaySX) {
+	public void setNgaySX(Date ngaySX) {
 		this.ngaySX = ngaySX;
 	}
 
-	public LocalDate getHanSuDung() {
+	public Date getHanSuDung() {
 		return hanSuDung;
 	}
 
-	public void setHanSuDung(LocalDate hanSuDung) {
+	public void setHanSuDung(Date hanSuDung) {
 		this.hanSuDung = hanSuDung;
 	}
 
@@ -90,27 +91,47 @@ public class Thuoc implements Serializable {
 		this.nuocSX = nuocSX;
 	}
 
-	public Thuoc(String maThuoc, String tenThuoc, double donGia, LocalDate ngaySX, LocalDate hanSuDung, int sLTon,
-			NhaCungCap ncc, LoaiThuoc loaiThuoc, NuocSX nuocSX) {
-		super();
-		this.maThuoc = maThuoc;
-		this.tenThuoc = tenThuoc;
-		this.donGia = donGia;
-		this.ngaySX = ngaySX;
-		this.hanSuDung = hanSuDung;
-		SLTon = sLTon;
-		this.ncc = ncc;
-		this.loaiThuoc = loaiThuoc;
-		this.nuocSX = nuocSX;
-	}
-
+	
 	public Thuoc(String maThuoc) {
 		super();
 		this.maThuoc = maThuoc;
 	}
 
-	public Thuoc() {
+
+
+	public Thuoc(String maThuoc, String tenThuoc, double donGia, Date ngaySX2, Date hanSD,
+			LoaiThuoc loaiThuoc, NuocSX nuocSX) {
 		super();
+		this.maThuoc = maThuoc;
+		this.tenThuoc = tenThuoc;
+		this.donGia = donGia;
+		this.ngaySX = ngaySX2;
+		this.hanSuDung = hanSD;
+		this.loaiThuoc = loaiThuoc;
+		this.nuocSX = nuocSX;
+	}
+
+	
+
+	/**
+	 * @param maThuoc
+	 * @param tenThuoc
+	 * @param donGia
+	 * @param sLTon
+	 * @param ncc
+	 * @param loaiThuoc
+	 * @param nuocSX
+	 */
+	public Thuoc(String maThuoc, String tenThuoc, double donGia, int sLTon, NhaCungCap ncc, LoaiThuoc loaiThuoc,
+			NuocSX nuocSX) {
+		super();
+		this.maThuoc = maThuoc;
+		this.tenThuoc = tenThuoc;
+		this.donGia = donGia;
+		SLTon = sLTon;
+		this.ncc = ncc;
+		this.loaiThuoc = loaiThuoc;
+		this.nuocSX = nuocSX;
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 
 
+
+
 public class KhachHang implements Serializable {
 	/**
 	 * 
@@ -64,7 +66,11 @@ public class KhachHang implements Serializable {
 		SDT = sDT;
 	}
 
+//<<<<<<< HEAD
+//	public KhachHang(String maKH, String hoTen, Date ngaySinh2, boolean gioiTinh, String diaChi, String sDT) {
+//=======
 	public KhachHang(String maKH, String hoTen, Date ngaySinh, boolean gioiTinh, String diaChi, String sDT) {
+//>>>>>>> 852fba678204930c5d3db82a674dd77286e32076
 		super();
 		this.maKH = maKH;
 		this.hoTen = hoTen;

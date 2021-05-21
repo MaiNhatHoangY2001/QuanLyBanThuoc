@@ -197,7 +197,32 @@ public class KhachHang_DAO {
 		}
 		return dsKH;
 	}
-	
+	public ArrayList<KhachHang> getKhachHangDaMuaThuocTheoNgay(int ngay,int thang,int nam) {
+		ArrayList<KhachHang> dskh = new ArrayList<KhachHang>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from [KhachHang] where [maKh] in(SELECT HoaDon.maKH\r\n" + 
+					"FROM ChiTietHoaDon INNER JOIN HoaDon ON ChiTietHoaDon.maChiTietHD = HoaDon.maChiTietHD\r\n" + 
+					"where day([ngayLap])='" + ngay + "' and MONTH([ngayLap])='" + thang + "' and YEAR([ngayLap])='" + nam + "')";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String maKH = rs.getString(1);
+				String hoTen = rs.getString(2);
+				Date ngaySinh = rs.getDate(3);
+				Boolean gioiTinh = rs.getBoolean(4);
+				String diaChi = rs.getString(5);
+				String soDienThoai = rs.getString(6);
+				KhachHang kh = new KhachHang(maKH, hoTen,(java.sql.Date) ngaySinh, gioiTinh, diaChi,soDienThoai);
+				dskh.add(kh);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dskh;
+	}
 	
 	
 	
