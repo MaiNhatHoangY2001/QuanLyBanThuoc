@@ -151,7 +151,7 @@ public class KhachHang_DAO {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from KhachHang where  hoTen = '"+tenKH+"'";
+			String sql = "select * from KhachHang where  hoTen = N'"+tenKH+"'";
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
 			while(rs.next()) {

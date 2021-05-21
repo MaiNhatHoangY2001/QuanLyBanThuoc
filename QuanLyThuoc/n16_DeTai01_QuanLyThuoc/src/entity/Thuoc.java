@@ -134,6 +134,16 @@ public class Thuoc implements Serializable {
 		this.nuocSX = nuocSX;
 	}
 
+	
+
+	/**
+	 * @param sLTon
+	 */
+	public Thuoc(int sLTon) {
+		super();
+		SLTon = sLTon;
+	}
+
 	@Override
 	public String toString() {
 		return "Thuoc [maThuoc=" + maThuoc + ", tenThuoc=" + tenThuoc + ", donGia=" + donGia + ", ngaySX=" + ngaySX
