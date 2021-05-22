@@ -1,11 +1,19 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import connectDB.ConnectDB;
 import entity.ChiTietHoaDon;
+import entity.HoaDon;
+import entity.KhachHang;
+import entity.NhanVien;
+import entity.Thuoc;
 
 public class CTHoaDon_DAO {
 	public boolean update(ChiTietHoaDon cthd) {
@@ -82,5 +90,50 @@ public class CTHoaDon_DAO {
 		return n>0;
 	}
 	
+	public ArrayList<ChiTietHoaDon> getAllCTHD(){
+		ArrayList<ChiTietHoaDon> dsCTHD = new ArrayList<ChiTietHoaDon>();
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "select * from ChiTietHoaDon";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				String maCTHD = rs.getString(1);
+				int soluong = rs.getInt(2);
+				Thuoc t = new Thuoc(rs.getString(3));
+				ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD, soluong, t);
+				dsCTHD.add(cthd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return dsCTHD;
+	}
+	
+	public ChiTietHoaDon getCTHDTheoMa(String macthd){
+		ChiTietHoaDon cthd = null;
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from ChiTietHoaDon where  maChiTietHD = '"+macthd+"'";
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				String maCTHD = rs.getString(1);
+				int soluong = rs.getInt(2);
+				Thuoc t = new Thuoc(rs.getString(3));
+				cthd = new ChiTietHoaDon(maCTHD, soluong, t);
+			
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return cthd;
+	}
 
 }

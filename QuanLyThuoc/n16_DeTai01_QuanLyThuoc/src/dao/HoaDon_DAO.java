@@ -144,28 +144,7 @@ public class HoaDon_DAO {
 		return dsHD;
 	}
 	
-	public ArrayList<ChiTietHoaDon> getAllCTHD(){
-		ArrayList<ChiTietHoaDon> dsCTHD = new ArrayList<ChiTietHoaDon>();
-		try {
-			ConnectDB.getInstance();
-			Connection con = ConnectDB.getConnection();
-			String sql = "select * from ChiTietHoaDon";
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(sql);
-			while(rs.next()) {
-				String maCTHD = rs.getString(1);
-				int soluong = rs.getInt(2);
-				Thuoc t = new Thuoc(rs.getString(3));
-				ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD, soluong, t);
-				dsCTHD.add(cthd);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			// TODO: handle exception
-		}
-		return dsCTHD;
-	}
-	
+
 	
 	
 	

@@ -54,7 +54,7 @@ public class PhatSinhMa {
 		try {
 			ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select CONCAT('HD', RIGHT(CONCAT('0000',ISNULL(right(max(maHoaDon),4),0) + 1),4)) from dbo.HoaDon where maKh like 'HD%' ";
+		String sql = "select CONCAT('HD', RIGHT(CONCAT('0000',ISNULL(right(max(maHoaDon),4),0) + 1),4)) from dbo.HoaDon where maHoaDon like 'HD%' ";
 		Statement stm = con.createStatement();
 		ResultSet rs = stm.executeQuery(sql);
 		while(rs.next())

@@ -119,4 +119,16 @@ public class Regex implements Serializable {
 		return false;
 		
 	}
+	public boolean kiemTraNgayLapHD(SqlDateModel modelNgay) {
+		long millis = System.currentTimeMillis()-43000000;
+		
+		Date today = new Date(millis);
+		Date ngaySinh = (Date) modelNgay.getValue();
+		if (ngaySinh.compareTo(today) < 0) {
+			JOptionPane.showMessageDialog(null, "Ngày lập hóa đơn phải lớn hơn hoặc bằng ngày hiện tại");
+			return true;
+		} else
+			return false;
+
+	}
 }

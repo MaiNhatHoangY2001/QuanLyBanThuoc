@@ -141,6 +141,31 @@ public class NhanVien_DAO {
 		}
 		return dsnv;
 	}
+	public NhanVien get1NhanVienTheoMaNV(String id) {
+		NhanVien nv = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from NhanVien where maNV = '" + id + "'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String maNV = rs.getString(1);
+				Double luong = rs.getDouble(2);
+				String hoTen = rs.getString(3);
+				Date ngaySinh = rs.getDate(4);
+				Boolean gioiTinh = rs.getBoolean(5);
+				String diaChi = rs.getString(6);
+				String soDienThoai = rs.getString(7);
+				nv = new NhanVien(maNV, hoTen, soDienThoai, (java.sql.Date) ngaySinh, gioiTinh, diaChi, luong);
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nv;
+	}
 
 	public ArrayList<NhanVien> getNhanVienTheoTenNV(String id) {
 		ArrayList<NhanVien> dsnv = new ArrayList<NhanVien>();

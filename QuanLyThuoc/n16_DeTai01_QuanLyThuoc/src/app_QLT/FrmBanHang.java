@@ -11,7 +11,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Properties;
 
 import javax.swing.BorderFactory;
@@ -36,12 +35,15 @@ import dao.CTHoaDon_DAO;
 import dao.HoaDon_DAO;
 import dao.KhachHang_DAO;
 import dao.LoaiThuoc_DAO;
+import dao.NhanVien_DAO;
 import dao.PhatSinhMa;
 import dao.Thuoc_DAO;
 import entity.ChiTietHoaDon;
 import entity.DateLabelFormatter;
+import entity.HoaDon;
 import entity.KhachHang;
 import entity.LoaiThuoc;
+import entity.NhanVien;
 import entity.Regex;
 import entity.Thuoc;
 
@@ -55,7 +57,6 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 	private JButton btnTimSDT;
 	private JTextField txtTenKH;
 	private JTextField txtSDT;
-	private JTextField txtNgaySinh;
 	private JTextField txtDiaChi;
 	private JRadioButton radNam;
 	private JRadioButton radNu;
@@ -68,14 +69,11 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 	private JButton btnXoaHD;
 	private JButton btnSua;
 	private JLabel lbXuatTenKH;
-	private JTextField txtNgayLapHD;
 	private String column[] = {"Tên thuốc","Loại thuốc","Số lượng","Đơn giá","Thành tiền"};
 	private DefaultTableModel modelBanHang;
 	private JTable tableBanHang;
 	private JTextField txtTongTienBH;
 	private JButton btnThanhToan;
-	private JComboBox<String> cboMaNVNhap;
-	private JTextField txtmaNVNhap;
 	private SqlDateModel modelNgayKH;
 	private Properties p;
 	private JDatePanelImpl datePanel;
@@ -92,6 +90,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 	private CTHoaDon_DAO cthd_dao;
 	private LoaiThuoc_DAO loaithuoc_dao;
 	private DecimalFormat df = new DecimalFormat("#");
+	private NhanVien_DAO nv_dao;
+	private ArrayList<String> tempMaCTHD;
 	public FrmBanHang() {
 		
 		try {
@@ -101,6 +101,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			e.printStackTrace();
 		}
 		kh_dao = new KhachHang_DAO();
+		nv_dao = new NhanVien_DAO();
 		thuoc_dao = new Thuoc_DAO();
 		loaithuoc_dao = new LoaiThuoc_DAO();
 		hoadon_dao = new HoaDon_DAO();
@@ -285,6 +286,11 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		add(lbmaNVNhap);
 		cbmaNVNhap = new JComboBox<String>();
 		cbmaNVNhap.setBounds(200, 570, 100, 30);
+		ArrayList<NhanVien> lsNVNhap = nv_dao.getalltbNhanVien();
+		for(NhanVien n :lsNVNhap)
+		{
+			cbmaNVNhap.addItem(n.getMaNV());;
+		}
 		add(cbmaNVNhap);
 		
 //		thanh toan
@@ -303,6 +309,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		btnXoaRong.addActionListener(this);
 		cboLoaiThuoc.addItemListener(this);
 		cboTenThuoc.addItemListener(this);
+		tableBanHang.addMouseListener(this);
 		
 		
 		
@@ -311,6 +318,10 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		int row = tableBanHang.getSelectedRow();
+		txtSoLuongThuoc.setText(modelBanHang.getValueAt(row, 2).toString());
+		cboLoaiThuoc.setSelectedItem(modelBanHang.getValueAt(row, 1));
+		cboTenThuoc.setSelectedItem(modelBanHang.getValueAt(row, 0));
 		
 	}
 	@Override
@@ -347,6 +358,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			themVaoHD();
 		if(o.equals(btnTimSDT))
 			timSDTKH();
+		if(o.equals(btnThanhToan))
+			thanhToan();
 	}
 	
 	private void xoaRong() {
@@ -354,8 +367,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		txtTenKH.setText("");
 		txtSDT.setText("");
 		txtDiaChi.setText("");
-		radNam.setSelected(false);
-		radNu.setSelected(false);
+		radNam.setSelected(true);
+		
 		txtSoLuongThuoc.setText("");
 		modelNgayKH.setDate(1990, 0, 1);
 		tableBanHang.clearSelection();
@@ -391,6 +404,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 	private void themVaoHD() {
 		if(kiemTraThuoc()&&kiemTraKH())
 		{
+			
+			lbXuatTenKH.setText(txtTenKH.getText());
 			PhatSinhMa maCTHD = new PhatSinhMa();
 			int soLuongThuoc = Integer.parseInt(txtSoLuongThuoc.getText().trim());
 			String tenT = (String) cboTenThuoc.getSelectedItem();
@@ -398,23 +413,26 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
 			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
 			if(soLuongThuoc>0)
+			{	
 				modelBanHang.addRow(new Object [] {
 						thuoc.getTenThuoc(), loaiT,df.format(cthd.getSoLuong()),df.format( thuoc.getDonGia()),df.format(thuoc.getDonGia()*cthd.getSoLuong()) });
+			}
 			else JOptionPane.showMessageDialog(this, "Số lượng thuốc phải lớn hơn 0");
+			
 			
 		}
 		
+		
 	}
 //	thêm vào chi tiết hóa đơn
-	private void themCTHD() {
+	private void themCTHD(String maCTHD, int vtRow) {
 		if(kiemTraThuoc()&&kiemTraKH())
 		{
-			PhatSinhMa maCTHD = new PhatSinhMa();
-			int soLuongThuoc = Integer.parseInt(txtSoLuongThuoc.getText().trim());
-			String tenT = (String) cboTenThuoc.getSelectedItem();
-			String loaiT = (String) cboLoaiThuoc.getSelectedItem();
+			int soLuongThuoc = Integer.parseInt(modelBanHang.getValueAt(vtRow,2).toString());
+			String tenT = modelBanHang.getValueAt(vtRow, 0).toString();
+			String loaiT = modelBanHang.getValueAt(vtRow, 1).toString();
 			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
-			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
+			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD, soLuongThuoc, thuoc);
 			if(!cthd_dao.createCTHD(cthd)||soLuongThuoc<=0)
 			{	
 				JOptionPane.showMessageDialog(this, "Số lượng thuốc phải lớn hơn 0");
@@ -423,9 +441,39 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		
 	}
 	
+// Thanh toán
+	private void thanhToan() {
+		int soRow = tableBanHang.getRowCount();
+		PhatSinhMa ma = new PhatSinhMa();
+		if(!regex.kiemTraNgayLapHD(modelNgayLapHD)&&kiemTraKH()&&kiemTraThuoc())
+		{
+				for(int i=0;i<soRow;i++)
+				{
+					String maCTHD = ma.maCTHD();
+					themCTHD(maCTHD, i);
+					themhd( maCTHD, i);
+					
+				}
+			JOptionPane.showMessageDialog(this, "Thanh toan thanh cong");
+		}
+	}
+	
+	private void themhd(String maCTHD, int row) {
+		
+		PhatSinhMa ma = new PhatSinhMa();
+		Date ngaylap =(Date) datePicker1.getModel().getValue();
+		NhanVien nvl = nv_dao.get1NhanVienTheoMaNV(cbmaNVNhap.getSelectedItem().toString());
+		KhachHang kh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
+		ChiTietHoaDon cthd = cthd_dao.getCTHDTheoMa(maCTHD);
+		HoaDon hd = new HoaDon(ma.maHD(), ngaylap, nvl, kh, cthd);
+		if(hoadon_dao.createHD(hd))
+			System.out.println("Success");
+	}
+	
 	private void timSDTKH()
 	{
-		ArrayList<KhachHang> dsKH;
+		
+		
 		String sdt = txtTimSDT.getText().trim();
 		KhachHang kh = kh_dao.getKhachHangTheoSDT(sdt);
 		if(kh!=null)
@@ -487,10 +535,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		return true;	
 	}
 	
-	private void nhapCBTen() {
-		String s = (String) cboLoaiThuoc.getSelectedItem();
-		
-	}
+	
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
