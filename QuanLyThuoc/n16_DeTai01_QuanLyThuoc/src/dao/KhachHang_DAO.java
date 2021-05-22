@@ -24,6 +24,8 @@ public class KhachHang_DAO {
 			stmt.setBoolean(3, kh.isGioiTinh());
 			stmt.setString(4, kh.getDiaChi());
 			stmt.setString(5, kh.getSDT());
+			stmt.setString(6, kh.getMaKH());
+			
 			n = stmt.executeUpdate();
 			} catch (SQLException e) {
 			// TODO: handle exception

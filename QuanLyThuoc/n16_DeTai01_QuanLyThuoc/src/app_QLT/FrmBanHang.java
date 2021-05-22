@@ -16,6 +16,7 @@ import java.util.Properties;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -91,7 +92,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 	private LoaiThuoc_DAO loaithuoc_dao;
 	private DecimalFormat df = new DecimalFormat("#");
 	private NhanVien_DAO nv_dao;
-	private ArrayList<String> tempMaCTHD;
+	private JCheckBox chkGiam;
 	public FrmBanHang() {
 		
 		try {
@@ -215,6 +216,9 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		txtSoLuongThuoc = new JTextField();
 		txtSoLuongThuoc.setBounds(515, 150, 235, 30);
 		add(txtSoLuongThuoc);
+		chkGiam = new JCheckBox("Giảm số lượng");
+		chkGiam.setBounds(515,190,200,20);
+		add(chkGiam);
 		
 		btnThemVaoHD = new JButton("Thêm vào hoá đơn");
 		btnThemVaoHD.setBounds(495, 230, 180, 35);
@@ -236,7 +240,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		add(btnSua);
 		
 //		
-		JLabel lbTenKHHD = new JLabel("Tên khách hàng: ");
+		JLabel lbTenKHHD = new JLabel("Mã khách hàng: ");
 		lbTenKHHD.setBounds(10, 330, 150, 30);
 		add(lbTenKHHD);
 		lbXuatTenKH = new JLabel();
@@ -360,6 +364,12 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			timSDTKH();
 		if(o.equals(btnThanhToan))
 			thanhToan();
+		if(o.equals(btnXoaHD))
+			xoaCTHD();
+		if(o.equals(btnSua))
+		{
+			suaKH();
+		}
 	}
 	
 	private void xoaRong() {
@@ -390,7 +400,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			if(kh_dao.getKhachHangTheoSDT(sDT) == null)
 				if(kh_dao.createKH(kh)) {
 					JOptionPane.showMessageDialog(this, "Them khach hang thanh cong!");
-					lbXuatTenKH.setText(kh.getHoTen());
+					lbXuatTenKH.setText(kh.getMaKH());
 					
 				} else
 					JOptionPane.showMessageDialog(this, "Trùng mã khách hàng");
@@ -404,8 +414,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 	private void themVaoHD() {
 		if(kiemTraThuoc()&&kiemTraKH())
 		{
-			
-			lbXuatTenKH.setText(txtTenKH.getText());
+			KhachHang kh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
+			lbXuatTenKH.setText(kh.getMaKH());
 			PhatSinhMa maCTHD = new PhatSinhMa();
 			int soLuongThuoc = Integer.parseInt(txtSoLuongThuoc.getText().trim());
 			String tenT = (String) cboTenThuoc.getSelectedItem();
@@ -414,15 +424,51 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
 			if(soLuongThuoc>0)
 			{	
+				if(timRow()!=-1) {
+					
+					double soluong = soLuong();
+						
+					modelBanHang.removeRow(timRow());
+					modelBanHang.addRow(new Object [] {
+								thuoc.getTenThuoc(), loaiT,df.format(soluong),df.format( thuoc.getDonGia()),df.format(thuoc.getDonGia()*soluong) });
+					}
+				else {
 				modelBanHang.addRow(new Object [] {
 						thuoc.getTenThuoc(), loaiT,df.format(cthd.getSoLuong()),df.format( thuoc.getDonGia()),df.format(thuoc.getDonGia()*cthd.getSoLuong()) });
+				
+				}
+				tongTien();
 			}
 			else JOptionPane.showMessageDialog(this, "Số lượng thuốc phải lớn hơn 0");
 			
 			
+		}}
+		
+		
+	private double soLuong() {
+		double SL =0;
+		if(!chkGiam.isSelected()) {
+			SL = Double.parseDouble(modelBanHang.getValueAt(timRow(),2).toString()) +Double.parseDouble(txtSoLuongThuoc.getText());
+			return SL;
 		}
-		
-		
+		else {
+			SL = Double.parseDouble(modelBanHang.getValueAt(timRow(),2).toString()) - Double.parseDouble(txtSoLuongThuoc.getText());
+			if(SL <=0)
+				return 0;
+			return SL;
+		}
+	}
+	
+	private int timRow() {
+		int row = tableBanHang.getRowCount();
+		for(int i=0;i<row;i++) {
+			if(modelBanHang.getValueAt(i, 1).toString().equalsIgnoreCase(cboLoaiThuoc.getSelectedItem().toString())&&modelBanHang.getValueAt(i,0).toString().equalsIgnoreCase(cboTenThuoc.getSelectedItem().toString()))
+			{
+				return i;
+				
+			}
+		}
+		return -1;
 	}
 //	thêm vào chi tiết hóa đơn
 	private void themCTHD(String maCTHD, int vtRow) {
@@ -430,7 +476,6 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		{
 			int soLuongThuoc = Integer.parseInt(modelBanHang.getValueAt(vtRow,2).toString());
 			String tenT = modelBanHang.getValueAt(vtRow, 0).toString();
-			String loaiT = modelBanHang.getValueAt(vtRow, 1).toString();
 			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
 			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD, soLuongThuoc, thuoc);
 			if(!cthd_dao.createCTHD(cthd)||soLuongThuoc<=0)
@@ -478,6 +523,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		KhachHang kh = kh_dao.getKhachHangTheoSDT(sdt);
 		if(kh!=null)
 		{
+			
+			lbXuatTenKH.setText(kh.getMaKH());
 			txtTenKH.setText(kh.getHoTen());
 			txtSDT.setText(kh.getSDT());
 			modelNgayKH.setValue(kh.getNgaySinh());
@@ -493,6 +540,52 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		}
 		else JOptionPane.showMessageDialog(this, "Khách hàng không tồn tại");
 	}
+	
+	private void xoaCTHD() {
+		if (tableBanHang.getSelectedRow() == -1) {
+			JOptionPane.showMessageDialog(this, "Hãy chọn sản phẩm cần xóa");
+		} else {
+			int tl;
+			tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa sản phẩm này không ?", "Cảnh báo",
+					JOptionPane.YES_OPTION);
+			if (tl == JOptionPane.YES_OPTION) {
+				int index = tableBanHang.getSelectedRow();
+				modelBanHang.removeRow(index);
+				tongTien();
+			}
+		}
+	}
+	
+	
+	//sửa
+	private void suaKH() {
+		
+		if(kiemTraKH()) {
+			
+			
+			String tenkh = txtTenKH.getText().trim();
+			String sdt = txtSDT.getText().trim();
+			Date ngaysinh =  (Date) datePicker.getModel().getValue();
+			String diachi = txtDiaChi.getText().trim();
+			boolean gioitinh = radNam.isSelected();
+			KhachHang ktkh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
+			KhachHang skh = new KhachHang(lbXuatTenKH.getText(), tenkh, ngaysinh, gioitinh, diachi, sdt);
+			if(ktkh!=null&&!ktkh.getMaKH().equalsIgnoreCase(lbXuatTenKH.getText()))
+			{
+				JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại ở khách hàng khác");
+			}
+			else if(kh_dao.update(skh))
+				{
+					JOptionPane.showMessageDialog(this,"Cập nhật thành công thông tin khách hàng");
+					txtTimSDT.setText(skh.getSDT());
+				}
+			
+		}
+		
+		
+		}
+	
+	
 	
 	
 	
@@ -533,6 +626,15 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		if(regex.regexSoLuong(txtSoLuongThuoc))
 			return false;
 		return true;	
+	}
+	
+	private void tongTien() {
+		int row = tableBanHang.getRowCount();
+		double tong =0;
+		for(int i =0;i<row;i++) {
+			tong+= Double.parseDouble(modelBanHang.getValueAt(i, 4).toString());
+		}
+		txtTongTienBH.setText(" "+tong+ " VNĐ");
 	}
 	
 	
