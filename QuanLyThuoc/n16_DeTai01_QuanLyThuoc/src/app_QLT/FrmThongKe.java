@@ -1,7 +1,6 @@
 package app_QLT;
 
 import java.awt.BorderLayout;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -26,10 +25,8 @@ import javax.swing.table.DefaultTableModel;
 import connectDB.ConnectDB;
 import dao.CTHoaDon_DAO;
 import dao.KhachHang_DAO;
-import dao.NhanVien_DAO;
 import dao.Thuoc_DAO;
 import entity.KhachHang;
-import entity.NhanVien;
 import entity.Thuoc;
 
 
@@ -45,9 +42,8 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private JPanel pphai,pduoi,ptrai;
 	private DefaultTableModel dfKhachHang,dfThuoc;
 	private JTable tableKhachHang,tableThuoc;
-	private JTextField txtDoanhThu,txtLoiNhuan,txtTienGoc,txttimKiem,txtTongKH,txtTongSoThuoc,txtMaKH;
+	private JTextField txtDoanhThu,txttimKiem,txtTongKH,txtTongSoThuoc,txtMaKH;
 	private JButton btnThongKe,btnTimKiem,btnThongKeAll;
-	private JLabel lbTimKiem,lbNhapTK,lbtongthuoc,lbtongkh;
 	private KhachHang_DAO kh_dao;
 	private Thuoc_DAO thuoc_dao;
 	private CTHoaDon_DAO ctHD_dao;
@@ -75,10 +71,10 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		cbTimKiem.addItem("Tìm theo tên");
 		cbTimKiem.addItem("Tìm theo mã");
 		cbTimKiem.addItem("Tìm theo số điện thoại");
-		btren1.add(lbTimKiem=new JLabel("Chọn loại tìm kiếm:"));
+		btren1.add(new JLabel("Chọn loại tìm kiếm:"));
 		btren1.add(Box.createHorizontalStrut(40));
 		btren1.add(cbTimKiem);
-		btren2.add(lbNhapTK=new JLabel("Nhập thông tin tìm kiếm: "));
+		btren2.add(new JLabel("Nhập thông tin tìm kiếm: "));
 		btren2.add(Box.createHorizontalStrut(5));
 		btren2.add(txttimKiem=new JTextField(10));
 		btren3.add(btnTimKiem=new JButton("Tìm kiếm"));
@@ -152,12 +148,9 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		b3.add(scrollthuoc,BorderLayout.SOUTH);
 		
 		//giao dien thong ke duoi cung ben phai
-		Box d,d1,d2,d3;
+		Box d,d1;
 		d=Box.createVerticalBox();
 		d1=Box.createHorizontalBox();
-		d2=Box.createHorizontalBox();
-		d3=Box.createHorizontalBox();
-		
 		d1.add(new JLabel("Tổng doanh thu:  "));
 		d1.add(txtDoanhThu=new JTextField(15));
 		d.add(Box.createVerticalStrut(20));
@@ -179,10 +172,10 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		btrai=Box.createVerticalBox();
 		btrai1=Box.createHorizontalBox();
 		btrai2=Box.createHorizontalBox();
-		btrai1.add(lbtongkh=new JLabel("Tổng số khách hàng đã mua"));
+		btrai1.add(new JLabel("Tổng số khách hàng đã mua"));
 		btrai1.add(Box.createHorizontalStrut(10));
 		btrai1.add(txtTongKH=new JTextField(15));
-		btrai2.add(lbtongthuoc=new JLabel("Tổng số thuốc đã bán"));
+		btrai2.add(new JLabel("Tổng số thuốc đã bán"));
 		btrai2.add(Box.createHorizontalStrut(45));
 		btrai2.add(txtTongSoThuoc=new JTextField(15));
 		btrai.add(Box.createVerticalStrut(5));

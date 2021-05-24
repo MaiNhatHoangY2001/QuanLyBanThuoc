@@ -13,7 +13,6 @@ import entity.ChiTietHoaDon;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
-import entity.Thuoc;
 
 public class HoaDon_DAO {
 	public boolean update(HoaDon hd) {

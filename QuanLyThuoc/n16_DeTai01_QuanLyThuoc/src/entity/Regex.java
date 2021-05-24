@@ -18,7 +18,7 @@ public class Regex implements Serializable {
 
 	public boolean RegexDiaChi(JTextField txtDiaChi2) {
 		String input = txtDiaChi2.getText();
-		String regex = "^([ A-Za-z0-9,a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]*(\\s?))+$";
+		String regex = "^([ A-Za-z0-9,.a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]*(\\s?))+$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(input);
 		if (!matcher.find()) {
@@ -69,7 +69,19 @@ public class Regex implements Serializable {
 		} else
 			return false;
 	}
-
+	public boolean RegexMaNCC(JTextField txtMa2) {
+		String input = txtMa2.getText();
+		String regex = "^[N][C][C][0-9]{3}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(input);
+		if (!matcher.find()) {
+			JOptionPane.showMessageDialog(null, "Nhập sai mã (Ví dụ nhập:NCC234 )");
+			txtMa2.requestFocus();
+			txtMa2.selectAll();
+			return true;
+		} else
+			return false;
+	}
 	public boolean kiemTraRong(JTextField txt) {
 		if (txt.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "Dữ liệu không được để trống");

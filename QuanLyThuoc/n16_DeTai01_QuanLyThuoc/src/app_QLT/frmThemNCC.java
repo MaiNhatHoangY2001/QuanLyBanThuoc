@@ -2,30 +2,44 @@ package app_QLT;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class frmThemNCC extends JFrame implements ActionListener {
+import connectDB.ConnectDB;
+import dao.ThemNCC_DAO;
+import entity.NhaCungCap;
+import entity.Regex;
 
+public class frmThemNCC extends JFrame implements ActionListener, MouseListener {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DefaultTableModel dm;
 	private JTable tb;
 	private JTextField txtMaNCC;
 	private JTextField txtTenNCC;
-	private JTextField txtIDNuoc;
 	private JTextField txtDiaChi;
-	private JTextField txtTenNUoc;
 	private JButton btnThem;
 	private JButton btnXoaRong;
 	private JButton btnXoa;
 	private JButton btnSua;
+	private Regex regex;
+	private ThemNCC_DAO ncc_dao;
 
 	public frmThemNCC() {
 		// TODO Auto-generated constructor stub
@@ -38,7 +52,7 @@ public class frmThemNCC extends JFrame implements ActionListener {
 		/**
 		 * Bảng danh sách nhà cung cấp
 		 */
-		String truong[] = { "Mã NCC", "Tên NCC", "Địa chỉ", "ID Nước", "Tên Nước" };
+		String truong[] = { "Mã NCC", "Tên NCC", "Địa chỉ" };
 		dm = new DefaultTableModel(truong, 0);
 		tb = new JTable(dm);
 		JScrollPane thanhTruoc = new JScrollPane(tb);
@@ -57,12 +71,6 @@ public class frmThemNCC extends JFrame implements ActionListener {
 		JLabel lblDiaChi = new JLabel("Địa chỉ:");
 		lblDiaChi.setBounds(100, 410, 120, 20);
 		add(lblDiaChi);
-		JLabel lblIDNuoc = new JLabel("ID Nước SX:");
-		lblIDNuoc.setBounds(100, 450, 120, 20);
-		add(lblIDNuoc);
-		JLabel lblTenNuoc = new JLabel("Tên Nước SX:");
-		lblTenNuoc.setBounds(100, 490, 120, 20);
-		add(lblTenNuoc);
 
 		/**
 		 * Các JTextField
@@ -76,12 +84,6 @@ public class frmThemNCC extends JFrame implements ActionListener {
 		txtDiaChi = new JTextField();
 		txtDiaChi.setBounds(220, 410, 360, 30);
 		add(txtDiaChi);
-		txtIDNuoc = new JTextField();
-		txtIDNuoc.setBounds(220, 450, 360, 30);
-		add(txtIDNuoc);
-		txtTenNUoc = new JTextField();
-		txtTenNUoc.setBounds(220, 490, 360, 30);
-		add(txtTenNUoc);
 
 		/**
 		 * Các button
@@ -89,13 +91,13 @@ public class frmThemNCC extends JFrame implements ActionListener {
 		btnThem = new JButton("Thêm");
 		btnThem.setBounds(105, 530, 100, 35);
 		add(btnThem);
-		btnXoaRong = new JButton("Xóa Rổng");
+		btnXoaRong = new JButton("Xóa Rỗng");
 		btnXoaRong.setBounds(230, 530, 100, 35);
 		add(btnXoaRong);
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBounds(355, 530, 100, 35);
 		add(btnXoa);
-		btnSua = new JButton("Sữa");
+		btnSua = new JButton("Sửa");
 		btnSua.setBounds(480, 530, 100, 35);
 		add(btnSua);
 
@@ -116,26 +118,134 @@ public class frmThemNCC extends JFrame implements ActionListener {
 		btnXoaRong.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnSua.addActionListener(this);
+		tb.addMouseListener(this);
+
+		/**
+		 * DataBase
+		 */
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		ncc_dao = new ThemNCC_DAO();
+		// Kết nối Database
+		DocDuLieuDatabase();
+		
+		regex = new Regex();
+	}
+
+	private void DocDuLieuDatabase() {
+		ArrayList<NhaCungCap> list = ncc_dao.getalltbNhaCungCap();
+		for (NhaCungCap ncc : list) {
+			dm.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi() });
+		}
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if (o.equals(btnThem)) {
-
+			if (kiemTra()) {
+				String maNCC = txtMaNCC.getText();
+				String tenNCC = txtTenNCC.getText();
+				String diaChi = txtDiaChi.getText();
+				NhaCungCap ncc = new NhaCungCap(maNCC, tenNCC, diaChi);
+				if (ncc_dao.create(ncc)) {
+					dm.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi() });
+				} else
+					JOptionPane.showMessageDialog(this, "Trùng mã nhà cung cấp");
+			}
 		} else if (o.equals(btnXoaRong)) {
 			txtMaNCC.setText("");
 			txtTenNCC.setText("");
 			txtDiaChi.setText("");
-			txtIDNuoc.setText("");
-			txtTenNCC.setText("");
 			txtMaNCC.requestFocus();
 		} else if (o.equals(btnXoa)) {
+			if (tb.getSelectedRow() == -1) {
+				JOptionPane.showMessageDialog(this, "Hãy chọn nhà cung cấp cần xóa");
+			} else {
+				int tl;
+				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa nhà cung cấp này không ?",
+						"Cảnh báo", JOptionPane.YES_OPTION);
+				if (tl == JOptionPane.YES_OPTION) {
+					int index = tb.getSelectedRow();
+					ncc_dao.xoa(dm.getValueAt(tb.getSelectedRow(), 0).toString());
+					dm.removeRow(index);
+				}
+			}
 
 		} else if (o.equals(btnSua)) {
-
+			if (kiemTra()) {
+				String maNCC = txtMaNCC.getText();
+				String tenNCC = txtTenNCC.getText();
+				String diaChi = txtDiaChi.getText();
+				NhaCungCap ncc = new NhaCungCap(maNCC, tenNCC, diaChi);
+				if (ncc_dao.update(ncc)) {
+					clearTable();
+					DocDuLieuDatabase();
+				} else
+					JOptionPane.showMessageDialog(this, "Trùng mã nhà cung cấp");
+			}
 		}
+	}
+
+	private boolean kiemTra() {
+		if (regex.kiemTraRong(txtMaNCC))
+			return false;
+		if (regex.RegexMaNCC(txtMaNCC))
+			return false;
+		if (regex.kiemTraRong(txtTenNCC))
+			return false;
+		if (regex.RegexTen(txtTenNCC))
+			return false;
+		if (regex.kiemTraRong(txtDiaChi))
+			return false;
+		if (regex.RegexDiaChi(txtDiaChi))
+			return false;
+		return true;
+	}
+
+	private void clearTable() {
+		while (tb.getRowCount() > 0) {
+			dm.removeRow(0);
+		}
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+		int row = tb.getSelectedRow();
+		txtMaNCC.setText(dm.getValueAt(row, 0).toString());
+		txtTenNCC.setText(dm.getValueAt(row, 1).toString());
+		txtDiaChi.setText(dm.getValueAt(row, 2).toString());
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
