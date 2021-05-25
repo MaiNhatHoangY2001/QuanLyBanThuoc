@@ -523,7 +523,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		}
 		
 		if (ds.isEmpty()) {
-			
+			loadHetDulieuVaoList(ds);
 		}
 	}
 
