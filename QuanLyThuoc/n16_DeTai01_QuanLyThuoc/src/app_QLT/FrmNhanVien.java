@@ -145,6 +145,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		add(txtTim);
 		btnTim = new JButton("Tìm");
 		btnTim.setBounds(330, 310, 80, 30);
+		btnTim.setToolTipText("Tìm nhân viên theo mã hoặc tên (Thông tin xuất hiện trên bảng)");
 		add(btnTim);
 
 		/**
@@ -152,18 +153,22 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		 */
 		btnThem = new JButton("Thêm");
 		btnThem.setBounds(480, 270, 120, 30);
+		btnThem.setToolTipText("Thêm thông tin nhân viên");
 		add(btnThem);
 
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBounds(635, 270, 120, 30);
+		btnXoa.setToolTipText("Xóa thông tin nhân viên");
 		add(btnXoa);
 
 		btnXoaRong = new JButton("Xóa rỗng");
 		btnXoaRong.setBounds(480, 315, 120, 30);
+		btnXoaRong.setToolTipText("Xóa chữ trong các textbox");
 		add(btnXoaRong);
 
 		btnSua = new JButton("Sửa");
 		btnSua.setBounds(635, 315, 120, 30);
+		btnSua.setToolTipText("Sửa thông tin nhân viên khi click vào bảng thông tin nhân viên");
 		add(btnSua);
 
 		/**
@@ -173,6 +178,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		tableNV = new JTable(modelNV);
 		JScrollPane sp = new JScrollPane(tableNV);
 		sp.setBounds(20, 400, 740, 240);
+		tableNV.setToolTipText("Thông tin nhân viên");
 		add(sp);
 
 		/**
