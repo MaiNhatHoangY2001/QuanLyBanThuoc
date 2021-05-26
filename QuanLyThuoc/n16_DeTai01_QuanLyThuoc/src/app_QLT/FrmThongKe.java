@@ -1,6 +1,8 @@
 package app_QLT;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -50,7 +52,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private DecimalFormat df = new DecimalFormat("#,###.0");
 	public FrmThongKe() {
 		setLayout(new BorderLayout());
-
+		
 		Box b,b1,b2,b3,b4,btren,btren1,btren2,btren3;
 		b=Box.createVerticalBox();
 		b1=Box.createHorizontalBox();
@@ -64,6 +66,11 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		pphai=new JPanel();
 		ptrai=new JPanel();
 		pduoi=new JPanel(new BorderLayout());
+		
+		pphai.setBackground(new Color(248,248,248));
+		ptrai.setBackground(new Color(248,248,248));
+		pduoi.setBackground(new Color(248,248,248));
+		
 		//Thong ke theo ten/ma/sdt
 		//them du lieu vao combobox
 		
@@ -191,6 +198,20 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		b.add(b4);
 		add(b);
 		
+		
+//		
+//		btnThongKe.setBackground(new Color(191, 247, 249));
+//		btnThongKe.setForeground(Color.DARK_GRAY);
+//		btnThongKe.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//		
+//		btnThongKeAll.setBackground(new Color(191, 247, 249));
+//		btnThongKeAll.setForeground(Color.DARK_GRAY);
+//		btnThongKeAll.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//		
+//		btnTimKiem.setBackground(new Color(191, 247, 249));
+//		btnTimKiem.setForeground(Color.DARK_GRAY);
+//		btnTimKiem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//		
 		//Them su kien
 		btnThongKe.addActionListener(this);
 		btnThongKeAll.addActionListener(this);
