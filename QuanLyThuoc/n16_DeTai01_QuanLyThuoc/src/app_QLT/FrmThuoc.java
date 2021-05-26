@@ -1,16 +1,17 @@
 package app_QLT;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,9 +28,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
@@ -38,7 +36,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.jdatepicker.DateModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
@@ -109,15 +106,12 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 	private JTextField txtThongTinTimKiem;
 	private JButton btnTim;
 	private JButton btnThemNhaCungCap;
-	private JButton btnXoaPhong;
 	
 	/**
 	 * cây thư mục
 	 */
 	private DefaultMutableTreeNode root;
-	private JTree tree;
-	private ArrayList<DefaultMutableTreeNode> dsNCC;
-	
+	private JTree tree;	
 	
 	/**
 	 * thuộc tính
@@ -145,26 +139,35 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		tree = new JTree(root);
 		JScrollPane thanhCuonTree = new JScrollPane(tree);
 		thanhCuonTree.setBounds(10, 10, 205, 200);
+		pTrai.setBackground(new Color(248,248,248));
 		pTrai.add(thanhCuonTree);
 
 			// Nút thêm nhà cung cấp
 		btnThemNhaCungCap = new JButton("Thêm NCC");
 		btnThemNhaCungCap.setBounds(10, 215, 205, 30);
+		btnThemNhaCungCap.setBackground(new Color(191, 247, 249));
+		btnThemNhaCungCap.setForeground(Color.DARK_GRAY);
+		btnThemNhaCungCap.setBorder(BorderFactory.createLineBorder(Color.lightGray));
 		pTrai.add(btnThemNhaCungCap);
 
 		JPanel pBang = new JPanel(new GridLayout(1, 1));
+		
 		pBang.setBorder(BorderFactory.createTitledBorder("Thông tin"));
+		pBang.setBackground(new Color(248,248,248));
 		/**
 		 * Phần listView (Bảng thông tin)
 		 */
-		String header[] = { "Mã Thuốc", "Tên thuôc","Đơn giá", "NSX", "HSD", "SLT", "Mã NCC", "Mã Loại", "id Nước"};
+		String header[] = { "Mã Thuốc", "Tên thuốc","Đơn giá", "NSX", "HSD", "SLT", "Mã NCC", "Mã Loại", "Id Nước"};
 		modelThuoc = new DefaultTableModel(header, 0);
 		tableThuoc = new JTable(modelThuoc);
+		
 		JScrollPane thanhCuon = new JScrollPane(tableThuoc);
 		thanhCuon.setBounds(10, 10, 525, 200);
+		thanhCuon.setBackground(Color.white);
 		pBang.add(thanhCuon);
 
 		JPanel pinput = new JPanel();
+
 		pinput.setLayout(null);
 		/**
 		 * phần nhập thông tin thuốc
@@ -219,6 +222,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		datePanel = new JDatePanelImpl(modelNgaySX, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setBounds(100, 90, 290, 30);
+		datePicker.setBackground(new Color(248,248,248));
 		LocalDate now = LocalDate.now();
 		int ngay = now.getDayOfMonth();
 		int thang = now.getMonthValue();
@@ -235,6 +239,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		datePanelH = new JDatePanelImpl(modelNgayHSD, h);
 		datePickerH = new JDatePickerImpl(datePanelH, new DateLabelFormatter());
 		datePickerH.setBounds(100, 125, 290, 30);
+		datePickerH.setBackground(new Color(248,248,248));
 		LocalDate now1 = LocalDate.now();
 		int ngay1 = now1.getDayOfMonth();
 		int thang1 = now1.getMonthValue();
@@ -257,18 +262,27 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		
 		btnThemLoai = new JButton("Thêm loại");
 		btnThemLoai.setBounds(280, 230, 110, 30);
+		btnThemLoai.setBackground(new Color(191, 247, 249));
+		btnThemLoai.setForeground(Color.DARK_GRAY);
+		btnThemLoai.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnThemLoai);
 		
 		cboNuoc = new JComboBox<String>();
 		cboNuoc.setBounds(100, 265, 170, 30);
 		pinput.add(cboNuoc);
 		
-		btnThemNuoc = new JButton("Thêm Nước");
+		btnThemNuoc = new JButton("Thêm nước");
 		btnThemNuoc.setBounds(280, 265, 110, 30);
+		btnThemNuoc.setBackground(new Color(191, 247, 249));
+		btnThemNuoc.setForeground(Color.DARK_GRAY);
+		btnThemNuoc.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnThemNuoc);
 		
 		btnReset = new JButton("Reset");
 		btnReset.setBounds(170, 300, 110, 30);
+		btnReset.setBackground(new Color(191, 247, 249));
+		btnReset.setForeground(Color.DARK_GRAY);
+		btnReset.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnReset);
 
 		/**
@@ -276,18 +290,30 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		 */
 		btnThem = new JButton("Thêm thuốc");
 		btnThem.setBounds(160, 350, 105, 35);
+		btnThem.setBackground(new Color(191, 247, 249));
+		btnThem.setForeground(Color.DARK_GRAY);
+		btnThem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnThem);
 
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBounds(280, 350, 105, 35);
+		btnXoa.setBackground(new Color(191, 247, 249));
+		btnXoa.setForeground(Color.DARK_GRAY);
+		btnXoa.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnXoa);
 
-		btnXoaRong = new JButton("Xóa Rỗng");
+		btnXoaRong = new JButton("Làm mới");
 		btnXoaRong.setBounds(400, 350, 105, 35);
+		btnXoaRong.setBackground(new Color(191, 247, 249));
+		btnXoaRong.setForeground(Color.DARK_GRAY);
+		btnXoaRong.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnXoaRong);
 
-		btnSua = new JButton("Sữa");
+		btnSua = new JButton("Sửa");
 		btnSua.setBounds(520, 350, 105, 35);
+		btnSua.setBackground(new Color(191, 247, 249));
+		btnSua.setForeground(Color.DARK_GRAY);
+		btnSua.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnSua);
 		
 		
@@ -299,14 +325,21 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		radAll = new JRadioButton("Tất cả");
 		radAll.setSelected(true);
 		radAll.setBounds(480, 35, 200, 30);
+		radAll.setBackground(new Color(248, 248, 248));
 		pinput.add(radAll);
+		
 		radConHan = new JRadioButton("Còn hạn sử dụng");
 		radConHan.setBounds(480, 65, 200, 30);
+		radConHan.setBackground(new Color(248, 248, 248));
 		pinput.add(radConHan);
+		
 		radHetHan = new JRadioButton("Hết hạn sử dụng");
 		radHetHan.setBounds(480, 95, 200, 30);
+		radHetHan.setBackground(new Color(248, 248, 248));
 		pinput.add(radHetHan);
+		
 		ButtonGroup group = new ButtonGroup();
+		
 		group.add(radAll);
 		group.add(radConHan);
 		group.add(radHetHan);
@@ -332,6 +365,9 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		
 		btnTim = new JButton("Tìm");
 		btnTim.setBounds(650, 270, 90, 30);
+		btnTim.setBackground(new Color(191, 247, 249));
+		btnTim.setForeground(Color.DARK_GRAY);
+		btnTim.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnTim);
 
 		/**
@@ -341,24 +377,28 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		JPanel pThuoc = new JPanel();
 		pThuoc.setBorder(BorderFactory.createTitledBorder("Nhập thông tin thuốc"));
 		pThuoc.setBounds(0, 0, 400, 340);
+		pThuoc.setBackground(new Color(248,248,248));
 		pinput.add(pThuoc);
 		
 		// tình trạng thuốc
 		JPanel ptinhTrang = new JPanel();
 		ptinhTrang.setBorder(BorderFactory.createTitledBorder("Tình trạng thuốc"));
+		ptinhTrang.setBackground(new Color(248,248,248));
 		ptinhTrang.setBounds(420, 20, 350, 120);
 		pinput.add(ptinhTrang);
 		
 		//  tìm theo mã thuốc
 		JPanel pNhapTim = new JPanel();
-		pNhapTim.setBorder(BorderFactory.createTitledBorder("tìm theo mã thuốc"));
+		pNhapTim.setBorder(BorderFactory.createTitledBorder("Tìm theo mã thuốc"));
 		pNhapTim.setBounds(420, 150, 350, 170);
+		pNhapTim.setBackground(new Color(248,248,248));
 		pinput.add(pNhapTim);
 		
 		// phần tìm kiếm thuốc
 		JPanel pTim = new JPanel();
 		pTim.setBorder(BorderFactory.createTitledBorder("Tìm thuốc"));
 		pTim.setBounds(410, 0, 370, 340);
+		pTim.setBackground(new Color(248,248,248));
 		pinput.add(pTim);
 			
 		
@@ -638,7 +678,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 			JOptionPane.showMessageDialog(this, "Hãy chọn Thuốc cần xóa");
 		} else {
 			int tl;
-			tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa Thuốc này không ?", "Cảnh báo",
+			tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa thuốc này không ?", "Cảnh báo",
 					JOptionPane.YES_OPTION);
 			if (tl == JOptionPane.YES_OPTION) {
 				while (tableThuoc.getSelectedRowCount() > 0) {
@@ -670,7 +710,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 					String []n = {thuoc.getMaThuoc(), thuoc.getTenThuoc(), df.format(thuoc.getDonGia()) + "", thuoc.getNgaySX() + "", thuoc.getHanSuDung() + "", thuoc.getSLTon() + "",thuoc.getNcc().getMaNCC(), thuoc.getLoaiThuoc().getMaLoai(), thuoc.getNuocSX().getIdNuoc()};
 					modelThuoc.addRow(n);
 				} else {
-					JOptionPane.showMessageDialog(this, "Lỗi trùng mã Thuốc");
+					JOptionPane.showMessageDialog(this, "Lỗi trùng mã thuốc");
 				}
 			}
 		}

@@ -1,5 +1,4 @@
 INDEX VERSION 1.131+D:\HOC_TAP\Nam 2-HK2\java\DeTai\QuanLyBanThuoc\QuanLyThuoc\.metadata\.plugins\org.eclipse.jdt.core
-3278251865.index
 1695662857.index
 420473298.index
 2973450540.index

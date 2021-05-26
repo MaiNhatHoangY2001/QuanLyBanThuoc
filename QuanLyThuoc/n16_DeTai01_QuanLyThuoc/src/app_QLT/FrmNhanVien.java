@@ -1,5 +1,6 @@
 package app_QLT;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -86,6 +87,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		datePanel = new JDatePanelImpl(modelNgay, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setBounds(180, 80, 200, 30);
+		datePicker.setBackground(new Color(248,248,248));
 		modelNgay.setDate(1990, 8, 24);
 		modelNgay.setSelected(true);
 		add(datePicker);
@@ -118,6 +120,8 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		radNu = new JRadioButton("Nữ");
 		radNam.setBounds(510, 80, 60, 20);
 		radNu.setBounds(600, 80, 60, 20);
+		radNam.setBackground(new Color(248,248,248));
+		radNu.setBackground(new Color(248,248,248));
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(radNam);
 		bg.add(radNu);
@@ -146,6 +150,9 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		btnTim = new JButton("Tìm");
 		btnTim.setBounds(330, 310, 80, 30);
 		btnTim.setToolTipText("Tìm nhân viên theo mã hoặc tên (Thông tin xuất hiện trên bảng)");
+		btnTim.setBackground(new Color(191, 247, 249));
+		btnTim.setForeground(Color.DARK_GRAY);
+		btnTim.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnTim);
 
 		/**
@@ -154,21 +161,33 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		btnThem = new JButton("Thêm");
 		btnThem.setBounds(480, 270, 120, 30);
 		btnThem.setToolTipText("Thêm thông tin nhân viên");
+		btnThem.setBackground(new Color(191, 247, 249));
+		btnThem.setForeground(Color.DARK_GRAY);
+		btnThem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnThem);
 
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBounds(635, 270, 120, 30);
 		btnXoa.setToolTipText("Xóa thông tin nhân viên");
+		btnXoa.setBackground(new Color(191, 247, 249));
+		btnXoa.setForeground(Color.DARK_GRAY);
+		btnXoa.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnXoa);
 
-		btnXoaRong = new JButton("Xóa rỗng");
+		btnXoaRong = new JButton("Làm mới");
 		btnXoaRong.setBounds(480, 315, 120, 30);
 		btnXoaRong.setToolTipText("Xóa chữ trong các textbox");
+		btnXoaRong.setBackground(new Color(191, 247, 249));
+		btnXoaRong.setForeground(Color.DARK_GRAY);
+		btnXoaRong.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnXoaRong);
 
 		btnSua = new JButton("Sửa");
 		btnSua.setBounds(635, 315, 120, 30);
 		btnSua.setToolTipText("Sửa thông tin nhân viên khi click vào bảng thông tin nhân viên");
+		btnSua.setBackground(new Color(191, 247, 249));
+		btnSua.setForeground(Color.DARK_GRAY);
+		btnSua.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnSua);
 
 		/**
@@ -187,23 +206,28 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		JPanel border4 = new JPanel();
 		border4.setBorder(BorderFactory.createTitledBorder("Thông tin nhân viên"));
 		border4.setBounds(10, 380, 760, 270);
+		border4.setBackground(new Color(248,248,248));
 		add(border4);
 
 		JPanel border3 = new JPanel();
 		border3.setBorder(BorderFactory.createTitledBorder("Tác vụ"));
 		border3.setBounds(450, 240, 320, 120);
+		border3.setBackground(new Color(248,248,248));
 		add(border3);
 
 		JPanel border2 = new JPanel();
 		border2.setBorder(BorderFactory.createTitledBorder("Tìm kiếm theo tên/mã nhân viên"));
 		border2.setBounds(10, 240, 420, 120);
+		border2.setBackground(new Color(248,248,248));
 		add(border2);
 
 		JPanel border1 = new JPanel();
 		border1.setBorder(BorderFactory.createTitledBorder("Nhập Thông tin nhân viên"));
 		border1.setBounds(10, 10, 760, 220);
+		border1.setBackground(new Color(248,248,248));
 		add(border1);
 
+		setBackground(new Color(248,248,248));
 		/**
 		 * thêm sự kiện
 		 */

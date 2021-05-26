@@ -1,6 +1,8 @@
 package app_QLT;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -50,7 +52,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private DecimalFormat df = new DecimalFormat("#,###.0");
 	public FrmThongKe() {
 		setLayout(new BorderLayout());
-
+		
 		Box b,b1,b2,b3,b4,btren,btren1,btren2,btren3;
 		b=Box.createVerticalBox();
 		b1=Box.createHorizontalBox();
@@ -64,13 +66,24 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		pphai=new JPanel();
 		ptrai=new JPanel();
 		pduoi=new JPanel(new BorderLayout());
+
+		
+		pphai.setBackground(new Color(248,248,248));
+		ptrai.setBackground(new Color(248,248,248));
+		pduoi.setBackground(new Color(248,248,248));
+		
 		//Thong ke theo ten/ma/sdt
 		//them du lieu vao combobox
+
 		
+		//them du lieu vao combobox
 		cbTimKiem=new JComboBox<String>();
 		cbTimKiem.addItem("Tìm theo tên");
 		cbTimKiem.addItem("Tìm theo mã");
 		cbTimKiem.addItem("Tìm theo số điện thoại");
+
+		
+		//Thong ke theo ten/ma/sdt
 		btren1.add(new JLabel("Chọn loại tìm kiếm:"));
 		btren1.add(Box.createHorizontalStrut(40));
 		btren1.add(cbTimKiem);
@@ -85,18 +98,21 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		btren.add(btren3);
 		ptrai.add(btren);
 		ptrai.setBorder(BorderFactory.createTitledBorder("Nhập thông tin tìm kiếm"));
+		
 		//them du lieu vao combobox ngay
 		cbNgay=new JComboBox<Integer>() ;
 		for(int i=1;i<=31;i++) {
 			
 			cbNgay.addItem(i);
 		}
+		
 		//them du lieu vao combobox thang
 		cbThang=new JComboBox<Integer>() ;
 		for(int i=1;i<=12;i++) {
 			
 			cbThang.addItem(i);
 		}
+		
 		//them du lieu vao combobox nam
 		cbNam=new JComboBox<Integer>() ;
 		for(int i=LocalDate.now().getYear();i>=LocalDate.now().getYear()-10;i--) {
@@ -147,6 +163,9 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		scrollthuoc.setBorder(BorderFactory.createTitledBorder("Thông tin thuốc khách hàng đã mua"));
 		b3.add(scrollthuoc,BorderLayout.SOUTH);
 		
+
+		//giao dien thong ke tong doanh thu
+
 		//giao dien thong ke duoi cung ben phai
 		Box d,d1;
 		d=Box.createVerticalBox();
@@ -156,18 +175,10 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		d.add(Box.createVerticalStrut(20));
 		d.add(d1);
 		d.add(Box.createVerticalStrut(20));
-//		d.add(Box.createVerticalStrut(10));
-//		d2.add(new JLabel("Tiền gốc:              "));
-//		d2.add(txtTienGoc=new JTextField(15));
-//		d.add(d2);
-//		d.add(Box.createVerticalStrut(10));
-//		d3.add(new JLabel("Lợi nhuận:            "));
-//		d3.add(txtLoiNhuan=new JTextField(15));
-//		d.add(d3);
 		pduoi.add(d,BorderLayout.EAST);
 		b4.add(pduoi);
 		
-		//giao dien thong ke ben trai
+		//giao dien thong ke so luong kh,tong thuoc da ban
 		Box btrai,btrai1,btrai2;
 		btrai=Box.createVerticalBox();
 		btrai1=Box.createHorizontalBox();
@@ -191,6 +202,20 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		b.add(b4);
 		add(b);
 		
+		
+//		
+//		btnThongKe.setBackground(new Color(191, 247, 249));
+//		btnThongKe.setForeground(Color.DARK_GRAY);
+//		btnThongKe.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//		
+//		btnThongKeAll.setBackground(new Color(191, 247, 249));
+//		btnThongKeAll.setForeground(Color.DARK_GRAY);
+//		btnThongKeAll.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//		
+//		btnTimKiem.setBackground(new Color(191, 247, 249));
+//		btnTimKiem.setForeground(Color.DARK_GRAY);
+//		btnTimKiem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//		
 		//Them su kien
 		btnThongKe.addActionListener(this);
 		btnThongKeAll.addActionListener(this);
@@ -216,11 +241,13 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		new FrmThongKe().setVisible(true);
 	}
 
+	//xu li su kien
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o=e.getSource();
 		if(o.equals(btnTimKiem)) {
+			clearTableThuoc();
 			timKH();
 			txtTongKH.setText(""+dfKhachHang.getRowCount());
 			if (cbTimKiem.getSelectedIndex() == 1) {
@@ -238,22 +265,25 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 				}
 				
 			}
-			clearTableThuoc();
+			
 		}
+		//thong ke theo ngay
 		if(o.equals(btnThongKe)) {
+			clearTableThuoc();
 			timKHTheoNgay();
 			txtTongKH.setText(""+dfKhachHang.getRowCount());
 			txtTongSoThuoc.setText(""+tongThuocTheoNgay());
 			txtDoanhThu.setText(""+df.format(tongDoanhThuTheoNgay()));
-			clearTableThuoc();
+			
 			
 		}
 		if(o.equals(btnThongKeAll)) {
+			clearTableThuoc();
 			thongKeTatCaKH();
 			txtTongKH.setText(""+dfKhachHang.getRowCount());
 			txtTongSoThuoc.setText(""+tongThuocBan());
 			txtDoanhThu.setText(""+df.format(tongDoanhThu()));
-			clearTableThuoc();
+			
 		}
 	}
 	//Tim thong tin khach hang
