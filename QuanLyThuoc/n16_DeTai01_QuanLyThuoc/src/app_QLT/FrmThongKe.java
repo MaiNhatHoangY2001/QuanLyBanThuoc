@@ -47,7 +47,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private DecimalFormat df = new DecimalFormat("#,###.0");
 	public FrmThongKe() {
 		setLayout(null);
-		
+		setBackground(new Color(248,248,248));
 		//lb tim kiem
 		JLabel lbtimkiem=new JLabel("Chọn loại tìm kiếm");
 		lbtimkiem.setBounds(15, 30, 150, 30);
@@ -88,6 +88,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		//khung tim kiem theo ngay
 		JPanel border2 = new JPanel();
 		border2.setBorder(BorderFactory.createTitledBorder("Thống kê"));
+		border2.setBackground(new Color(248,248,248));
 		border2.setBounds(395, 5 , 375 , 150);
 	
 		//them du lieu vao combobox ngay
@@ -153,6 +154,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBorder(BorderFactory.createTitledBorder("Thông tin khách hàng"));
 		scroll.setBounds(5,160 , 770, 190);
+		scroll.setBackground(new Color(248,248,248));
 		add(scroll);
 		
 		//bang thong tin thuoc ma khach hang da mua
@@ -164,6 +166,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		scrollthuoc=new JScrollPane(tableThuoc,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollthuoc.setBorder(BorderFactory.createTitledBorder("Thông tin thuốc khách hàng đã mua"));
 		scrollthuoc.setBounds(5,360 , 770, 190);
+		scrollthuoc.setBackground(new Color(248,248,248));
 		add(scrollthuoc);
 		
 		//phan tong so luong khach hang
