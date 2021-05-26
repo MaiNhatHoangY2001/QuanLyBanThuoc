@@ -1,5 +1,6 @@
 package app_QLT;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -46,7 +47,6 @@ public class frmThemNCC extends JFrame implements ActionListener, MouseListener 
 		setSize(700, 630);
 		setTitle("Thêm nhà cung cấp");
 		setLocationRelativeTo(null);
-
 		setLayout(null);
 
 		/**
@@ -90,15 +90,30 @@ public class frmThemNCC extends JFrame implements ActionListener, MouseListener 
 		 */
 		btnThem = new JButton("Thêm");
 		btnThem.setBounds(105, 530, 100, 35);
+		btnThem.setBackground(new Color(191, 247, 249));
+		btnThem.setForeground(Color.DARK_GRAY);
+		btnThem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnThem);
+		
 		btnXoaRong = new JButton("Xóa Rỗng");
 		btnXoaRong.setBounds(230, 530, 100, 35);
+		btnXoaRong.setBackground(new Color(191, 247, 249));
+		btnXoaRong.setForeground(Color.DARK_GRAY);
+		btnXoaRong.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnXoaRong);
+		
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBounds(355, 530, 100, 35);
+		btnXoa.setBackground(new Color(191, 247, 249));
+		btnXoa.setForeground(Color.DARK_GRAY);
+		btnXoa.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnXoa);
+		
 		btnSua = new JButton("Sửa");
 		btnSua.setBounds(480, 530, 100, 35);
+		btnSua.setBackground(new Color(191, 247, 249));
+		btnSua.setForeground(Color.DARK_GRAY);
+		btnSua.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnSua);
 
 		/**
@@ -107,11 +122,13 @@ public class frmThemNCC extends JFrame implements ActionListener, MouseListener 
 		JPanel pBang = new JPanel();
 		pBang.setBorder(BorderFactory.createTitledBorder("Danh sách các nhà cung cấp"));
 		pBang.setBounds(10, 10, 665, 280);
+		pBang.setBackground(new Color(248,248,248));
 		add(pBang);
 
 		JPanel pChucNang = new JPanel();
 		pChucNang.setBorder(BorderFactory.createTitledBorder("Chức năng"));
 		pChucNang.setBounds(10, 300, 665, 280);
+		pChucNang.setBackground(new Color(248,248,248));
 		add(pChucNang);
 
 		btnThem.addActionListener(this);

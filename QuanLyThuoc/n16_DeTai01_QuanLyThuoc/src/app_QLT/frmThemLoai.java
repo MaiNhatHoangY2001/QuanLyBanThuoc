@@ -1,5 +1,6 @@
 package app_QLT;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,11 +23,14 @@ import javax.swing.table.DefaultTableModel;
 import connectDB.ConnectDB;
 import dao.LoaiThuoc1_DAO;
 import entity.LoaiThuoc;
-import entity.Regex;
 import entity.Regex1;
 
 public class frmThemLoai extends JFrame implements ActionListener, MouseListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DefaultTableModel model;
 	private JTable table;
 	private JTextField txtmaLoai;
@@ -49,6 +53,7 @@ public class frmThemLoai extends JFrame implements ActionListener, MouseListener
 		
 		JPanel pThongTin = new JPanel(new GridLayout(1,1));
 		pThongTin.setBorder(BorderFactory.createTitledBorder("Thông tin loại thuốc"));
+		pThongTin.setBackground(new Color(248,248,248));
 		pThongTin.setBounds(0, 0, 385, 180);
 		add(pThongTin);
 		
@@ -63,6 +68,7 @@ public class frmThemLoai extends JFrame implements ActionListener, MouseListener
 		JPanel pinput = new JPanel();
 		pinput.setBorder(BorderFactory.createTitledBorder("Nhập thuốc"));
 		pinput.setBounds(0, 180, 385, 180);
+		pinput.setBackground(new Color(248,248,248));
 		pinput.setLayout(null);
 		add(pinput);
 		
@@ -80,17 +86,33 @@ public class frmThemLoai extends JFrame implements ActionListener, MouseListener
 		txtTenLoai = new JTextField();
 		txtTenLoai.setBounds(110, 80, 220, 30);
 		pinput.add(txtTenLoai);
+		
 		btnThem = new JButton("Thêm");
 		btnThem.setBounds(10, 130, 80, 30);
+		btnThem.setBackground(new Color(191, 247, 249));
+		btnThem.setForeground(Color.DARK_GRAY);
+		btnThem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnThem);
+		
 		btnXoaRong = new JButton("Xóa rổng");
 		btnXoaRong.setBounds(100, 130, 90, 30);
+		btnXoaRong.setBackground(new Color(191, 247, 249));
+		btnXoaRong.setForeground(Color.DARK_GRAY);
+		btnXoaRong.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnXoaRong);
+		
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBounds(200, 130, 80, 30);
+		btnXoa.setBackground(new Color(191, 247, 249));
+		btnXoa.setForeground(Color.DARK_GRAY);
+		btnXoa.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnXoa);
+		
 		btnSua = new JButton("Sửa");
 		btnSua.setBounds(290, 130, 85, 30);
+		btnSua.setBackground(new Color(191, 247, 249));
+		btnSua.setForeground(Color.DARK_GRAY);
+		btnSua.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnSua);
 		
 		try {

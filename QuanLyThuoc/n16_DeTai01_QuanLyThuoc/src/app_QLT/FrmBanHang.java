@@ -1,5 +1,6 @@
 package app_QLT;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -109,24 +110,30 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		cthd_dao = new CTHoaDon_DAO();
 		regex = new Regex();
 		
-		
+		setBackground(new Color(248,248,248));
 		setLayout(null);
 //		tim sdt
 		
 		JLabel lbTimSDT = new JLabel("Tìm số điện thoại");
 		lbTimSDT.setBounds(220, 5, 120, 30);
-		add(lbTimSDT);
+		add(lbTimSDT); 
 		txtTimSDT = new JTextField();
 		txtTimSDT.setBounds(340, 5, 120, 30);
 		add(txtTimSDT);
 		btnTimSDT = new JButton("Tìm");
 		btnTimSDT.setBounds(460, 5, 70, 30);
+		btnTimSDT.setToolTipText("Tìm khách hàng");
+		btnTimSDT.setBackground(new Color(191, 247, 249));
+		btnTimSDT.setForeground(Color.DARK_GRAY);
+		btnTimSDT.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		add(btnTimSDT);
 		
 //		nhap thong tin hoa don
 		JPanel border1 = new JPanel();
 		border1.setBorder(BorderFactory.createTitledBorder("Nhập thông tin khách hàng"));
 		border1.setBounds(10,50 , 375 , 230);
+		border1.setBackground(new Color(248,248,248));
+		border1.setToolTipText("Khách hàng");
 		
 		JLabel lbTenKH = new JLabel("Tên khách hàng");
 		lbTenKH.setBounds(30, 70, 100, 30);
@@ -154,6 +161,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		datePanel = new JDatePanelImpl(modelNgayKH, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setBounds(150, 130, 215, 30);
+		datePicker.setBackground(new Color(248,248,248));
+		datePicker.setToolTipText("Chọn ngày sinh");
 		modelNgayKH.setDate(1990, 0, 1);
 		modelNgayKH.setSelected(true);
 		add(datePicker);
@@ -172,6 +181,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		radNu = new JRadioButton("Nữ");
 		radNam.setBounds(150, 190, 70, 30);
 		radNu.setBounds(230, 190, 70, 30);
+		radNam.setBackground(new Color(248,248,248));
+		radNu.setBackground(new Color(248,248,248));
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(radNam);
 		bg.add(radNu);
@@ -181,14 +192,19 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		
 		btnThemKH = new JButton("Thêm khách hàng");
 		btnThemKH.setBounds(125, 230, 150, 35);
+		btnThemKH.setBackground(new Color(191, 247, 249));
+		btnThemKH.setForeground(Color.DARK_GRAY);
+		btnThemKH.setToolTipText("Thêm khách hàng mới");
 		add(btnThemKH);
 
 		add(border1);
 		
 //		nhap thong tin thuoc kh mua
 		JPanel border2 = new JPanel();
-		border2.setBorder(BorderFactory.createTitledBorder("Nhập thông tin thuốc khách hàng đã mua"));
+		border2.setBorder(BorderFactory.createTitledBorder("Nhập thông tin thuốc khách hàng cần mua"));
 		border2.setBounds(395, 50 , 375 , 230);
+		border2.setBackground(new Color(248,248,248));
+		border2.setToolTipText("Nhập thông tin thuốc cần mua");
 		
 		JLabel lbLoaiThuoc = new JLabel("Loại thuốc");
 		lbLoaiThuoc.setBounds(415, 70, 100, 30);
@@ -218,25 +234,43 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		add(txtSoLuongThuoc);
 		chkGiam = new JCheckBox("Giảm số lượng");
 		chkGiam.setBounds(515,190,200,20);
+		chkGiam.setBackground(new Color(248,248,248));
 		add(chkGiam);
 		
 		btnThemVaoHD = new JButton("Thêm vào hoá đơn");
 		btnThemVaoHD.setBounds(495, 230, 180, 35);
+		btnThemVaoHD.setBackground(new Color(191, 247, 249));
+		btnThemVaoHD.setForeground(Color.DARK_GRAY);
+		btnThemVaoHD.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		btnThemVaoHD.setToolTipText("Thêm thuốc vào danh sách cần mua");
 		add(btnThemVaoHD);
 		
 		add(border2);
 		
 //		btn
-		btnXoaHD = new JButton("Xoá hoá đơn");
+		btnXoaHD = new JButton("Xoá sản phẩm");
 		btnXoaHD.setBounds(200, 290, 120, 35);
+		btnXoaHD.setBackground(new Color(191, 247, 249));
+		btnXoaHD.setForeground(Color.DARK_GRAY);
+		btnXoaHD.setToolTipText("Xóa sản phẩm không trong danh sách");
+		btnXoaHD.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		
 		add(btnXoaHD);
 		
-		btnXoaRong = new JButton("Xoá rỗng");
+		btnXoaRong = new JButton("Làm mới");
 		btnXoaRong.setBounds(340, 290, 100, 35);
+		btnXoaRong.setBackground(new Color(191, 247, 249));
+		btnXoaRong.setForeground(Color.DARK_GRAY);
+		btnXoaRong.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		btnXoaRong.setToolTipText("Làm mới lại trang");
 		add(btnXoaRong);
 		
 		btnSua = new JButton("Sửa");
 		btnSua.setBounds(460, 290, 100, 35);
+		btnSua.setBackground(new Color(191, 247, 249));
+		btnSua.setForeground(Color.DARK_GRAY);
+		btnSua.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		btnSua.setToolTipText("Sửa thông tin khách hàng");
 		add(btnSua);
 		
 //		
@@ -252,7 +286,6 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		lbNgayLapHD.setBounds(395, 330, 150, 30);
 		add(lbNgayLapHD);
 		
-//		txtNgayLapHD.setBounds(545, 330, 225, 30);
 		modelNgayLapHD = new SqlDateModel();
 		p1 = new Properties();
 		p1.put("text.today", "Today");
@@ -261,6 +294,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		datePanel1 = new JDatePanelImpl(modelNgayLapHD, p1);
 		datePicker1 = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
 		datePicker1.setBounds(545, 330,225, 30);
+		datePicker1.setBackground(new Color(248,248,248));
 		modelNgayLapHD.setDate(2000, 0, 1);
 		modelNgayLapHD.setSelected(true);
 		add(datePicker1);
@@ -270,11 +304,13 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		tableBanHang = new JTable(modelBanHang);
 		JScrollPane spBanHang = new JScrollPane(tableBanHang);
 		spBanHang.setBounds(20, 390, 740, 150);
+		tableBanHang.setToolTipText("Thông tin thuốc khách hàng cần mua");
 		add(spBanHang);
 		
 		JPanel border3 = new JPanel();
 		border3.setBorder(BorderFactory.createTitledBorder("Thông tin đơn thuốc"));
 		border3.setBounds(10, 370, 760, 180);
+		border3.setBackground(new Color(248,248,248));
 		add(border3);
 		
 //		Tong tien
@@ -300,6 +336,10 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 //		thanh toan
 		btnThanhToan = new JButton("Thanh toán");
 		btnThanhToan.setBounds(580, 600, 190, 35);
+		btnThanhToan.setBackground(new Color(191, 247, 249));
+		btnThanhToan.setForeground(Color.DARK_GRAY);
+		btnThanhToan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		btnThanhToan.setToolTipText("Thanh toán tiền thuốc khách hàng mua");
 		add(btnThanhToan);
 		
 		

@@ -1,6 +1,8 @@
 package app_QLT;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -49,7 +51,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private DecimalFormat df = new DecimalFormat("#,###.0");
 	public FrmThongKe() {
 		setLayout(new BorderLayout());
-
+		
 		Box b,b1,b2,b3,b4,btren,btren1,btren2,btren3;
 		b=Box.createVerticalBox();
 		b1=Box.createHorizontalBox();
@@ -63,15 +65,30 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		pphai=new JPanel();
 		ptrai=new JPanel();
 		pduoi=new JPanel(new BorderLayout());
+
+		
+		pphai.setBackground(new Color(248,248,248));
+		ptrai.setBackground(new Color(248,248,248));
+		pduoi.setBackground(new Color(248,248,248));
+		
+		//Thong ke theo ten/ma/sdt
+		//them du lieu vao combobox
+
 		
 		//them du lieu vao combobox
 		cbTimKiem=new JComboBox<String>();
 		cbTimKiem.addItem("Tìm theo tên");
 		cbTimKiem.addItem("Tìm theo mã");
 		cbTimKiem.addItem("Tìm theo số điện thoại");
+<<<<<<< HEAD
 		
 		//Thong ke theo ten/ma/sdt
 
+=======
+
+		
+		//Thong ke theo ten/ma/sdt
+>>>>>>> 08abb3bcaeb32a7d239d465844dd6eedaab30f34
 		btren1.add(new JLabel("Chọn loại tìm kiếm:"));
 		btren1.add(Box.createHorizontalStrut(40));
 		btren1.add(cbTimKiem);
@@ -155,7 +172,10 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		//giao dien thong ke tong doanh thu
 
 		//giao dien thong ke duoi cung ben phai
+<<<<<<< HEAD
 
+=======
+>>>>>>> 08abb3bcaeb32a7d239d465844dd6eedaab30f34
 		Box d,d1;
 		d=Box.createVerticalBox();
 		d1=Box.createHorizontalBox();
@@ -191,11 +211,28 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		b.add(b4);
 		add(b);
 		
+<<<<<<< HEAD
 		//ToolTip
 		btnTimKiem.setToolTipText("Tìm kiếm thông tin khách hàng");
 		btnThongKeAll.setToolTipText("Thống kê tất cả khách hàng đã mua thuốc và tổng doanh thu");
 		btnThongKe.setToolTipText("Thống kê thông tin khách hàng và tổng doanh thu trong ngày");
 		
+=======
+		
+//		
+//		btnThongKe.setBackground(new Color(191, 247, 249));
+//		btnThongKe.setForeground(Color.DARK_GRAY);
+//		btnThongKe.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//		
+//		btnThongKeAll.setBackground(new Color(191, 247, 249));
+//		btnThongKeAll.setForeground(Color.DARK_GRAY);
+//		btnThongKeAll.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//		
+//		btnTimKiem.setBackground(new Color(191, 247, 249));
+//		btnTimKiem.setForeground(Color.DARK_GRAY);
+//		btnTimKiem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//		
+>>>>>>> 08abb3bcaeb32a7d239d465844dd6eedaab30f34
 		//Them su kien
 		btnThongKe.addActionListener(this);
 		btnThongKeAll.addActionListener(this);
