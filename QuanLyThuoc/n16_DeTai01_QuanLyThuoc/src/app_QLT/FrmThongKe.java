@@ -1,7 +1,6 @@
 package app_QLT;
 
 import java.awt.BorderLayout;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -26,10 +25,8 @@ import javax.swing.table.DefaultTableModel;
 import connectDB.ConnectDB;
 import dao.CTHoaDon_DAO;
 import dao.KhachHang_DAO;
-import dao.NhanVien_DAO;
 import dao.Thuoc_DAO;
 import entity.KhachHang;
-import entity.NhanVien;
 import entity.Thuoc;
 
 
@@ -45,9 +42,8 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private JPanel pphai,pduoi,ptrai;
 	private DefaultTableModel dfKhachHang,dfThuoc;
 	private JTable tableKhachHang,tableThuoc;
-	private JTextField txtDoanhThu,txtLoiNhuan,txtTienGoc,txttimKiem,txtTongKH,txtTongSoThuoc,txtMaKH;
+	private JTextField txtDoanhThu,txttimKiem,txtTongKH,txtTongSoThuoc,txtMaKH;
 	private JButton btnThongKe,btnTimKiem,btnThongKeAll;
-	private JLabel lbTimKiem,lbNhapTK,lbtongthuoc,lbtongkh;
 	private KhachHang_DAO kh_dao;
 	private Thuoc_DAO thuoc_dao;
 	private CTHoaDon_DAO ctHD_dao;
@@ -68,17 +64,18 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		pphai=new JPanel();
 		ptrai=new JPanel();
 		pduoi=new JPanel(new BorderLayout());
-		//Thong ke theo ten/ma/sdt
-		//them du lieu vao combobox
 		
+		//them du lieu vao combobox
 		cbTimKiem=new JComboBox<String>();
 		cbTimKiem.addItem("Tìm theo tên");
 		cbTimKiem.addItem("Tìm theo mã");
 		cbTimKiem.addItem("Tìm theo số điện thoại");
-		btren1.add(lbTimKiem=new JLabel("Chọn loại tìm kiếm:"));
+		
+		//Thong ke theo ten/ma/sdt
+		btren1.add(new JLabel("Chọn loại tìm kiếm:"));
 		btren1.add(Box.createHorizontalStrut(40));
 		btren1.add(cbTimKiem);
-		btren2.add(lbNhapTK=new JLabel("Nhập thông tin tìm kiếm: "));
+		btren2.add(new JLabel("Nhập thông tin tìm kiếm: "));
 		btren2.add(Box.createHorizontalStrut(5));
 		btren2.add(txttimKiem=new JTextField(10));
 		btren3.add(btnTimKiem=new JButton("Tìm kiếm"));
@@ -89,18 +86,21 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		btren.add(btren3);
 		ptrai.add(btren);
 		ptrai.setBorder(BorderFactory.createTitledBorder("Nhập thông tin tìm kiếm"));
+		
 		//them du lieu vao combobox ngay
 		cbNgay=new JComboBox<Integer>() ;
 		for(int i=1;i<=31;i++) {
 			
 			cbNgay.addItem(i);
 		}
+		
 		//them du lieu vao combobox thang
 		cbThang=new JComboBox<Integer>() ;
 		for(int i=1;i<=12;i++) {
 			
 			cbThang.addItem(i);
 		}
+		
 		//them du lieu vao combobox nam
 		cbNam=new JComboBox<Integer>() ;
 		for(int i=LocalDate.now().getYear();i>=LocalDate.now().getYear()-10;i--) {
@@ -151,38 +151,27 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		scrollthuoc.setBorder(BorderFactory.createTitledBorder("Thông tin thuốc khách hàng đã mua"));
 		b3.add(scrollthuoc,BorderLayout.SOUTH);
 		
-		//giao dien thong ke duoi cung ben phai
-		Box d,d1,d2,d3;
+		//giao dien thong ke tong doanh thu
+		Box d,d1;
 		d=Box.createVerticalBox();
 		d1=Box.createHorizontalBox();
-		d2=Box.createHorizontalBox();
-		d3=Box.createHorizontalBox();
-		
 		d1.add(new JLabel("Tổng doanh thu:  "));
 		d1.add(txtDoanhThu=new JTextField(15));
 		d.add(Box.createVerticalStrut(20));
 		d.add(d1);
 		d.add(Box.createVerticalStrut(20));
-//		d.add(Box.createVerticalStrut(10));
-//		d2.add(new JLabel("Tiền gốc:              "));
-//		d2.add(txtTienGoc=new JTextField(15));
-//		d.add(d2);
-//		d.add(Box.createVerticalStrut(10));
-//		d3.add(new JLabel("Lợi nhuận:            "));
-//		d3.add(txtLoiNhuan=new JTextField(15));
-//		d.add(d3);
 		pduoi.add(d,BorderLayout.EAST);
 		b4.add(pduoi);
 		
-		//giao dien thong ke ben trai
+		//giao dien thong ke so luong kh,tong thuoc da ban
 		Box btrai,btrai1,btrai2;
 		btrai=Box.createVerticalBox();
 		btrai1=Box.createHorizontalBox();
 		btrai2=Box.createHorizontalBox();
-		btrai1.add(lbtongkh=new JLabel("Tổng số khách hàng đã mua"));
+		btrai1.add(new JLabel("Tổng số khách hàng đã mua"));
 		btrai1.add(Box.createHorizontalStrut(10));
 		btrai1.add(txtTongKH=new JTextField(15));
-		btrai2.add(lbtongthuoc=new JLabel("Tổng số thuốc đã bán"));
+		btrai2.add(new JLabel("Tổng số thuốc đã bán"));
 		btrai2.add(Box.createHorizontalStrut(45));
 		btrai2.add(txtTongSoThuoc=new JTextField(15));
 		btrai.add(Box.createVerticalStrut(5));
@@ -223,11 +212,13 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		new FrmThongKe().setVisible(true);
 	}
 
+	//xu li su kien
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o=e.getSource();
 		if(o.equals(btnTimKiem)) {
+			clearTableThuoc();
 			timKH();
 			txtTongKH.setText(""+dfKhachHang.getRowCount());
 			if (cbTimKiem.getSelectedIndex() == 1) {
@@ -245,22 +236,25 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 				}
 				
 			}
-			clearTableThuoc();
+			
 		}
+		//thong ke theo ngay
 		if(o.equals(btnThongKe)) {
+			clearTableThuoc();
 			timKHTheoNgay();
 			txtTongKH.setText(""+dfKhachHang.getRowCount());
 			txtTongSoThuoc.setText(""+tongThuocTheoNgay());
 			txtDoanhThu.setText(""+df.format(tongDoanhThuTheoNgay()));
-			clearTableThuoc();
+			
 			
 		}
 		if(o.equals(btnThongKeAll)) {
+			clearTableThuoc();
 			thongKeTatCaKH();
 			txtTongKH.setText(""+dfKhachHang.getRowCount());
 			txtTongSoThuoc.setText(""+tongThuocBan());
 			txtDoanhThu.setText(""+df.format(tongDoanhThu()));
-			clearTableThuoc();
+			
 		}
 	}
 	//Tim thong tin khach hang
