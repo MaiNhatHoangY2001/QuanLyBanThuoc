@@ -100,8 +100,8 @@ public class TThuocT_Dao {
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getConnection();
-			String sql = "SELECT * FROM Thuoc";
 			Statement statement = con.createStatement();
+			String sql = "SELECT * FROM Thuoc";
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				String maThuoc = rs.getString(1);

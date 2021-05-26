@@ -18,13 +18,11 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
@@ -34,6 +32,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -93,13 +92,6 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 	private DefaultTableModel modelThuoc;
 
 	/**
-	 * Các thuộc tính trình trạng
-	 */
-	private JRadioButton radAll;
-	private JRadioButton radConHan;
-	private JRadioButton radHetHan;
-
-	/**
 	 * Các thuôc tính tìm kiếm
 	 */
 	private JComboBox<String> cboLoaiTimKiem;
@@ -138,13 +130,13 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		root = new DefaultMutableTreeNode("Nhà cung cấp");
 		tree = new JTree(root);
 		JScrollPane thanhCuonTree = new JScrollPane(tree);
-		thanhCuonTree.setBounds(10, 10, 205, 200);
+		thanhCuonTree.setBounds(10, 20, 200, 280);
 		pTrai.setBackground(new Color(248,248,248));
 		pTrai.add(thanhCuonTree);
 
 			// Nút thêm nhà cung cấp
 		btnThemNhaCungCap = new JButton("Thêm NCC");
-		btnThemNhaCungCap.setBounds(10, 215, 205, 30);
+		btnThemNhaCungCap.setBounds(10, 300, 200, 30);
 		btnThemNhaCungCap.setBackground(new Color(191, 247, 249));
 		btnThemNhaCungCap.setForeground(Color.DARK_GRAY);
 		btnThemNhaCungCap.setBorder(BorderFactory.createLineBorder(Color.lightGray));
@@ -157,7 +149,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		/**
 		 * Phần listView (Bảng thông tin)
 		 */
-		String header[] = { "Mã Thuốc", "Tên thuốc","Đơn giá", "NSX", "HSD", "SLT", "Mã NCC", "Mã Loại", "Id Nước"};
+		String header[] = { "Mã Thuốc", "Tên thuốc","Đơn giá", "NSX", "HSD", "SLT", "Mã Loại", "Id Nước"};
 		modelThuoc = new DefaultTableModel(header, 0);
 		tableThuoc = new JTable(modelThuoc);
 		
@@ -167,52 +159,54 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		pBang.add(thanhCuon);
 
 		JPanel pinput = new JPanel();
-
 		pinput.setLayout(null);
+		
+		JPanel pThuoc = new JPanel();
+		pThuoc.setLayout(null);
 		/**
 		 * phần nhập thông tin thuốc
 		 */
 			// Phần JLable
 		JLabel lblMaThuoc = new JLabel("Mã thuốc:");
-		lblMaThuoc.setBounds(10, 20, 100, 30);
-		pinput.add(lblMaThuoc);
+		lblMaThuoc.setBounds(50, 20, 100, 30);
+		pThuoc.add(lblMaThuoc);
 
 		JLabel lblTenThuoc = new JLabel("Tên thuốc:");
-		lblTenThuoc.setBounds(10, 55, 100, 30);
-		pinput.add(lblTenThuoc);
+		lblTenThuoc.setBounds(50, 60, 100, 30);
+		pThuoc.add(lblTenThuoc);
 
 		JLabel lblNgaySX = new JLabel("Ngày sản xuất:");
-		lblNgaySX.setBounds(10, 90, 100, 30);
-		pinput.add(lblNgaySX);
+		lblNgaySX.setBounds(50, 100, 100, 30);
+		pThuoc.add(lblNgaySX);
 
 		JLabel lblHangSD = new JLabel("Hạn sử dụng:");
-		lblHangSD.setBounds(10, 125, 100, 30);
-		pinput.add(lblHangSD);
+		lblHangSD.setBounds(50, 140, 100, 30);
+		pThuoc.add(lblHangSD);
 
 		JLabel lblDonGia = new JLabel("Đơn giá:");
-		lblDonGia.setBounds(10, 160, 100, 30);
-		pinput.add(lblDonGia);
+		lblDonGia.setBounds(50, 180, 100, 30);
+		pThuoc.add(lblDonGia);
 
 		JLabel lblSLTon = new JLabel("Số lượng tồn:");
-		lblSLTon.setBounds(10, 195, 100, 30);
-		pinput.add(lblSLTon);
+		lblSLTon.setBounds(50, 220, 100, 30);
+		pThuoc.add(lblSLTon);
 
 		JLabel lblLoai = new JLabel("Loại:");
-		lblLoai.setBounds(10, 230, 100, 30);
-		pinput.add(lblLoai);
+		lblLoai.setBounds(50, 260, 100, 30);
+		pThuoc.add(lblLoai);
 		
 		JLabel lblNuoc = new JLabel("Nước:");
-		lblNuoc.setBounds(10, 265, 100, 30);
-		pinput.add(lblNuoc);
+		lblNuoc.setBounds(50, 300, 100, 30);
+		pThuoc.add(lblNuoc);
 
 		// Phần các JTextField + JComboBox
 		txtMaThuoc = new JTextField();
-		txtMaThuoc.setBounds(100, 20, 290, 30);
-		pinput.add(txtMaThuoc);
+		txtMaThuoc.setBounds(150, 20, 330, 30);
+		pThuoc.add(txtMaThuoc);
 
 		txtTenThuoc = new JTextField();
-		txtTenThuoc.setBounds(100, 55, 290, 30);
-		pinput.add(txtTenThuoc);
+		txtTenThuoc.setBounds(150, 60, 330, 30);
+		pThuoc.add(txtTenThuoc);
 
 		modelNgaySX = new SqlDateModel();
 		p = new Properties();
@@ -221,7 +215,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		p.put("text.year", "Year");
 		datePanel = new JDatePanelImpl(modelNgaySX, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		datePicker.setBounds(100, 90, 290, 30);
+		datePicker.setBounds(150, 100, 330, 30);
 		datePicker.setBackground(new Color(248,248,248));
 		LocalDate now = LocalDate.now();
 		int ngay = now.getDayOfMonth();
@@ -229,7 +223,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		int nam = now.getYear();
 		modelNgaySX.setDate(nam, thang, ngay);
 		modelNgaySX.setSelected(true);
-		pinput.add(datePicker);
+		pThuoc.add(datePicker);
 
 		modelNgayHSD = new SqlDateModel();
 		h = new Properties();
@@ -238,7 +232,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		h.put("text.year", "Year");
 		datePanelH = new JDatePanelImpl(modelNgayHSD, h);
 		datePickerH = new JDatePickerImpl(datePanelH, new DateLabelFormatter());
-		datePickerH.setBounds(100, 125, 290, 30);
+		datePickerH.setBounds(150, 140, 330, 30);
 		datePickerH.setBackground(new Color(248,248,248));
 		LocalDate now1 = LocalDate.now();
 		int ngay1 = now1.getDayOfMonth();
@@ -246,172 +240,96 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		int nam1 = now1.getYear();
 		modelNgayHSD.setDate(nam1, thang1, ngay1);
 		modelNgayHSD.setSelected(true);
-		pinput.add(datePickerH);
+		pThuoc.add(datePickerH);
 
 		txtDonGia = new JTextField();
-		txtDonGia.setBounds(100, 160, 290, 30);
-		pinput.add(txtDonGia);
+		txtDonGia.setBounds(150, 180, 330, 30);
+		pThuoc.add(txtDonGia);
 
 		txtSLTon = new JTextField();
-		txtSLTon.setBounds(100, 195, 290, 30);
-		pinput.add(txtSLTon);
+		txtSLTon.setBounds(150, 220, 330, 30);
+		pThuoc.add(txtSLTon);
 
 		cboLoai = new JComboBox<String>();
-		cboLoai.setBounds(100, 230, 170, 30);
-		pinput.add(cboLoai);
+		cboLoai.setBounds(150, 260, 210, 30);
+		pThuoc.add(cboLoai);
 		
 		btnThemLoai = new JButton("Thêm loại");
-		btnThemLoai.setBounds(280, 230, 110, 30);
+		btnThemLoai.setBounds(370, 260, 110, 30);
 		btnThemLoai.setBackground(new Color(191, 247, 249));
 		btnThemLoai.setForeground(Color.DARK_GRAY);
 		btnThemLoai.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		pinput.add(btnThemLoai);
+		pThuoc.add(btnThemLoai);
 		
 		cboNuoc = new JComboBox<String>();
-		cboNuoc.setBounds(100, 265, 170, 30);
-		pinput.add(cboNuoc);
+		cboNuoc.setBounds(150, 300, 210, 30);
+		pThuoc.add(cboNuoc);
 		
 		btnThemNuoc = new JButton("Thêm nước");
-		btnThemNuoc.setBounds(280, 265, 110, 30);
+		btnThemNuoc.setBounds(370, 300, 110, 30);
 		btnThemNuoc.setBackground(new Color(191, 247, 249));
 		btnThemNuoc.setForeground(Color.DARK_GRAY);
 		btnThemNuoc.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		pinput.add(btnThemNuoc);
-		
-		btnReset = new JButton("Reset");
-		btnReset.setBounds(170, 300, 110, 30);
-		btnReset.setBackground(new Color(191, 247, 249));
-		btnReset.setForeground(Color.DARK_GRAY);
-		btnReset.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		pinput.add(btnReset);
+		pThuoc.add(btnThemNuoc);
 
 		/**
 		 * Phần các Button
 		 */
 		btnThem = new JButton("Thêm thuốc");
-		btnThem.setBounds(160, 350, 105, 35);
+		btnThem.setBounds(100, 360, 105, 35);
 		btnThem.setBackground(new Color(191, 247, 249));
 		btnThem.setForeground(Color.DARK_GRAY);
 		btnThem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnThem);
 
 		btnXoa = new JButton("Xóa");
-		btnXoa.setBounds(280, 350, 105, 35);
+		btnXoa.setBounds(220, 360, 105, 35);
 		btnXoa.setBackground(new Color(191, 247, 249));
 		btnXoa.setForeground(Color.DARK_GRAY);
 		btnXoa.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnXoa);
 
 		btnXoaRong = new JButton("Làm mới");
-		btnXoaRong.setBounds(400, 350, 105, 35);
+		btnXoaRong.setBounds(340, 360, 105, 35);
 		btnXoaRong.setBackground(new Color(191, 247, 249));
 		btnXoaRong.setForeground(Color.DARK_GRAY);
 		btnXoaRong.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnXoaRong);
 
 		btnSua = new JButton("Sửa");
-		btnSua.setBounds(520, 350, 105, 35);
+		btnSua.setBounds(460, 360, 105, 35);
 		btnSua.setBackground(new Color(191, 247, 249));
 		btnSua.setForeground(Color.DARK_GRAY);
 		btnSua.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnSua);
 		
-		
-		
-		/**
-		 * Phần tìm kiếm
-		 */
-		// rad tình trạng thuốc 
-		radAll = new JRadioButton("Tất cả");
-		radAll.setSelected(true);
-		radAll.setBounds(480, 35, 200, 30);
-		radAll.setBackground(new Color(248, 248, 248));
-		pinput.add(radAll);
-		
-		radConHan = new JRadioButton("Còn hạn sử dụng");
-		radConHan.setBounds(480, 65, 200, 30);
-		radConHan.setBackground(new Color(248, 248, 248));
-		pinput.add(radConHan);
-		
-		radHetHan = new JRadioButton("Hết hạn sử dụng");
-		radHetHan.setBounds(480, 95, 200, 30);
-		radHetHan.setBackground(new Color(248, 248, 248));
-		pinput.add(radHetHan);
-		
-		ButtonGroup group = new ButtonGroup();
-		
-		group.add(radAll);
-		group.add(radConHan);
-		group.add(radHetHan);
-		// Phần label của tìm kiếm
-		JLabel lblTimLoai = new JLabel("Chọn loại Tìm kiếm:");
-		lblTimLoai.setBounds(440, 190, 200, 30);
-		pinput.add(lblTimLoai);
-		
-		JLabel lblNhapTim = new JLabel("Nhập thông tin cần tìm:");
-		lblNhapTim.setBounds(440, 240, 200, 30);
-		pinput.add(lblNhapTim);
-		
-		
-		// txt + cbb của tìm kiếm
-		String [] strLoaiTim = {"Tìm kiếm theo mã Thuốc", "Tìm kiếm theo tên thuốc"};
-		cboLoaiTimKiem = new JComboBox<String>(strLoaiTim);
-		cboLoaiTimKiem.setBounds(560, 190, 180, 30);
-		
-		pinput.add(cboLoaiTimKiem);
-		txtThongTinTimKiem = new JTextField();
-		txtThongTinTimKiem.setBounds(440, 270, 200, 30);
-		pinput.add(txtThongTinTimKiem);
-		
 		btnTim = new JButton("Tìm");
-		btnTim.setBounds(650, 270, 90, 30);
+		btnTim.setBounds(580, 360, 105, 35);
 		btnTim.setBackground(new Color(191, 247, 249));
 		btnTim.setForeground(Color.DARK_GRAY);
 		btnTim.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnTim);
+		
 
 		/**
 		 * thêm khung border title cho các phần
 		 */
-		// phần Nhập thông tin Thuốc
-		JPanel pThuoc = new JPanel();
+		
+			// Phần Tree
+		pTrai.setBorder(BorderFactory.createTitledBorder("Danh sách nhà cung cấp"));
+		pTrai.setBounds(10, 10, 220, 340);
+		pinput.add(pTrai);
+		
+			// phần Nhập thông tin Thuốc
 		pThuoc.setBorder(BorderFactory.createTitledBorder("Nhập thông tin thuốc"));
-		pThuoc.setBounds(0, 0, 400, 340);
+		pThuoc.setBounds(240, 10, 530, 340);
 		pThuoc.setBackground(new Color(248,248,248));
 		pinput.add(pThuoc);
 		
-		// tình trạng thuốc
-		JPanel ptinhTrang = new JPanel();
-		ptinhTrang.setBorder(BorderFactory.createTitledBorder("Tình trạng thuốc"));
-		ptinhTrang.setBackground(new Color(248,248,248));
-		ptinhTrang.setBounds(420, 20, 350, 120);
-		pinput.add(ptinhTrang);
-		
-		//  tìm theo mã thuốc
-		JPanel pNhapTim = new JPanel();
-		pNhapTim.setBorder(BorderFactory.createTitledBorder("Tìm theo mã thuốc"));
-		pNhapTim.setBounds(420, 150, 350, 170);
-		pNhapTim.setBackground(new Color(248,248,248));
-		pinput.add(pNhapTim);
-		
-		// phần tìm kiếm thuốc
-		JPanel pTim = new JPanel();
-		pTim.setBorder(BorderFactory.createTitledBorder("Tìm thuốc"));
-		pTim.setBounds(410, 0, 370, 340);
-		pTim.setBackground(new Color(248,248,248));
-		pinput.add(pTim);
 			
-		
-
-		JSplitPane TraiPhai = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		TraiPhai.setDividerLocation(225);
-		TraiPhai.setLeftComponent(pTrai);
-		TraiPhai.setRightComponent(pBang);
-		
-		
 		JSplitPane TrenDuoi = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		TrenDuoi.setDividerLocation(255);
-		TrenDuoi.setTopComponent(TraiPhai);
+		TrenDuoi.setTopComponent(pBang);
 		TrenDuoi.setBottomComponent(pinput);
 		TrenDuoi.setBounds(0, 0, 800, 800);
 
@@ -424,12 +342,9 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		btnXoa.addActionListener(this);
 		btnXoaRong.addActionListener(this);
 		btnSua.addActionListener(this);
-		radAll.addActionListener(this);
-		radConHan.addActionListener(this);
-		radHetHan.addActionListener(this);
 		btnThemLoai.addActionListener(this);
 		btnThemNuoc.addActionListener(this);
-		btnReset.addActionListener(this);
+		btnTim.addActionListener(this);
 		
 		try {
 			ConnectDB.getInstance().connect();
@@ -472,6 +387,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		for (NhaCungCap ncc : dsNCC) {
 			root.add(new DefaultMutableTreeNode(ncc.getMaNCC()));
 		}
+		((DefaultTreeModel)tree.getModel()).nodeStructureChanged((DefaultMutableTreeNode)root);
 	}
 
 	@Override
@@ -524,19 +440,15 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		} else if (o.equals(btnXoa)) {
 			xoaThuoc();
 		} else if (o.equals(btnXoaRong)) {
+			themLoaiVaoCboLoai();
+			themLoaiVaocboNuoc();
+			tree.clearSelection();
+			ArrayList<NhaCungCap> ds = dao_ncc.getalltbNhaCungCap();
+			themNCCVaoTree(ds);
 			xoaHetText();
 		} else if (o.equals(btnSua)) {
 			sua();
 			xoaHetText();
-		} else if (o.equals(radAll)) {
-			if (maNCC != null) {
-				ArrayList<Thuoc> dsArrayList = dao_thuoc.getalltbThuoc();
-				loadHetDulieuVaoList(dsArrayList);
-			}
-		} else if (o.equals(radConHan)) {
-			loadThuocConHanVaoList();
-		} else if (o.equals(radHetHan)) {
-			loadThuocHetHanVaoList();
 		} else if (o.equals(btnThemLoai)) {
 			frmThemLoai frm = new frmThemLoai();
 			frm.setVisible(true);
@@ -544,94 +456,9 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 			FrmNuoc frm = new FrmNuoc();
 			frm.setVisible(true);
 		} else if (o.equals(btnTim)) {
-			tim();
-		} else if (o.equals(btnReset)) {
-			themLoaiVaoCboLoai();
-			themLoaiVaocboNuoc();
-			ArrayList<NhaCungCap> ds = dao_ncc.getalltbNhaCungCap();
-			themNCCVaoTree(ds);
+			FrmTimKiemThuoc frm = new FrmTimKiemThuoc();
+			frm.setVisible(true);
 		}
-	}
-
-	private void tim() {
-		// TODO Auto-generated method stub
-		ArrayList<Thuoc> ds;
-		if (cboLoaiTimKiem.getSelectedIndex() == 0) {
-			ds = dao_thuoc.getThuocTheoMaThuoc(txtThongTinTimKiem.getText());
-		} else {
-			ds = dao_thuoc.getThuocTheoTenThuoc(txtThongTinTimKiem.getText());
-		}
-		
-		if (ds.isEmpty()) {
-			loadHetDulieuVaoList(ds);
-		}
-	}
-
-	private void loadThuocHetHanVaoList() {
-		// TODO Auto-generated method stub
-		if (maNCC != null) {
-			if (maNCC.toString().equals("Nhà cung cấp")) { 
-				dao_thuoc = new TThuocT_Dao();
-				ArrayList<Thuoc> dsThuoc = dao_thuoc.getalltbThuoc();
-				ArrayList<Thuoc> tam = new ArrayList<Thuoc>();
-				for (Thuoc thuoc : dsThuoc) {
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-					LocalDate date = LocalDate.parse(thuoc.getHanSuDung().toString(), formatter);
-					LocalDate now = LocalDate.now();
-					if (now.isAfter(date)) {
-						tam.add(thuoc);
-					}
-				}
-				loadHetDulieuVaoList(tam);
-			} else {
-				dao_thuoc = new TThuocT_Dao();
-				ArrayList<Thuoc> dsThuoc = dao_thuoc.getThuocTheoMaNCC(maNCC.toString());
-				ArrayList<Thuoc> tam = new ArrayList<Thuoc>();
-				for (Thuoc thuoc : dsThuoc) {
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-					LocalDate date = LocalDate.parse(thuoc.getHanSuDung().toString(), formatter);
-					LocalDate now = LocalDate.now();
-					if (now.isAfter(date)) {
-						tam.add(thuoc);
-					}
-				}
-				loadHetDulieuVaoList(tam);
-			}
-		}
-	}
-
-	private void loadThuocConHanVaoList() {
-		// TODO Auto-generated method stub
-		if (maNCC != null) {
-			if (maNCC.toString().equals("Nhà cung cấp")) { 
-				dao_thuoc = new TThuocT_Dao();
-				ArrayList<Thuoc> dsThuoc = dao_thuoc.getalltbThuoc();
-				ArrayList<Thuoc> tam = new ArrayList<Thuoc>();
-				for (Thuoc thuoc : dsThuoc) {
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-					LocalDate date = LocalDate.parse(thuoc.getHanSuDung().toString(), formatter);
-					LocalDate now = LocalDate.now();
-					if (date.isAfter(now) || date.isEqual(now)) {
-						tam.add(thuoc);
-					}
-				}
-				loadHetDulieuVaoList(tam);
-			} else {
-				dao_thuoc = new TThuocT_Dao();
-				ArrayList<Thuoc> dsThuoc = dao_thuoc.getThuocTheoMaNCC(maNCC.toString());
-				ArrayList<Thuoc> tam = new ArrayList<Thuoc>();
-				for (Thuoc thuoc : dsThuoc) {
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-					LocalDate date = LocalDate.parse(thuoc.getHanSuDung().toString(), formatter);
-					LocalDate now = LocalDate.now();
-					if (date.isAfter(now) || date.isEqual(now)) {
-						tam.add(thuoc);
-					}
-				}
-				loadHetDulieuVaoList(tam);
-			}
-		}
-		
 	}
 
 	private void sua() {
@@ -707,7 +534,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 				NhaCungCap ncc = new NhaCungCap(maNCC.toString());
 				Thuoc thuoc = new Thuoc(ma, ten, dongia, ngaysx, ngayHSD, soLuong, ncc, loai, nuoc);
 				if (dao_thuoc.create(thuoc)) {
-					String []n = {thuoc.getMaThuoc(), thuoc.getTenThuoc(), df.format(thuoc.getDonGia()) + "", thuoc.getNgaySX() + "", thuoc.getHanSuDung() + "", thuoc.getSLTon() + "",thuoc.getNcc().getMaNCC(), thuoc.getLoaiThuoc().getMaLoai(), thuoc.getNuocSX().getIdNuoc()};
+					String []n = {thuoc.getMaThuoc(), thuoc.getTenThuoc(), df.format(thuoc.getDonGia()) + "", thuoc.getNgaySX() + "", thuoc.getHanSuDung() + "", thuoc.getSLTon() + "", thuoc.getLoaiThuoc().getMaLoai(), thuoc.getNuocSX().getIdNuoc()};
 					modelThuoc.addRow(n);
 				} else {
 					JOptionPane.showMessageDialog(this, "Lỗi trùng mã thuốc");
@@ -750,15 +577,17 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 	public void valueChanged(TreeSelectionEvent e) {
 		// TODO Auto-generated method stub
 		TreePath chon = e.getNewLeadSelectionPath();
-		maNCC =  chon.getLastPathComponent();
-		if (maNCC.toString().equals("Nhà cung cấp")) {
-			dao_thuoc = new TThuocT_Dao();
-			ArrayList<Thuoc> dsThuoc = dao_thuoc.getalltbThuoc();
-			loadHetDulieuVaoList(dsThuoc);
-		} else {
-			dao_thuoc = new TThuocT_Dao();
-			ArrayList<Thuoc> dsThuoc = dao_thuoc.getThuocTheoMaNCC(maNCC.toString());
-			loadHetDulieuVaoList(dsThuoc);
+		if(chon != null) {
+			maNCC =  chon.getLastPathComponent();
+			if (maNCC.toString().equals("Nhà cung cấp")) {
+				dao_thuoc = new TThuocT_Dao();
+				ArrayList<Thuoc> dsThuoc = dao_thuoc.getalltbThuoc();
+				loadHetDulieuVaoList(dsThuoc);
+			} else {
+				dao_thuoc = new TThuocT_Dao();
+				ArrayList<Thuoc> dsThuoc = dao_thuoc.getThuocTheoMaNCC(maNCC.toString());
+				loadHetDulieuVaoList(dsThuoc);
+			}
 		}
 	}
 	
@@ -766,7 +595,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		DefaultTableModel tam = (DefaultTableModel) tableThuoc.getModel();
 		tam.getDataVector().removeAllElements();
 			for (Thuoc thuoc : dsThuoc) {
-				String []n = {thuoc.getMaThuoc(), thuoc.getTenThuoc(), df.format(thuoc.getDonGia()) + "", thuoc.getNgaySX() + "", thuoc.getHanSuDung() + "", thuoc.getSLTon() + "",thuoc.getNcc().getMaNCC(), thuoc.getLoaiThuoc().getMaLoai(), thuoc.getNuocSX().getIdNuoc()};
+				String []n = {thuoc.getMaThuoc(), thuoc.getTenThuoc(), df.format(thuoc.getDonGia()) + "", thuoc.getNgaySX() + "", thuoc.getHanSuDung() + "", thuoc.getSLTon() + "", thuoc.getLoaiThuoc().getMaLoai(), thuoc.getNuocSX().getIdNuoc()};
 				modelThuoc.addRow(n);
 			}
 	}
