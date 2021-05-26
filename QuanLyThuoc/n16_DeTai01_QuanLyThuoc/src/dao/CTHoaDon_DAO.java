@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,9 +11,6 @@ import java.util.ArrayList;
 
 import connectDB.ConnectDB;
 import entity.ChiTietHoaDon;
-import entity.HoaDon;
-import entity.KhachHang;
-import entity.NhanVien;
 import entity.Thuoc;
 
 public class CTHoaDon_DAO {

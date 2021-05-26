@@ -70,8 +70,11 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		cbTimKiem.addItem("Tìm theo tên");
 		cbTimKiem.addItem("Tìm theo mã");
 		cbTimKiem.addItem("Tìm theo số điện thoại");
+<<<<<<< HEAD
 		
 		//Thong ke theo ten/ma/sdt
+=======
+>>>>>>> 55ad98786e94a9d0881a74026071ec6c2ff4f084
 		btren1.add(new JLabel("Chọn loại tìm kiếm:"));
 		btren1.add(Box.createHorizontalStrut(40));
 		btren1.add(cbTimKiem);
@@ -151,7 +154,11 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		scrollthuoc.setBorder(BorderFactory.createTitledBorder("Thông tin thuốc khách hàng đã mua"));
 		b3.add(scrollthuoc,BorderLayout.SOUTH);
 		
+<<<<<<< HEAD
 		//giao dien thong ke tong doanh thu
+=======
+		//giao dien thong ke duoi cung ben phai
+>>>>>>> 55ad98786e94a9d0881a74026071ec6c2ff4f084
 		Box d,d1;
 		d=Box.createVerticalBox();
 		d1=Box.createHorizontalBox();

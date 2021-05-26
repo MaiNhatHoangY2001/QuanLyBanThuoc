@@ -5,11 +5,8 @@
     <fullyQualifiedTypeName name="entity.ChiTietHoaDon"/>
     <fullyQualifiedTypeName name="entity.Thuoc"/>
     <fullyQualifiedTypeName name="java.io.Serializable"/>
-    <fullyQualifiedTypeName name="entity.NhaCungCap"/>
     <fullyQualifiedTypeName name="entity.LoaiThuoc"/>
-    <fullyQualifiedTypeName name="entity.NuocSX"/>
     <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
-    <fullyQualifiedTypeName name="java.awt.event.MouseListener"/>
     <fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
     <fullyQualifiedTypeName name="javax.swing.JTabbedPane"/>
     <fullyQualifiedTypeName name="app_QLT.FrmNhanVien"/>
@@ -50,5 +47,10 @@
     <fullyQualifiedTypeName name="java.lang.Boolean"/>
     <fullyQualifiedTypeName name="java.lang.Double"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="entity.NuocSX"/>
+    <fullyQualifiedTypeName name="dao.ThemNCC_DAO"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="entity.NhaCungCap"/>
+    <fullyQualifiedTypeName name="java.awt.event.MouseListener"/>
+    <fullyQualifiedTypeName name="entity.Regex"/>
 </qualifiedTypeNameHistroy>
