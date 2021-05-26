@@ -1,8 +1,6 @@
 package app_QLT;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,7 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -40,7 +37,6 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private static final long serialVersionUID = 1L;
 	private JComboBox<Integer> cbNgay,cbThang,cbNam;
 	private JComboBox<String> cbTimKiem;
-	private JPanel pphai,pduoi,ptrai;
 	private DefaultTableModel dfKhachHang,dfThuoc;
 	private JTable tableKhachHang,tableThuoc;
 	private JTextField txtDoanhThu,txttimKiem,txtTongKH,txtTongSoThuoc,txtMaKH;
@@ -50,60 +46,50 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private CTHoaDon_DAO ctHD_dao;
 	private DecimalFormat df = new DecimalFormat("#,###.0");
 	public FrmThongKe() {
-		setLayout(new BorderLayout());
+		setLayout(null);
 		
-		Box b,b1,b2,b3,b4,btren,btren1,btren2,btren3;
-		b=Box.createVerticalBox();
-		b1=Box.createHorizontalBox();
-		b2=Box.createHorizontalBox();
-		b3=Box.createHorizontalBox();
-		b4=Box.createHorizontalBox();
-		btren=Box.createVerticalBox();
-		btren1=Box.createHorizontalBox();
-		btren2=Box.createHorizontalBox();
-		btren3=Box.createHorizontalBox();
-		pphai=new JPanel();
-		ptrai=new JPanel();
-		pduoi=new JPanel(new BorderLayout());
-
-		
-		pphai.setBackground(new Color(248,248,248));
-		ptrai.setBackground(new Color(248,248,248));
-		pduoi.setBackground(new Color(248,248,248));
-		
-		//Thong ke theo ten/ma/sdt
-		//them du lieu vao combobox
-
+		//lb tim kiem
+		JLabel lbtimkiem=new JLabel("Chọn loại tìm kiếm");
+		lbtimkiem.setBounds(15, 30, 150, 30);
+		add(lbtimkiem);
 		
 		//them du lieu vao combobox
 		cbTimKiem=new JComboBox<String>();
 		cbTimKiem.addItem("Tìm theo tên");
 		cbTimKiem.addItem("Tìm theo mã");
 		cbTimKiem.addItem("Tìm theo số điện thoại");
-<<<<<<< HEAD
 		
-		//Thong ke theo ten/ma/sdt
-
-=======
-
+		//combo box
+		cbTimKiem.setBounds(180, 30, 190, 30);
+		add(cbTimKiem);
 		
-		//Thong ke theo ten/ma/sdt
->>>>>>> 08abb3bcaeb32a7d239d465844dd6eedaab30f34
-		btren1.add(new JLabel("Chọn loại tìm kiếm:"));
-		btren1.add(Box.createHorizontalStrut(40));
-		btren1.add(cbTimKiem);
-		btren2.add(new JLabel("Nhập thông tin tìm kiếm: "));
-		btren2.add(Box.createHorizontalStrut(5));
-		btren2.add(txttimKiem=new JTextField(10));
-		btren3.add(btnTimKiem=new JButton("Tìm kiếm"));
-		btren.add(btren1);
-		btren.add(Box.createVerticalStrut(10));
-		btren.add(btren2);
-		btren.add(Box.createVerticalStrut(10));
-		btren.add(btren3);
-		ptrai.add(btren);
-		ptrai.setBorder(BorderFactory.createTitledBorder("Nhập thông tin tìm kiếm"));
+		//lb Nhap thong tin tim kiem
+		JLabel txtlbtimkiem=new JLabel("Nhập thông tin tìm kiếm");
+		txtlbtimkiem.setBounds(15, 70, 160, 30);
+		add(txtlbtimkiem);
 		
+		//txt tim kiem
+		txttimKiem=new JTextField();
+		txttimKiem.setBounds(180, 70, 190, 30);
+		add(txttimKiem);
+		
+		//btn tim kiem
+		btnTimKiem=new JButton("Tìm kiếm");
+		btnTimKiem.setBounds(160, 110, 100, 30);
+		add(btnTimKiem);
+		
+		//Khung thong tin tim kem
+		JPanel border1 = new JPanel();
+		border1.setBorder(BorderFactory.createTitledBorder("Nhập thông tin tìm kiếm"));
+		border1.setBounds(10,5 , 375 , 150);
+		border1.setBackground(new Color(248,248,248));
+		add(border1);
+		
+		//khung tim kiem theo ngay
+		JPanel border2 = new JPanel();
+		border2.setBorder(BorderFactory.createTitledBorder("Thống kê"));
+		border2.setBounds(395, 5 , 375 , 150);
+	
 		//them du lieu vao combobox ngay
 		cbNgay=new JComboBox<Integer>() ;
 		for(int i=1;i<=31;i++) {
@@ -124,28 +110,38 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 			
 			cbNam.addItem(i);
 		}
-		//Giao dien thong ke
-		Box bphai,bphai1,bphai2;
-		bphai=Box.createVerticalBox();
-		bphai1=Box.createHorizontalBox();
-		bphai2=Box.createHorizontalBox();
 		
-		bphai1.add(new JLabel("Ngày"));
-		bphai1.add(cbNgay);
-		bphai1.add(new JLabel("Tháng"));
-		bphai1.add(cbThang);
-		bphai1.add(new JLabel("Năm"));
-		bphai1.add(cbNam);
-		bphai2.add(btnThongKe=new JButton("Thống kê theo ngày"));
-		bphai2.add(Box.createHorizontalStrut(40));
-		bphai2.add(btnThongKeAll=new JButton("Thống kê tất cả"));
-		bphai.add(bphai1);
-		bphai.add(Box.createVerticalStrut(25));
-		bphai.add(bphai2);
-		pphai.add(bphai);
-		pphai.setBorder(BorderFactory.createTitledBorder("Thống kê"));
-		b1.add(ptrai);
-		b1.add(pphai);
+		//lb ngay, combobox ngay
+		JLabel lbngay=new JLabel("Ngày");
+		lbngay.setBounds(410, 35, 70, 30);
+		add(lbngay);
+		cbNgay.setBounds(440, 35, 70, 30);
+		add(cbNgay);
+		
+		//lb thang,combox thang
+		JLabel lbthang=new JLabel("Tháng");
+		lbthang.setBounds(530, 35, 70, 30);
+		add(lbthang);
+		cbThang.setBounds(570, 35, 70, 30);
+		add(cbThang);
+		
+		//lb nam, combobox nam
+		JLabel lbnam=new JLabel("Năm");
+		lbnam.setBounds(660, 35, 50, 30);
+		add(lbnam);
+		cbNam.setBounds(690, 35, 70, 30);
+		add(cbNam);
+		
+		//button thong ke theo ngay
+		btnThongKe=new JButton("Thống kê theo ngày");
+		btnThongKe.setBounds(430, 100, 150, 30);
+		add(btnThongKe);
+		
+		//button thong ke theo ngay
+		btnThongKeAll=new JButton("Thống kê tất cả");
+		btnThongKeAll.setBounds(600, 100, 130, 30);
+		add(btnThongKeAll);
+		add(border2);
 		
 		//bang thong tin khach hang
 		String [] headernv={"Mã khách hàng","Tên khách hàng","Ngày sinh","Giới tính","Địa chỉ","Số điện thoại"};
@@ -156,7 +152,8 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		scroll=new JScrollPane(tableKhachHang,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBorder(BorderFactory.createTitledBorder("Thông tin khách hàng"));
-		b2.add(scroll,BorderLayout.CENTER);
+		scroll.setBounds(5,160 , 770, 190);
+		add(scroll);
 		
 		//bang thong tin thuoc ma khach hang da mua
 		String []headerthuoc= {"Mã thuốc","Tên thuốc","Đơn giá","Số lượng","Tên nhà cung cấp","Loại thuốc","Nước sản xuất"};
@@ -166,73 +163,52 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		JScrollPane scrollthuoc;
 		scrollthuoc=new JScrollPane(tableThuoc,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollthuoc.setBorder(BorderFactory.createTitledBorder("Thông tin thuốc khách hàng đã mua"));
-		b3.add(scrollthuoc,BorderLayout.SOUTH);
+		scrollthuoc.setBounds(5,360 , 770, 190);
+		add(scrollthuoc);
 		
-
-		//giao dien thong ke tong doanh thu
-
-		//giao dien thong ke duoi cung ben phai
-<<<<<<< HEAD
-
-=======
->>>>>>> 08abb3bcaeb32a7d239d465844dd6eedaab30f34
-		Box d,d1;
-		d=Box.createVerticalBox();
-		d1=Box.createHorizontalBox();
-		d1.add(new JLabel("Tổng doanh thu:  "));
-		d1.add(txtDoanhThu=new JTextField(15));
-		d.add(Box.createVerticalStrut(20));
-		d.add(d1);
-		d.add(Box.createVerticalStrut(20));
-		pduoi.add(d,BorderLayout.EAST);
-		b4.add(pduoi);
+		//phan tong so luong khach hang
+		JLabel lbtongkh=new JLabel("Tổng khách hàng đã mua thuốc");
+		lbtongkh.setBounds(10, 570, 200, 30);
+		add(lbtongkh);
+		txtTongKH=new JTextField();
+		txtTongKH.setBounds(230, 570, 150, 30);
+		add(txtTongKH);
 		
-		//giao dien thong ke so luong kh,tong thuoc da ban
-		Box btrai,btrai1,btrai2;
-		btrai=Box.createVerticalBox();
-		btrai1=Box.createHorizontalBox();
-		btrai2=Box.createHorizontalBox();
-		btrai1.add(new JLabel("Tổng số khách hàng đã mua"));
-		btrai1.add(Box.createHorizontalStrut(10));
-		btrai1.add(txtTongKH=new JTextField(15));
-		btrai2.add(new JLabel("Tổng số thuốc đã bán"));
-		btrai2.add(Box.createHorizontalStrut(45));
-		btrai2.add(txtTongSoThuoc=new JTextField(15));
-		btrai.add(Box.createVerticalStrut(5));
-		btrai.add(btrai1);
-		btrai.add(Box.createVerticalStrut(15));
-		btrai.add(btrai2);
-		btrai.add(Box.createVerticalStrut(5));
-		pduoi.add(btrai,BorderLayout.WEST);
+		//phan tong so thuoc ban duoc
+		JLabel lbtongsothuoc=new JLabel("Tổng số thuốc khách hàng đã mua");
+		lbtongsothuoc.setBounds(10, 630, 200, 30);
+		add(lbtongsothuoc);
+		txtTongSoThuoc=new JTextField();
+		txtTongSoThuoc.setBounds(230, 630, 150, 30);
+		add(txtTongSoThuoc);
 		
-		b.add(b1);
-		b.add(b2);
-		b.add(b3);
-		b.add(b4);
-		add(b);
+		//phan tong doanh thu
+		JLabel lbtongdoanhthu=new JLabel("Tổng doanh thu");
+		lbtongdoanhthu.setBounds(480, 600, 150, 30);
+		add(lbtongdoanhthu);
+		txtDoanhThu=new JTextField();
+		txtDoanhThu.setBounds(600, 600, 150, 30);
+		add(txtDoanhThu);
 		
-<<<<<<< HEAD
 		//ToolTip
 		btnTimKiem.setToolTipText("Tìm kiếm thông tin khách hàng");
 		btnThongKeAll.setToolTipText("Thống kê tất cả khách hàng đã mua thuốc và tổng doanh thu");
 		btnThongKe.setToolTipText("Thống kê thông tin khách hàng và tổng doanh thu trong ngày");
 		
-=======
 		
-//		
-//		btnThongKe.setBackground(new Color(191, 247, 249));
-//		btnThongKe.setForeground(Color.DARK_GRAY);
-//		btnThongKe.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-//		
-//		btnThongKeAll.setBackground(new Color(191, 247, 249));
-//		btnThongKeAll.setForeground(Color.DARK_GRAY);
-//		btnThongKeAll.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-//		
-//		btnTimKiem.setBackground(new Color(191, 247, 249));
-//		btnTimKiem.setForeground(Color.DARK_GRAY);
-//		btnTimKiem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-//		
->>>>>>> 08abb3bcaeb32a7d239d465844dd6eedaab30f34
+		
+		btnThongKe.setBackground(new Color(191, 247, 249));
+		btnThongKe.setForeground(Color.DARK_GRAY);
+		btnThongKe.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		
+		btnThongKeAll.setBackground(new Color(191, 247, 249));
+		btnThongKeAll.setForeground(Color.DARK_GRAY);
+		btnThongKeAll.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		
+		btnTimKiem.setBackground(new Color(191, 247, 249));
+		btnTimKiem.setForeground(Color.DARK_GRAY);
+		btnTimKiem.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		
 		//Them su kien
 		btnThongKe.addActionListener(this);
 		btnThongKeAll.addActionListener(this);
