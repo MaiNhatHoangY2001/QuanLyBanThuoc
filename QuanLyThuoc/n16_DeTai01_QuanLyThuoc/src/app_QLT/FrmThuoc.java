@@ -394,14 +394,15 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		int row = tableThuoc.getSelectedRow();
-		txtMaThuoc.setText(tableThuoc.getValueAt(row, 0).toString());
+		txtMaThuoc.setText(modelThuoc.getValueAt(row, 0).toString());
 		txtMaThuoc.setEditable(false);
-		txtTenThuoc.setText(tableThuoc.getValueAt(row, 1).toString());
-		txtDonGia.setText(tableThuoc.getValueAt(row, 2).toString());
-		modelNgaySX.setValue(Date.valueOf(tableThuoc.getValueAt(row, 3).toString()));
-		modelNgayHSD.setValue(Date.valueOf(tableThuoc.getValueAt(row, 4).toString()));
-		txtSLTon.setText(tableThuoc.getValueAt(row, 5).toString());
-		cboLoai.setSelectedItem(tableThuoc.getValueAt(row, 7).toString());
+		txtTenThuoc.setText(modelThuoc.getValueAt(row, 1).toString());
+		txtDonGia.setText(modelThuoc.getValueAt(row, 2).toString());
+		modelNgaySX.setValue(Date.valueOf(modelThuoc.getValueAt(row, 3).toString()));
+		modelNgayHSD.setValue(Date.valueOf(modelThuoc.getValueAt(row, 4).toString()));
+		txtSLTon.setText(modelThuoc.getValueAt(row, 5).toString());
+		cboLoai.setSelectedItem(modelThuoc.getValueAt(row, 6).toString());
+		cboNuoc.setSelectedItem(modelThuoc.getValueAt(row, 7).toString());
 	}
 
 	@Override

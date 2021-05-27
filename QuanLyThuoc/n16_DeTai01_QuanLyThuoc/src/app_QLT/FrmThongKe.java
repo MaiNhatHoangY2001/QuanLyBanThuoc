@@ -117,6 +117,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		lbngay.setBounds(410, 35, 70, 30);
 		add(lbngay);
 		cbNgay.setBounds(440, 35, 70, 30);
+		cbNgay.setSelectedItem(27);
 		add(cbNgay);
 		
 		//lb thang,combox thang
@@ -124,6 +125,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		lbthang.setBounds(530, 35, 70, 30);
 		add(lbthang);
 		cbThang.setBounds(570, 35, 70, 30);
+		cbThang.setSelectedItem(5);
 		add(cbThang);
 		
 		//lb nam, combobox nam
@@ -131,6 +133,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		lbnam.setBounds(660, 35, 50, 30);
 		add(lbnam);
 		cbNam.setBounds(690, 35, 70, 30);
+		cbNam.setSelectedItem(2021);
 		add(cbNam);
 		
 		//button thong ke theo ngay

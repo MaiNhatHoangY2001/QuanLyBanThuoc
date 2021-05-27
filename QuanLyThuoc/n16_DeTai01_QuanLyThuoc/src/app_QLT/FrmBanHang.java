@@ -295,7 +295,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		datePicker1 = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
 		datePicker1.setBounds(545, 330,225, 30);
 		datePicker1.setBackground(new Color(248,248,248));
-		modelNgayLapHD.setDate(2000, 0, 1);
+		modelNgayLapHD.setDate(2021, 04, 27);
 		modelNgayLapHD.setSelected(true);
 		add(datePicker1);
 		
@@ -426,6 +426,12 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		clearTable();
 		cboTenThuoc.removeAllItems();
 		txtTenKH.requestFocus();
+		cbmaNVNhap.removeAllItems();
+		ArrayList<NhanVien> lsNVNhap = nv_dao.getalltbNhanVien();
+		for(NhanVien n :lsNVNhap)
+		{
+			cbmaNVNhap.addItem(n.getMaNV());;
+		}
 	}
 	
 	private void themKH() {
@@ -439,7 +445,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			KhachHang kh = new KhachHang(makh.maKH(), tenKH, ngaySinh, gioiTinh, diaChi, sDT);
 			if(kh_dao.getKhachHangTheoSDT(sDT) == null)
 				if(kh_dao.createKH(kh)) {
-					JOptionPane.showMessageDialog(this, "Them khach hang thanh cong!");
+					JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
 					lbXuatTenKH.setText(kh.getMaKH());
 					
 				} else
