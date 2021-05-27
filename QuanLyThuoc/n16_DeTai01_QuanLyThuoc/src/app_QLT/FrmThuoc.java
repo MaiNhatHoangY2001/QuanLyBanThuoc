@@ -136,6 +136,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 
 			// Nút thêm nhà cung cấp
 		btnThemNhaCungCap = new JButton("Thêm NCC");
+		btnThemNhaCungCap.setToolTipText("Thêm Nhà cung cấp mới");
 		btnThemNhaCungCap.setBounds(10, 300, 200, 30);
 		btnThemNhaCungCap.setBackground(new Color(191, 247, 249));
 		btnThemNhaCungCap.setForeground(Color.DARK_GRAY);
@@ -255,6 +256,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		pThuoc.add(cboLoai);
 		
 		btnThemLoai = new JButton("Thêm loại");
+		btnThemLoai.setToolTipText("Thêm Loại thuốc vào danh sách");
 		btnThemLoai.setBounds(370, 260, 110, 30);
 		btnThemLoai.setBackground(new Color(191, 247, 249));
 		btnThemLoai.setForeground(Color.DARK_GRAY);
@@ -266,6 +268,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		pThuoc.add(cboNuoc);
 		
 		btnThemNuoc = new JButton("Thêm nước");
+		btnThemNuoc.setToolTipText("Thêm nước vào danh sách");
 		btnThemNuoc.setBounds(370, 300, 110, 30);
 		btnThemNuoc.setBackground(new Color(191, 247, 249));
 		btnThemNuoc.setForeground(Color.DARK_GRAY);
@@ -276,6 +279,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		 * Phần các Button
 		 */
 		btnThem = new JButton("Thêm thuốc");
+		btnThem.setToolTipText("Thêm thuốc vào danh sách");
 		btnThem.setBounds(100, 360, 105, 35);
 		btnThem.setBackground(new Color(191, 247, 249));
 		btnThem.setForeground(Color.DARK_GRAY);
@@ -283,6 +287,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		pinput.add(btnThem);
 
 		btnXoa = new JButton("Xóa");
+		btnXoa.setToolTipText("Xóa thuốc đang chọn");
 		btnXoa.setBounds(220, 360, 105, 35);
 		btnXoa.setBackground(new Color(191, 247, 249));
 		btnXoa.setForeground(Color.DARK_GRAY);
@@ -290,6 +295,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		pinput.add(btnXoa);
 
 		btnXoaRong = new JButton("Làm mới");
+		btnXoaRong.setToolTipText("Làm mới trang, cập nhật danh sách loại thuốc, nước, nhà cung cấp");
 		btnXoaRong.setBounds(340, 360, 105, 35);
 		btnXoaRong.setBackground(new Color(191, 247, 249));
 		btnXoaRong.setForeground(Color.DARK_GRAY);
@@ -297,6 +303,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		pinput.add(btnXoaRong);
 
 		btnSua = new JButton("Sửa");
+		btnSua.setToolTipText("Sữa thông tin thuốc đang chọn");
 		btnSua.setBounds(460, 360, 105, 35);
 		btnSua.setBackground(new Color(191, 247, 249));
 		btnSua.setForeground(Color.DARK_GRAY);
@@ -304,6 +311,7 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 		pinput.add(btnSua);
 		
 		btnTim = new JButton("Tìm");
+		btnTim.setToolTipText("Hiển thị trang tìm kiếm");
 		btnTim.setBounds(580, 360, 105, 35);
 		btnTim.setBackground(new Color(191, 247, 249));
 		btnTim.setForeground(Color.DARK_GRAY);
