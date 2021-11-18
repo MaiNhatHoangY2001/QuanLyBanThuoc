@@ -45,6 +45,12 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	private Thuoc_DAO thuoc_dao;
 	private CTHoaDon_DAO ctHD_dao;
 	private DecimalFormat df = new DecimalFormat("#,###.0");
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new FrmThongKe().setVisible(true);
+	}
+	
 	public FrmThongKe() {
 		setLayout(null);
 		setBackground(new Color(248,248,248));
@@ -235,10 +241,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		txtMaKH=new JTextField(10);//luu ma khach hang
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new FrmThongKe().setVisible(true);
-	}
+	
 
 	//xu li su kien
 	@Override

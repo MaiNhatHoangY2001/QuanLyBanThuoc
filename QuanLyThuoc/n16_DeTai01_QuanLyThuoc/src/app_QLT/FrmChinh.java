@@ -129,6 +129,8 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		btnQuanLyThuoc.setIcon(new ImageIcon("icon/thuoc_menu.png"));
 		btnQuanLyThuoc.setBounds(0, 0, 320, 134);
 
+		
+		
 		panel_1.add(btnQuanLyThuoc);
 		btnQuanLyThuoc.setIconTextGap(10);
 		btnQuanLyThuoc.setForeground(Color.BLACK);
@@ -189,7 +191,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		cardLayout = (CardLayout) pnlChange.getLayout();
 
 		pnlChange.add(trangTK, "btnThongKe");
-		pnlChange.add(trangBH, "btnQuanLyHoaDon");
+		pnlChange.add(new FrmTest(), "btnQuanLyHoaDon");
 		pnlChange.add(trangNV, "btnQuanLyNhanVien");
 		pnlChange.add(trangThuoc, "btnQuanLyThuoc");
 		//pnlChange.add(trangTK, "btnQuanLyTaiKhoan");
