@@ -41,7 +41,7 @@ public class FrmTest extends JPanel {
 	 * Create the panel.
 	 */
 	public FrmTest() {
-		setSize(1600, 1002);
+		setSize(1600, 911);
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 		
@@ -53,7 +53,7 @@ public class FrmTest extends JPanel {
 		pnlNgang.setBounds(new Rectangle(10, 10, 10, 10));
 		pnlNgang.setLayout(null);
 		pnlNgang.setBackground(Color.WHITE);
-		pnlNgang.setBounds(0, 92, 1600, 910);
+		pnlNgang.setBounds(0, 0, 1600, 910);
 		add(pnlNgang);
 		
 		JPanel panel = new RoundedPanel(20);

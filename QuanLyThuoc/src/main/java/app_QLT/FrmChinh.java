@@ -6,10 +6,16 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,11 +38,15 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 	private JButton btnQuanLyThuoc;
 	private JButton btnThongKe;
 	private JButton btnQuanLyNhanVien;
-	
+
 	private FrmNhanVien trangNV = new FrmNhanVien();
 	private FrmThongKe trangTK = new FrmThongKe();
 	private FrmThuoc trangThuoc = new FrmThuoc();
 	private FrmBanHang trangBH = new FrmBanHang();
+	private JLabel lblNgay;
+	private JLabel lblGio;
+	private JLabel lblNewLabel_2;
+	private JLabel lblHead;
 
 	/**
 	 * Launch the application.
@@ -129,8 +139,6 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		btnQuanLyThuoc.setIcon(new ImageIcon("icon/thuoc_menu.png"));
 		btnQuanLyThuoc.setBounds(0, 0, 320, 134);
 
-		
-		
 		panel_1.add(btnQuanLyThuoc);
 		btnQuanLyThuoc.setIconTextGap(10);
 		btnQuanLyThuoc.setForeground(Color.BLACK);
@@ -184,21 +192,86 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		btnThongKe.addActionListener(this);
 
 		pnlChange = new JPanel();
-		pnlChange.setBounds(320, 0, 1600, 1007);
+		pnlChange.setBounds(320, 89, 1600, 909);
 		getContentPane().add(pnlChange);
 		pnlChange.setLayout(new CardLayout(0, 0));
 
 		cardLayout = (CardLayout) pnlChange.getLayout();
 
-		pnlChange.add(trangTK, "btnThongKe");
 		pnlChange.add(new FrmTest(), "btnQuanLyHoaDon");
+		pnlChange.add(trangTK, "btnThongKe");
+
 		pnlChange.add(trangNV, "btnQuanLyNhanVien");
 		pnlChange.add(trangThuoc, "btnQuanLyThuoc");
-		//pnlChange.add(trangTK, "btnQuanLyTaiKhoan");
+		// pnlChange.add(trangTK, "btnQuanLyTaiKhoan");
 
 		// set active khi bắt đầu vào
-		temp = btnThongKe;
-		activeButton(btnThongKe);
+		temp = btnQuanLyHoaDon;
+		activeButton(btnQuanLyHoaDon);
+
+		JPanel pnlHead = new JPanel();
+		pnlHead.setBackground(new Color(68, 142, 255));
+		pnlHead.setBounds(320, 0, 1584, 91);
+		getContentPane().add(pnlHead);
+		pnlHead.setLayout(null);
+
+		lblHead = new JLabel("QUẢN LÝ HÓA ĐƠN");
+		lblHead.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHead.setForeground(Color.WHITE);
+		lblHead.setFont(new Font("Tahoma", Font.BOLD, 50));
+		lblHead.setBounds(460, 0, 614, 80);
+		pnlHead.add(lblHead);
+
+		/**
+		 * set Ngày giờ
+		 */
+		lblNgay = new JLabel("New label");
+		lblNgay.setForeground(Color.WHITE);
+		lblNgay.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNgay.setBounds(0, 16, 233, 33);
+		pnlHead.add(lblNgay);
+
+		lblGio = new JLabel("New label");
+		lblGio.setForeground(Color.WHITE);
+		lblGio.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblGio.setBounds(0, 50, 201, 30);
+		pnlHead.add(lblGio);
+
+		setGio(lblGio, lblNgay);
+
+		/**
+		 * Tên đăng nhập
+		 */
+
+		JLabel lblTenDN = new JLabel("Mai Ngọc Long");
+		lblTenDN.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblTenDN.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTenDN.setForeground(Color.WHITE);
+		lblTenDN.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTenDN.setBounds(1272, 11, 260, 33);
+		pnlHead.add(lblTenDN);
+
+		JLabel lblIconUser = new JLabel("");
+		Image imgUser = new ImageIcon("icon/userNho.png").getImage();
+		lblIconUser.setIcon(new ImageIcon(imgUser));
+		lblIconUser.setBounds(1536, 10, 38, 30);
+		pnlHead.add(lblIconUser);
+
+		/**
+		 * Đăng xuất
+		 */
+		JLabel lblDangXuat = new JLabel("Đăng xuất");
+		lblDangXuat.setForeground(Color.WHITE);
+		lblDangXuat.setFont(new Font("Arial", Font.PLAIN, 24));
+		lblDangXuat.setBounds(1419, 55, 110, 24);
+		pnlHead.add(lblDangXuat);
+
+		JLabel lblIconDX = new JLabel("");
+		Image imgDX = new ImageIcon("icon/thoatNho.png").getImage();
+		lblIconDX.setIcon(new ImageIcon(imgDX));
+		lblIconDX.setBounds(1536, 50, 38, 30);
+		pnlHead.add(lblIconDX);
+		lblDangXuat.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
 	@Override
@@ -211,14 +284,19 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 
 		if (key == btnQuanLyHoaDon) {
 			cardLayout.show(pnlChange, "btnQuanLyHoaDon");
-		} else if (key == btnQuanLyNhanVien)
+			lblHead.setText("QUẢN LÝ HÓA ĐƠN");
+		} else if (key == btnQuanLyNhanVien) {
 			cardLayout.show(pnlChange, "btnQuanLyNhanVien");
-		else if (key == btnQuanLyThuoc)
+			lblHead.setText("QUẢN LÝ NHÂN VIÊN");
+		} else if (key == btnQuanLyThuoc) {
 			cardLayout.show(pnlChange, "btnQuanLyThuoc");
-		else if (key == btnQuanLyTaiKhoan)
+			lblHead.setText("QUẢN LÝ THUỐC");
+		} else if (key == btnQuanLyTaiKhoan) {
 			cardLayout.show(pnlChange, "btnQuanLyTaiKhoan");
-		else if (key == btnThongKe) {
+			lblHead.setText("QUẢN LÝ TÀI KHOẢN");
+		} else if (key == btnThongKe) {
 			cardLayout.show(pnlChange, "btnThongKe");
+			lblHead.setText("THỐNG KÊ");
 		}
 
 	}
@@ -262,6 +340,29 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		thongBaoThoat();
+	}
+
+	/**
+	 * chỉnh giờ cho lable
+	 * 
+	 * @param lblGio
+	 */
+	public void setGio(JLabel lblGio, JLabel lblNgay) {
+		TimerTask timerTask = new TimerTask() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void run() {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				lblNgay.setText(formatter.format(LocalDate.now()));
+				lblGio.setText((new Date().getHours() >= 10 ? "" : "0") + (new Date().getHours())
+						+ ((new Date().getSeconds() % 2) != 0 ? " " : ":")
+						+ ((new Date().getMinutes() >= 10 ? "" : "0") + (new Date().getMinutes())));
+			}
+
+		};
+		long delay = 1000L;
+		Timer timer = new Timer("Timer");
+		timer.schedule(timerTask, 0, delay);
 	}
 
 	@Override
