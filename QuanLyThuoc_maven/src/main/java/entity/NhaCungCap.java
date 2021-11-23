@@ -1,15 +1,25 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class NhaCungCap implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
 	private String maNCC;
 	private String tenNCC;
 	private String diaChi;
+	
+	@OneToMany(mappedBy = "ncc")
+	private List<Thuoc> thuocs;
 
 	public String getMaNCC() {
 		return maNCC;

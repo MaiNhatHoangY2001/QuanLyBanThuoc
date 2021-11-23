@@ -2,13 +2,20 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class NhanVien implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
 	private String maNV;
 	private String hoTen;
 	private String soDienThoai;
@@ -16,6 +23,9 @@ public class NhanVien implements Serializable {
 	private boolean gioiTinh;
 	private String diaChi;
 	private double luong;
+	
+	@OneToMany(mappedBy = "nv")
+	private List<HoaDon> hoaDons;
 
 	public String getMaNV() {
 		return maNV;

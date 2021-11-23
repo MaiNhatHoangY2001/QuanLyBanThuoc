@@ -2,22 +2,43 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Thuoc implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
 	private String maThuoc;
 	private String tenThuoc;
 	private double donGia;
 	private Date ngaySX;
 	private Date hanSuDung;
 	private int SLTon;
+	
+	@ManyToOne
+	@JoinColumn(name="maNCC")
 	private NhaCungCap ncc;
+	@ManyToOne
+	@JoinColumn(name="maLoai")
 	private LoaiThuoc loaiThuoc;
+	@ManyToOne
+	@JoinColumn(name="idNuoc")
 	private NuocSX nuocSX;
-
+	@OneToMany(mappedBy = "thuoc")
+	private List<ChiTietHoaDon> ctDH;
+	
+	public Thuoc() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getMaThuoc() {
 		return maThuoc;
 	}
