@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 public class HoaDon implements Serializable {
@@ -19,6 +23,8 @@ public class HoaDon implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(generator = "sinhMaTheoNgay")
+	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "HD"), strategy = "generator.SinhMaTheoNgay")
 	private String maHoaDon;
 	private Date ngayLap;
 	private double thanhtien;
@@ -41,9 +47,8 @@ public class HoaDon implements Serializable {
 		this.maHoaDon = maHoaDon;
 	}
 
-	public HoaDon(String maHoaDon, Date ngayLap, NhanVien nv, KhachHang kh) {
+	public HoaDon(Date ngayLap, NhanVien nv, KhachHang kh) {
 		super();
-		this.maHoaDon = maHoaDon;
 		this.ngayLap = ngayLap;
 		this.nv = nv;
 		this.kh = kh;
@@ -52,10 +57,6 @@ public class HoaDon implements Serializable {
 
 	public String getMaHoaDon() {
 		return maHoaDon;
-	}
-
-	public void setMaHoaDon(String maHoaDon) {
-		this.maHoaDon = maHoaDon;
 	}
 
 	public Date getNgayLap() {
