@@ -26,7 +26,7 @@ public class HoaDon_DAO {
 			stmt.setDate(1, hd.getNgayLap());
 			stmt.setString(2,hd.getNv().getMaNV());
 			stmt.setString(3, hd.getKh().getMaKH());
-			stmt.setString(4, hd.getCtHD().getMaChiTietHD());
+			stmt.setString(4, hd.getMaHoaDon());
 			n = stmt.executeUpdate();
 			} catch (SQLException e) {
 			// TODO: handle exception
@@ -54,7 +54,7 @@ public class HoaDon_DAO {
 			stmt.setDate(2, hd.getNgayLap());
 			stmt.setString(3,hd.getNv().getMaNV());
 			stmt.setString(4, hd.getKh().getMaKH());
-			stmt.setString(5, hd.getCtHD().getMaChiTietHD());
+			stmt.setString(5, hd.getMaHoaDon());
 			n = stmt.executeUpdate();
 			} catch (SQLException e) {
 			// TODO: handle exception
@@ -107,8 +107,7 @@ public class HoaDon_DAO {
 				Date ngaylap =  rs.getDate(2);
 				NhanVien nv = new NhanVien(rs.getString(3));
 				KhachHang kh = new KhachHang(rs.getString(4));
-				ChiTietHoaDon ct = new ChiTietHoaDon(rs.getString(5));
-				HoaDon hd = new HoaDon(maHD, ngaylap, nv, kh, ct);
+				HoaDon hd = new HoaDon(maHD, ngaylap, nv, kh);
 				dsHD.add(hd);
 			}
 		} catch (SQLException e) {
@@ -132,8 +131,7 @@ public class HoaDon_DAO {
 				Date ngaylap =  rs.getDate(2);
 				NhanVien nv = new NhanVien(rs.getString(3));
 				KhachHang kh = new KhachHang(rs.getString(4));
-				ChiTietHoaDon ct = new ChiTietHoaDon(rs.getString(5));
-				HoaDon hd = new HoaDon(maHD, ngaylap, nv, kh, ct);
+				HoaDon hd = new HoaDon(maHD, ngaylap, nv, kh);
 				dsHD.add(hd);
 			}
 		} catch (SQLException e) {

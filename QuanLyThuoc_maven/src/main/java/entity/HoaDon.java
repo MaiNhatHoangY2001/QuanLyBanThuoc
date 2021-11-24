@@ -23,17 +23,22 @@ public class HoaDon implements Serializable {
 	private Date ngayLap;
 	private double thanhtien;
 	@ManyToOne
-	@JoinColumn(name="maNV")
+	@JoinColumn(name = "maNV")
 	private NhanVien nv;
 	@ManyToOne
-	@JoinColumn(name="maKH")
+	@JoinColumn(name = "maKH")
 	private KhachHang kh;
-	
+
 	@OneToMany(mappedBy = "hoaDon")
 	private List<ChiTietHoaDon> ctHD;
 
 	public HoaDon() {
-		
+
+	}
+
+	public HoaDon(String maHoaDon) {
+		super();
+		this.maHoaDon = maHoaDon;
 	}
 
 	public HoaDon(String maHoaDon, Date ngayLap, NhanVien nv, KhachHang kh) {
@@ -42,6 +47,7 @@ public class HoaDon implements Serializable {
 		this.ngayLap = ngayLap;
 		this.nv = nv;
 		this.kh = kh;
+
 	}
 
 	public String getMaHoaDon() {
@@ -83,7 +89,7 @@ public class HoaDon implements Serializable {
 	public void setCtHD(List<ChiTietHoaDon> ctHD) {
 		this.ctHD = ctHD;
 	}
-	
+
 	public double getThanhtien() {
 		return thanhtien;
 	}
@@ -109,5 +115,5 @@ public class HoaDon implements Serializable {
 	public String toString() {
 		return "HoaDon [maHoaDon=" + maHoaDon + ", ngayLap=" + ngayLap + ", nv=" + nv + ", kh=" + kh + "]";
 	}
-	
+
 }
