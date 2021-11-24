@@ -20,7 +20,8 @@
     <fullyQualifiedTypeName name="app_QLT.FrmThongKe"/>
     <fullyQualifiedTypeName name="app_QLT.FrmThuoc"/>
     <fullyQualifiedTypeName name="app_QLT.FrmBanHang"/>
-    <fullyQualifiedTypeName name="entity.HoaDon"/>
-    <fullyQualifiedTypeName name="entity.ChiTietHoaDon"/>
     <fullyQualifiedTypeName name="javax.persistence.GeneratedValue"/>
+    <fullyQualifiedTypeName name="entity.ChiTietHoaDon"/>
+    <fullyQualifiedTypeName name="entity.ChiTietHoaDonPK"/>
+    <fullyQualifiedTypeName name="entity.HoaDon"/>
 </qualifiedTypeNameHistroy>

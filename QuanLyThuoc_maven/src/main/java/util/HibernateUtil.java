@@ -1,4 +1,4 @@
-package chucNang;
+package util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -16,10 +16,10 @@ import entity.NhanVien;
 import entity.NuocSX;
 import entity.Thuoc;
 
-public class MySessionFactory {
+public class HibernateUtil {
 	private SessionFactory sessionFactory;
 	
-	public MySessionFactory() {
+	public HibernateUtil() {
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.configure() //hibernate.cfg.xml
 				.build();
