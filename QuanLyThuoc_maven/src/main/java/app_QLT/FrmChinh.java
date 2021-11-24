@@ -198,11 +198,10 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 
 		cardLayout = (CardLayout) pnlChange.getLayout();
 
-		pnlChange.add(new FrmTest(), "btnQuanLyHoaDon");
+		pnlChange.add(new FrmBanThuoc(), "btnQuanLyHoaDon");
 		pnlChange.add(trangTK, "btnThongKe");
-
 		pnlChange.add(trangNV, "btnQuanLyNhanVien");
-		pnlChange.add(trangThuoc, "btnQuanLyThuoc");
+		pnlChange.add(new FrmQuanLyThuoc(), "btnQuanLyThuoc");
 		// pnlChange.add(trangTK, "btnQuanLyTaiKhoan");
 
 		// set active khi bắt đầu vào
