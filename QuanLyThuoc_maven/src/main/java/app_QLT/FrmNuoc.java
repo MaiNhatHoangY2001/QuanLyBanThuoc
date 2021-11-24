@@ -210,12 +210,12 @@ public class FrmNuoc extends JFrame implements ActionListener, MouseListener{
 			} else {
 				String maNuoc = txtMaNuoc.getText();
 				String tenNuoc = txtTenNuoc.getText();
-				NuocSX n = new NuocSX(maNuoc, tenNuoc);
+//				NuocSX n = new NuocSX(maNuoc, tenNuoc);
 				
-				if (dao_nuoc.update(n)) {
-					ArrayList<NuocSX> ds = dao_nuoc.getalltbNuoc();
-					loadHetNuocVaoList(ds);
-				}
+//				if (dao_nuoc.update(n)) {
+//					ArrayList<NuocSX> ds = dao_nuoc.getalltbNuoc();
+//					loadHetNuocVaoList(ds);
+//				}
 			}
 		}
 	}
@@ -259,14 +259,14 @@ public class FrmNuoc extends JFrame implements ActionListener, MouseListener{
 			} else {
 				String maLoai = txtMaNuoc.getText();
 				String tenLoai = txtTenNuoc.getText();
-				NuocSX n = new NuocSX(maLoai, tenLoai);
-				
-				if(dao_nuoc.create(n)) {
-					String []row  = {n.getIdNuoc(), n.getTenNuoc()};
-					model.addRow(row);
-				} else {
-					JOptionPane.showMessageDialog(this, "Lỗi trùng mã");
-				}
+//				NuocSX n = new NuocSX(maLoai, tenLoai);
+//				
+//				if(dao_nuoc.create(n)) {
+//					String []row  = {n.getIdNuoc(), n.getTenNuoc()};
+//					model.addRow(row);
+//				} else {
+//					JOptionPane.showMessageDialog(this, "Lỗi trùng mã");
+//				}
 			}
 		}
 	}

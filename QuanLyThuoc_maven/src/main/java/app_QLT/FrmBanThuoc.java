@@ -298,8 +298,8 @@ public class FrmBanThuoc extends JPanel {
 		JButton btnCpNhtThng = new JButton("Cập nhật thông tin khách hàng");
 		btnCpNhtThng.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				KhachHang kh = new KhachHang("KH001", "Nguyễn Văn Toàn", new Date(2000,4,4), true, "Tân Xuân, Ba Tri, Bến Tre", "0334172541");
-				new FrmCapNhatThongTinKH(kh).setVisible(true);
+//				KhachHang kh = new KhachHang("KH001", "Nguyễn Văn Toàn", new Date(2000,4,4), true, "Tân Xuân, Ba Tri, Bến Tre", "0334172541");
+//				new FrmCapNhatThongTinKH(kh).setVisible(true);
 			}
 		});
 		btnCpNhtThng.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

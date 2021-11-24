@@ -105,8 +105,8 @@ public class NhanVien_DAO {
 				Boolean gioiTinh = rs.getBoolean(5);
 				String diaChi = rs.getString(6);
 				String soDienThoai = rs.getString(7);
-				NhanVien nv = new NhanVien(maNV, hoTen, soDienThoai, (java.sql.Date) ngaySinh, gioiTinh, diaChi, luong);
-				dsnv.add(nv);
+//				NhanVien nv = new NhanVien(maNV, hoTen, soDienThoai, (java.sql.Date) ngaySinh, gioiTinh, diaChi, luong);
+//				dsnv.add(nv);
 			}
 
 		} catch (SQLException e) {
@@ -132,8 +132,8 @@ public class NhanVien_DAO {
 				Boolean gioiTinh = rs.getBoolean(5);
 				String diaChi = rs.getString(6);
 				String soDienThoai = rs.getString(7);
-				NhanVien nv = new NhanVien(maNV, hoTen, soDienThoai, (java.sql.Date) ngaySinh, gioiTinh, diaChi, luong);
-				dsnv.add(nv);
+//				NhanVien nv = new NhanVien(maNV, hoTen, soDienThoai, (java.sql.Date) ngaySinh, gioiTinh, diaChi, luong);
+//				dsnv.add(nv);
 			}
 
 		} catch (SQLException e) {
@@ -157,7 +157,7 @@ public class NhanVien_DAO {
 				Boolean gioiTinh = rs.getBoolean(5);
 				String diaChi = rs.getString(6);
 				String soDienThoai = rs.getString(7);
-				nv = new NhanVien(maNV, hoTen, soDienThoai, (java.sql.Date) ngaySinh, gioiTinh, diaChi, luong);
+//				nv = new NhanVien(maNV, hoTen, soDienThoai, (java.sql.Date) ngaySinh, gioiTinh, diaChi, luong);
 				
 			}
 
@@ -183,8 +183,8 @@ public class NhanVien_DAO {
 				Boolean gioiTinh = rs.getBoolean(5);
 				String diaChi = rs.getString(6);
 				String soDienThoai = rs.getString(7);
-				NhanVien nv = new NhanVien(maNV, hoTen, soDienThoai, (java.sql.Date) ngaySinh, gioiTinh, diaChi, luong);
-				dsnv.add(nv);
+//				NhanVien nv = new NhanVien(maNV, hoTen, soDienThoai, (java.sql.Date) ngaySinh, gioiTinh, diaChi, luong);
+//				dsnv.add(nv);
 			}
 
 		} catch (SQLException e) {

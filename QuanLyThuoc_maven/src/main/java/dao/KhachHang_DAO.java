@@ -110,8 +110,8 @@ public class KhachHang_DAO {
 				boolean gioiTinh = rs.getBoolean(4);
 				String diaCHi = rs.getString(5);
 				String sdt = rs.getString(6);
-				KhachHang kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
-				dsKH.add(kh);
+//				KhachHang kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
+//				dsKH.add(kh);
 				
 			}
 		} catch (SQLException e) {
@@ -137,7 +137,7 @@ public class KhachHang_DAO {
 				boolean gioiTinh = rs.getBoolean(4);
 				String diaCHi = rs.getString(5);
 				String sdt = rs.getString(6);
-				kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
+//				kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
 				
 				
 			}
@@ -165,8 +165,8 @@ public class KhachHang_DAO {
 				boolean gioiTinh = rs.getBoolean(4);
 				String diaCHi = rs.getString(5);
 				String sdt = rs.getString(6);
-				KhachHang kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
-				dsKH.add(kh);
+//				KhachHang kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
+//				dsKH.add(kh);
 				
 			}
 		} catch (SQLException e) {
@@ -192,8 +192,8 @@ public class KhachHang_DAO {
 				boolean gioiTinh = rs.getBoolean(4);
 				String diaCHi = rs.getString(5);
 				String sdt = rs.getString(6);
-				KhachHang kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
-				dsKH.add(kh);
+//				KhachHang kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
+//				dsKH.add(kh);
 				
 			}
 		} catch (SQLException e) {
@@ -218,8 +218,8 @@ public class KhachHang_DAO {
 				boolean gioiTinh = rs.getBoolean(4);
 				String diaCHi = rs.getString(5);
 				String sdt = rs.getString(6);
-				KhachHang kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
-				dsKH.add(kh);
+//				KhachHang kh = new KhachHang(maKh, hoTen, ngaySinh, gioiTinh, diaCHi, sdt);
+//				dsKH.add(kh);
 				
 			}
 		} catch (SQLException e) {
@@ -245,8 +245,8 @@ public class KhachHang_DAO {
 				Boolean gioiTinh = rs.getBoolean(4);
 				String diaChi = rs.getString(5);
 				String soDienThoai = rs.getString(6);
-				KhachHang kh = new KhachHang(maKH, hoTen,(java.sql.Date) ngaySinh, gioiTinh, diaChi,soDienThoai);
-				dskh.add(kh);
+//				KhachHang kh = new KhachHang(maKH, hoTen,(java.sql.Date) ngaySinh, gioiTinh, diaChi,soDienThoai);
+//				dskh.add(kh);
 			}
 
 		} catch (SQLException e) {

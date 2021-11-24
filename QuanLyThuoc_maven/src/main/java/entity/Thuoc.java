@@ -2,28 +2,52 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+@Entity
 public class Thuoc implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(generator = "sinhMaTheoNgay")
+	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "TH"), strategy = "generator.SinhMaTheoNgay")
 	private String maThuoc;
 	private String tenThuoc;
 	private double donGia;
 	private Date ngaySX;
 	private Date hanSuDung;
 	private int SLTon;
+
+	@ManyToOne
+	@JoinColumn(name = "maNCC")
 	private NhaCungCap ncc;
+	@ManyToOne
+	@JoinColumn(name = "maLoai")
 	private LoaiThuoc loaiThuoc;
+	@ManyToOne
+	@JoinColumn(name = "idNuoc")
 	private NuocSX nuocSX;
+	@OneToMany(mappedBy = "thuoc")
+	private List<ChiTietHoaDon> ctDH;
+
+	public Thuoc() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public String getMaThuoc() {
 		return maThuoc;
-	}
-
-	public void setMaThuoc(String maThuoc) {
-		this.maThuoc = maThuoc;
 	}
 
 	public String getTenThuoc() {
@@ -90,18 +114,14 @@ public class Thuoc implements Serializable {
 		this.nuocSX = nuocSX;
 	}
 
-	
 	public Thuoc(String maThuoc) {
 		super();
 		this.maThuoc = maThuoc;
 	}
 
-
-
-	public Thuoc(String maThuoc, String tenThuoc, double donGia, Date ngaySX2, Date hanSD,
-			int sLTon,NhaCungCap ncc2, LoaiThuoc loaiThuoc, NuocSX nuocSX) {
+	public Thuoc(String tenThuoc, double donGia, Date ngaySX2, Date hanSD, int sLTon, NhaCungCap ncc2,
+			LoaiThuoc loaiThuoc, NuocSX nuocSX) {
 		super();
-		this.maThuoc = maThuoc;
 		this.tenThuoc = tenThuoc;
 		this.donGia = donGia;
 		this.ngaySX = ngaySX2;
@@ -112,21 +132,8 @@ public class Thuoc implements Serializable {
 		this.nuocSX = nuocSX;
 	}
 
-	
-
-	/**
-	 * @param maThuoc
-	 * @param tenThuoc
-	 * @param donGia
-	 * @param sLTon
-	 * @param ncc
-	 * @param loaiThuoc
-	 * @param nuocSX
-	 */
-	public Thuoc(String maThuoc, String tenThuoc, double donGia, int sLTon, NhaCungCap ncc, LoaiThuoc loaiThuoc,
-			NuocSX nuocSX) {
+	public Thuoc(String tenThuoc, double donGia, int sLTon, NhaCungCap ncc, LoaiThuoc loaiThuoc, NuocSX nuocSX) {
 		super();
-		this.maThuoc = maThuoc;
 		this.tenThuoc = tenThuoc;
 		this.donGia = donGia;
 		SLTon = sLTon;
@@ -134,8 +141,6 @@ public class Thuoc implements Serializable {
 		this.loaiThuoc = loaiThuoc;
 		this.nuocSX = nuocSX;
 	}
-
-	
 
 	/**
 	 * @param sLTon

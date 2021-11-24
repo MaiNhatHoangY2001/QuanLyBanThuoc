@@ -116,8 +116,8 @@ public class TThuocT_Dao {
 				LoaiThuoc loai = new LoaiThuoc(maLoai);
 				String idNuoc = rs.getString(9);
 				NuocSX nuoc  = new NuocSX(idNuoc);
-				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
-				dsThuoc.add(t);
+//				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
+//				dsThuoc.add(t);
 			}
 
 		} catch (SQLException e) {
@@ -148,8 +148,8 @@ public class TThuocT_Dao {
 				LoaiThuoc loai = new LoaiThuoc(maLoai);
 				String idNuoc = rs.getString(9);
 				NuocSX nuoc  = new NuocSX(idNuoc);
-				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
-				dsThuoc.add(t);
+//				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
+//				dsThuoc.add(t);
 			}
 
 		} catch (SQLException e) {
@@ -179,8 +179,8 @@ public class TThuocT_Dao {
 				LoaiThuoc loai = new LoaiThuoc(maLoai);
 				String idNuoc = rs.getString(9);
 				NuocSX nuoc  = new NuocSX(idNuoc);
-				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
-				dsThuoc.add(t);
+//				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
+//				dsThuoc.add(t);
 			}
 
 		} catch (SQLException e) {
@@ -210,8 +210,8 @@ public class TThuocT_Dao {
 				LoaiThuoc loai = new LoaiThuoc(maLoai);
 				String idNuoc = rs.getString(9);
 				NuocSX nuoc  = new NuocSX(idNuoc);
-				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
-				dsThuoc.add(t);
+//				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
+//				dsThuoc.add(t);
 			}
 
 		} catch (SQLException e) {
@@ -241,8 +241,8 @@ public class TThuocT_Dao {
 				LoaiThuoc loai = new LoaiThuoc(maLoai);
 				String idNuoc = rs.getString(9);
 				NuocSX nuoc  = new NuocSX(idNuoc);
-				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
-				dsThuoc.add(t);
+//				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
+//				dsThuoc.add(t);
 			}
 
 		} catch (SQLException e) {
@@ -272,8 +272,8 @@ public class TThuocT_Dao {
 				LoaiThuoc loai = new LoaiThuoc(maLoai);
 				String idNuoc = rs.getString(9);
 				NuocSX nuoc  = new NuocSX(idNuoc);
-				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
-				dsThuoc.add(t);
+//				Thuoc t = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, hangSuDung, SLTon, ncc, loai, nuoc);
+//				dsThuoc.add(t);
 			}
 
 		} catch (SQLException e) {

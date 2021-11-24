@@ -296,7 +296,7 @@ public class FrmCapNhatThongTinKH extends JFrame {
 		boolean gioitinh = radNam.isSelected();
 		String diachi = txtDiaChi.getText();
 		String sdt = txtSDT.getText();
-		return new KhachHang(ma, ten, ngaysinh, gioitinh, diachi, sdt);
+		return null;
 	}
 	
 	/**

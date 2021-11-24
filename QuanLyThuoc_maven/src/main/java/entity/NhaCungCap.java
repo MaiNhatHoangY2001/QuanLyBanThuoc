@@ -1,22 +1,34 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+@Entity
 public class NhaCungCap implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(generator = "sinhMaTheoNgay")
+	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "NC"), strategy = "generator.SinhMaTheoNgay")
 	private String maNCC;
 	private String tenNCC;
 	private String diaChi;
 
+	@OneToMany(mappedBy = "ncc")
+	private List<Thuoc> thuocs;
+
 	public String getMaNCC() {
 		return maNCC;
-	}
-
-	public void setMaNCC(String maNCC) {
-		this.maNCC = maNCC;
 	}
 
 	public String getTenNCC() {
@@ -37,7 +49,6 @@ public class NhaCungCap implements Serializable {
 
 	public NhaCungCap(String maNCC, String tenNCC, String diaChi) {
 		super();
-		this.maNCC = maNCC;
 		this.tenNCC = tenNCC;
 		this.diaChi = diaChi;
 	}

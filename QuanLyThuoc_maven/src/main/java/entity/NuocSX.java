@@ -1,21 +1,33 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+@Entity
 public class NuocSX implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(generator = "sinhMaTheoNgay")
+	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "SX"), strategy = "generator.SinhMaTheoNgay")
 	private String idNuoc;
 	private String tenNuoc;
 
+	@OneToMany(mappedBy = "nuocSX")
+	private List<Thuoc> thuocs;
+
 	public String getIdNuoc() {
 		return idNuoc;
-	}
-
-	public void setIdNuoc(String idNuoc) {
-		this.idNuoc = idNuoc;
 	}
 
 	public String getTenNuoc() {
@@ -26,15 +38,9 @@ public class NuocSX implements Serializable {
 		this.tenNuoc = tenNuoc;
 	}
 
-	public NuocSX(String idNuoc, String tenNuoc) {
+	public NuocSX(String tenNuoc) {
 		super();
-		this.idNuoc = idNuoc;
 		this.tenNuoc = tenNuoc;
-	}
-
-	public NuocSX(String idNuoc) {
-		super();
-		this.idNuoc = idNuoc;
 	}
 
 	public NuocSX() {

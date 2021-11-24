@@ -1,64 +1,78 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class ChiTietHoaDon implements Serializable{
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
+@IdClass(ChiTietHoaDonPK.class)
+public class ChiTietHoaDon implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String maChiTietHD;
-	private int soLuong;
+	@Id
+	@ManyToOne
+	@JoinColumn(name = "maHoaDon")
+	private HoaDon hoaDon;
+	@Id
+	@ManyToOne
+	@JoinColumn(name = "maThuoc")
 	private Thuoc thuoc;
-	public String getMaChiTietHD() {
-		return maChiTietHD;
+	private double donGia;
+	private int soLuong;
+
+	public ChiTietHoaDon() {
+
 	}
-	public void setMaChiTietHD(String maChiTietHD) {
-		this.maChiTietHD = maChiTietHD;
-	}
-	public int getSoLuong() {
-		return soLuong;
-	}
-	public void setSoLuong(int soLuong) {
+
+	public ChiTietHoaDon(HoaDon hoaDon, Thuoc thuoc, int soLuong) {
+		super();
+		this.hoaDon = hoaDon;
+		this.thuoc = thuoc;
 		this.soLuong = soLuong;
+		this.donGia = thuoc.getDonGia() * soLuong;
 	}
-	
+
+	public HoaDon getHoaDon() {
+		return hoaDon;
+	}
+
+	public void setHoaDon(HoaDon hoaDon) {
+		this.hoaDon = hoaDon;
+	}
+
 	public Thuoc getThuoc() {
 		return thuoc;
 	}
+
 	public void setThuoc(Thuoc thuoc) {
 		this.thuoc = thuoc;
 	}
-	
-	public ChiTietHoaDon(String maChiTietHD, int soLuong, Thuoc thuoc) {
-		super();
-		this.maChiTietHD = maChiTietHD;
+
+	public int getSoLuong() {
+		return soLuong;
+	}
+
+	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
-		this.thuoc = thuoc;
 	}
-	public ChiTietHoaDon(String maChiTietHD) {
-		super();
-		this.maChiTietHD = maChiTietHD;
+
+	public double getDonGia() {
+		return donGia;
 	}
-	
-	public ChiTietHoaDon() {
-		super();
-	}
-	public double tongTien() {
-		return soLuong * thuoc.getDonGia();
-	}
-	@Override
-	public String toString() {
-		return "ChiTietHoaDon [maChiTietHD=" + maChiTietHD + ", soLuong=" + soLuong + "]";
-	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((maChiTietHD == null) ? 0 : maChiTietHD.hashCode());
-		return result;
+		return Objects.hash(donGia, hoaDon, soLuong, thuoc);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -68,12 +82,15 @@ public class ChiTietHoaDon implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		ChiTietHoaDon other = (ChiTietHoaDon) obj;
-		if (maChiTietHD == null) {
-			if (other.maChiTietHD != null)
-				return false;
-		} else if (!maChiTietHD.equals(other.maChiTietHD))
-			return false;
-		return true;
+		return Double.doubleToLongBits(donGia) == Double.doubleToLongBits(other.donGia)
+				&& Objects.equals(hoaDon, other.hoaDon) && soLuong == other.soLuong
+				&& Objects.equals(thuoc, other.thuoc);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ChiTietHoaDon [hoaDon=" + hoaDon + ", thuoc=" + thuoc + ", donGia=" + donGia + ", soLuong=" + soLuong
+				+ "]";
+	}
+
 }

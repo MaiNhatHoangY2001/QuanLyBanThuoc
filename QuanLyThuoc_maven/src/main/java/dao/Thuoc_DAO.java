@@ -121,8 +121,8 @@ public class Thuoc_DAO {
 				NhaCungCap ncc  = new NhaCungCap(rs.getString(7));
 				LoaiThuoc  Loai = new LoaiThuoc( rs.getString(8));
 				NuocSX  nuoc = new NuocSX(rs.getString(9));
-				Thuoc thuoc  = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, HSD, SLTon, ncc, Loai, nuoc);
-				dsThuoc.add(thuoc);
+//				Thuoc thuoc  = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, HSD, SLTon, ncc, Loai, nuoc);
+//				dsThuoc.add(thuoc);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -149,8 +149,8 @@ public class Thuoc_DAO {
 				NhaCungCap ncc  = new NhaCungCap(rs.getString(7));
 				LoaiThuoc  Loai = new LoaiThuoc( rs.getString(8));
 				NuocSX  nuoc = new NuocSX(rs.getString(9));
-				Thuoc thuoc  = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, HSD, SLTon, ncc, Loai, nuoc);
-				dsThuoc.add(thuoc);
+//				Thuoc thuoc  = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, HSD, SLTon, ncc, Loai, nuoc);
+//				dsThuoc.add(thuoc);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -178,7 +178,7 @@ public class Thuoc_DAO {
 				NhaCungCap ncc  = new NhaCungCap(rs.getString(7));
 				LoaiThuoc  Loai = new LoaiThuoc( rs.getString(8));
 				NuocSX  nuoc = new NuocSX(rs.getString(9));
-				thuoc = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, HSD, SLTon, ncc, Loai, nuoc);
+//				thuoc = new Thuoc(maThuoc, tenThuoc, donGia, ngaySX, HSD, SLTon, ncc, Loai, nuoc);
 				
 				
 			}
@@ -221,8 +221,8 @@ public class Thuoc_DAO {
 				NhaCungCap nhacungcap=new NhaCungCap(ncc);
 				LoaiThuoc loaithuoc =new LoaiThuoc(tenLoai);
 				NuocSX nuocsx=new NuocSX(tenNuoc);
-				Thuoc thuoc = new Thuoc(maThuoc, tenThuoc, donGia, soluong,nhacungcap,loaithuoc, nuocsx);
-				dsThuoc.add(thuoc);
+//				Thuoc thuoc = new Thuoc(maThuoc, tenThuoc, donGia, soluong,nhacungcap,loaithuoc, nuocsx);
+//				dsThuoc.add(thuoc);
 				
 			}
 		} catch (SQLException e) {

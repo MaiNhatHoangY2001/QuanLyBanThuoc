@@ -440,7 +440,8 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			String diaChi = txtDiaChi.getText();
 			boolean gioiTinh = radNam.isSelected();
 			Date ngaySinh = (Date) datePicker.getModel().getValue();
-			KhachHang kh = new KhachHang(makh.maKH(), tenKH, ngaySinh, gioiTinh, diaChi, sDT);
+//			KhachHang kh = new KhachHang(makh.maKH(), tenKH, ngaySinh, gioiTinh, diaChi, sDT);
+			KhachHang kh = new KhachHang(tenKH, ngaySinh, gioiTinh, diaChi, sDT);
 			if (kh_dao.getKhachHangTheoSDT(sDT) == null)
 				if (kh_dao.createKH(kh)) {
 					JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
@@ -464,7 +465,10 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			String tenT = (String) cboTenThuoc.getSelectedItem();
 			String loaiT = (String) cboLoaiThuoc.getSelectedItem();
 			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
-			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
+			NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM", 10000000);
+			HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien , kh);
+			// ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
+			ChiTietHoaDon cthd = new ChiTietHoaDon(hoadon, thuoc, soLuongThuoc);
 			if (soLuongThuoc > 0) {
 				if (timRow() != -1) {
 
@@ -515,15 +519,15 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 
 //	thêm vào chi tiết hóa đơn
 	private void themCTHD(String maCTHD, int vtRow) {
-		if (kiemTraThuoc() && kiemTraKH()) {
-			int soLuongThuoc = Integer.parseInt(modelBanHang.getValueAt(vtRow, 2).toString());
-			String tenT = modelBanHang.getValueAt(vtRow, 0).toString();
-			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
-			ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD, soLuongThuoc, thuoc);
-			if (!cthd_dao.createCTHD(cthd) || soLuongThuoc <= 0) {
-				JOptionPane.showMessageDialog(this, "Số lượng thuốc phải lớn hơn 0");
-			}
-		}
+//		if (kiemTraThuoc() && kiemTraKH()) {
+//			int soLuongThuoc = Integer.parseInt(modelBanHang.getValueAt(vtRow, 2).toString());
+//			String tenT = modelBanHang.getValueAt(vtRow, 0).toString();
+//			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
+//			ChiTietHoaDon cthd = new ChiTietHoaDon(hoadon, thuoc, soLuongThuoc);
+//			if (!cthd_dao.createCTHD(cthd) || soLuongThuoc <= 0) {
+//				JOptionPane.showMessageDialog(this, "Số lượng thuốc phải lớn hơn 0");
+//			}
+//		}
 
 	}
 
@@ -549,7 +553,10 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		NhanVien nvl = nv_dao.get1NhanVienTheoMaNV(cbmaNVNhap.getSelectedItem().toString());
 		KhachHang kh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
 		ChiTietHoaDon cthd = cthd_dao.getCTHDTheoMa(maCTHD);
-		HoaDon hd = new HoaDon(ma.maHD(), ngaylap, nvl, kh, cthd);
+		Thuoc thuoc = thuoc_dao.getThuocTheoTen("abc");
+		NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM", 10000000);
+		HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien , kh);
+		HoaDon hd = new HoaDon(ngaylap, nhanvien, kh);
 		if (hoadon_dao.createHD(hd))
 			System.out.println("Success");
 	}
@@ -597,19 +604,19 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 
 		if (kiemTraKH()) {
 
-			String tenkh = txtTenKH.getText().trim();
-			String sdt = txtSDT.getText().trim();
-			Date ngaysinh = (Date) datePicker.getModel().getValue();
-			String diachi = txtDiaChi.getText().trim();
-			boolean gioitinh = radNam.isSelected();
-			KhachHang ktkh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
-			KhachHang skh = new KhachHang(lbXuatTenKH.getText(), tenkh, ngaysinh, gioitinh, diachi, sdt);
-			if (ktkh != null && !ktkh.getMaKH().equalsIgnoreCase(lbXuatTenKH.getText())) {
-				JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại ở khách hàng khác");
-			} else if (kh_dao.update(skh)) {
-				JOptionPane.showMessageDialog(this, "Cập nhật thành công thông tin khách hàng");
-				txtTimSDT.setText(skh.getSDT());
-			}
+//			String tenkh = txtTenKH.getText().trim();
+//			String sdt = txtSDT.getText().trim();
+//			Date ngaysinh = (Date) datePicker.getModel().getValue();
+//			String diachi = txtDiaChi.getText().trim();
+//			boolean gioitinh = radNam.isSelected();
+//			KhachHang ktkh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
+//			KhachHang skh = new KhachHang(lbXuatTenKH.getText(), tenkh, ngaysinh, gioitinh, diachi, sdt);
+//			if (ktkh != null && !ktkh.getMaKH().equalsIgnoreCase(lbXuatTenKH.getText())) {
+//				JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại ở khách hàng khác");
+//			} else if (kh_dao.update(skh)) {
+//				JOptionPane.showMessageDialog(this, "Cập nhật thành công thông tin khách hàng");
+//				txtTimSDT.setText(skh.getSDT());
+//			}
 
 		}
 

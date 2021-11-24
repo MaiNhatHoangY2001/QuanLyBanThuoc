@@ -2,28 +2,37 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
-
+@Entity
 public class KhachHang implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(generator = "sinhMaTheoNgay")
+	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "KH"), strategy = "generator.SinhMaTheoNgay")
 	private String maKH;
 	private String hoTen;
 	private Date ngaySinh;
 	private boolean gioiTinh;
 	private String diaChi;
 	private String SDT;
+	
+	@OneToMany(mappedBy = "kh")
+	private List<HoaDon> hoaDons;
 
 	public String getMaKH() {
 		return maKH;
-	}
-
-	public void setMaKH(String maKH) {
-		this.maKH = maKH;
 	}
 
 	public String getHoTen() {
@@ -66,18 +75,13 @@ public class KhachHang implements Serializable {
 		SDT = sDT;
 	}
 
-//<<<<<<< HEAD
-//	public KhachHang(String maKH, String hoTen, Date ngaySinh2, boolean gioiTinh, String diaChi, String sDT) {
-//=======
-	public KhachHang(String maKH, String hoTen, Date ngaySinh, boolean gioiTinh, String diaChi, String sDT) {
-//>>>>>>> 852fba678204930c5d3db82a674dd77286e32076
+	public KhachHang(String hoTen, Date ngaySinh, boolean gioiTinh, String diaChi, String sDT) {
 		super();
-		this.maKH = maKH;
 		this.hoTen = hoTen;
 		this.ngaySinh = ngaySinh;
 		this.gioiTinh = gioiTinh;
 		this.diaChi = diaChi;
-		SDT = sDT;
+		this.SDT = sDT;
 	}
 
 	public KhachHang(String maKH) {

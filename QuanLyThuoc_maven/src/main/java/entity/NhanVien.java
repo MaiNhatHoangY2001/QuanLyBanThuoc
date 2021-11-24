@@ -2,13 +2,26 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+@Entity
 public class NhanVien implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(generator = "sinhMaTheoNgay")
+	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "NV"), strategy = "generator.SinhMaTheoNgay")
 	private String maNV;
 	private String hoTen;
 	private String soDienThoai;
@@ -17,12 +30,11 @@ public class NhanVien implements Serializable {
 	private String diaChi;
 	private double luong;
 
+	@OneToMany(mappedBy = "nv")
+	private List<HoaDon> hoaDons;
+
 	public String getMaNV() {
 		return maNV;
-	}
-
-	public void setMaNV(String maNV) {
-		this.maNV = maNV;
 	}
 
 	public String getHoTen() {
@@ -73,10 +85,8 @@ public class NhanVien implements Serializable {
 		this.luong = luong;
 	}
 
-	public NhanVien(String maNV, String hoTen, String soDienThoai, Date ngaySinh, boolean gioiTinh, String diaChi,
-			double luong) {
+	public NhanVien(String hoTen, String soDienThoai, Date ngaySinh, boolean gioiTinh, String diaChi, double luong) {
 		super();
-		this.maNV = maNV;
 		this.hoTen = hoTen;
 		this.soDienThoai = soDienThoai;
 		this.ngaySinh = ngaySinh;

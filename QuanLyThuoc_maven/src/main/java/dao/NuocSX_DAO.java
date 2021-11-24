@@ -91,8 +91,8 @@ public class NuocSX_DAO {
 			while (rs.next()) {
 				String idNuoc = rs.getString(1);
 				String tenNuoc = rs.getString(2);
-				NuocSX nuoc = new NuocSX(idNuoc, tenNuoc);
-				dsNuoc.add(nuoc);
+//				NuocSX nuoc = new NuocSX(idNuoc, tenNuoc);
+//				dsNuoc.add(nuoc);
 			}
 
 		} catch (SQLException e) {
@@ -111,8 +111,8 @@ public class NuocSX_DAO {
 			ResultSet rs = statement.executeQuery(sql);
 			String idNuoc = rs.getString(1);
 			String tenNuoc = rs.getString(2);
-			NuocSX nuoc = new NuocSX(idNuoc, tenNuoc);
-			return nuoc; 
+//			NuocSX nuoc = new NuocSX(idNuoc, tenNuoc);
+			return null; 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

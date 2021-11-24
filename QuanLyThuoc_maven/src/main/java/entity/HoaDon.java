@@ -2,26 +2,61 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
+import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+@Entity
 public class HoaDon implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(generator = "sinhMaTheoNgay")
+	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "HD"), strategy = "generator.SinhMaTheoNgay")
 	private String maHoaDon;
 	private Date ngayLap;
+	private double thanhtien;
+	@ManyToOne
+	@JoinColumn(name = "maNV")
 	private NhanVien nv;
+	@ManyToOne
+	@JoinColumn(name = "maKH")
 	private KhachHang kh;
-	private ChiTietHoaDon ctHD;
+
+	@OneToMany(mappedBy = "hoaDon")
+	private List<ChiTietHoaDon> ctHD;
+
+	public HoaDon() {
+
+	}
+
+	public HoaDon(String maHoaDon) {
+		super();
+		this.maHoaDon = maHoaDon;
+	}
+
+	public HoaDon(Date ngayLap, NhanVien nv, KhachHang kh) {
+		super();
+		this.ngayLap = ngayLap;
+		this.nv = nv;
+		this.kh = kh;
+
+	}
 
 	public String getMaHoaDon() {
 		return maHoaDon;
-	}
-
-	public void setMaHoaDon(String maHoaDon) {
-		this.maHoaDon = maHoaDon;
 	}
 
 	public Date getNgayLap() {
@@ -48,44 +83,21 @@ public class HoaDon implements Serializable {
 		this.kh = kh;
 	}
 
-	public ChiTietHoaDon getCtHD() {
+	public List<ChiTietHoaDon> getCtHD() {
 		return ctHD;
 	}
 
-	public void setCtHD(ChiTietHoaDon ctHD) {
+	public void setCtHD(List<ChiTietHoaDon> ctHD) {
 		this.ctHD = ctHD;
 	}
 
-	public HoaDon(String maHoaDon, Date ngayLap, NhanVien nv, KhachHang kh, ChiTietHoaDon ctHD) {
-		super();
-		this.maHoaDon = maHoaDon;
-		this.ngayLap = ngayLap;
-		this.nv = nv;
-		this.kh = kh;
-		this.ctHD = ctHD;
-	}
-
-	public HoaDon(String maHoaDon) {
-		super();
-		this.maHoaDon = maHoaDon;
-	}
-
-	public HoaDon() {
-		super();
+	public double getThanhtien() {
+		return thanhtien;
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((maHoaDon == null) ? 0 : maHoaDon.hashCode());
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		return "HoaDon [maHoaDon=" + maHoaDon + ", ngayLap=" + ngayLap + ", nv=" + nv + ", kh=" + kh + ", ctHD=" + ctHD
-				+ "]";
+		return Objects.hash(maHoaDon);
 	}
 
 	@Override
@@ -97,12 +109,12 @@ public class HoaDon implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		HoaDon other = (HoaDon) obj;
-		if (maHoaDon == null) {
-			if (other.maHoaDon != null)
-				return false;
-		} else if (!maHoaDon.equals(other.maHoaDon))
-			return false;
-		return true;
+		return Objects.equals(maHoaDon, other.maHoaDon);
+	}
+
+	@Override
+	public String toString() {
+		return "HoaDon [maHoaDon=" + maHoaDon + ", ngayLap=" + ngayLap + ", nv=" + nv + ", kh=" + kh + "]";
 	}
 
 }

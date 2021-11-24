@@ -485,13 +485,13 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 				String idNuoc = catChuoiMa(cboNuoc.getSelectedItem().toString())[0];
 				NuocSX  nuoc = new NuocSX(idNuoc);
 				NhaCungCap ncc = new NhaCungCap(maNCC.toString());
-				Thuoc t = new Thuoc(ma, ten, dongia, ngaysx, ngayHSD, soLuong, ncc, loai, nuoc);
-				if (dao_thuoc.update(t)) {
-					ArrayList<Thuoc> ds = dao_thuoc.getalltbThuoc();
-					loadHetDulieuVaoList(ds);
-				} else {
-					JOptionPane.showMessageDialog(this, "Sửa thất bại");
-				}
+//				Thuoc t = new Thuoc(ma, ten, dongia, ngaysx, ngayHSD, soLuong, ncc, loai, nuoc);
+//				if (dao_thuoc.update(t)) {
+//					ArrayList<Thuoc> ds = dao_thuoc.getalltbThuoc();
+//					loadHetDulieuVaoList(ds);
+//				} else {
+//					JOptionPane.showMessageDialog(this, "Sửa thất bại");
+//				}
 			}
 		}
 	}
@@ -541,13 +541,13 @@ public class FrmThuoc extends JPanel implements ActionListener, MouseListener, T
 				String idNuoc = catChuoiMa(cboNuoc.getSelectedItem().toString())[0];
 				NuocSX  nuoc = new NuocSX(idNuoc);
 				NhaCungCap ncc = new NhaCungCap(maNCC.toString());
-				Thuoc thuoc = new Thuoc(ma, ten, dongia, ngaysx, ngayHSD, soLuong, ncc, loai, nuoc);
-				if (dao_thuoc.create(thuoc)) {
-					String []n = {thuoc.getMaThuoc(), thuoc.getTenThuoc(), df.format(thuoc.getDonGia()) + "", thuoc.getNgaySX() + "", thuoc.getHanSuDung() + "", thuoc.getSLTon() + "", thuoc.getLoaiThuoc().getMaLoai(), thuoc.getNuocSX().getIdNuoc()};
-					modelThuoc.addRow(n);
-				} else {
-					JOptionPane.showMessageDialog(this, "Lỗi trùng mã thuốc");
-				}
+//				Thuoc thuoc = new Thuoc(ma, ten, dongia, ngaysx, ngayHSD, soLuong, ncc, loai, nuoc);
+//				if (dao_thuoc.create(thuoc)) {
+//					String []n = {thuoc.getMaThuoc(), thuoc.getTenThuoc(), df.format(thuoc.getDonGia()) + "", thuoc.getNgaySX() + "", thuoc.getHanSuDung() + "", thuoc.getSLTon() + "", thuoc.getLoaiThuoc().getMaLoai(), thuoc.getNuocSX().getIdNuoc()};
+//					modelThuoc.addRow(n);
+//				} else {
+//					JOptionPane.showMessageDialog(this, "Lỗi trùng mã thuốc");
+//				}
 			}
 		}
 	}
