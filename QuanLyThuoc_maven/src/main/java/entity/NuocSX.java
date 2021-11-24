@@ -13,10 +13,11 @@ import org.hibernate.annotations.Parameter;
 
 @Entity
 public class NuocSX implements Serializable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1938720151580355548L;
 	@Id
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "SX"), strategy = "generator.SinhMaTheoNgay")

@@ -16,10 +16,11 @@ import org.hibernate.annotations.Parameter;
 
 @Entity
 public class Thuoc implements Serializable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4849002350697155334L;
 	@Id
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "TH"), strategy = "generator.SinhMaTheoNgay")

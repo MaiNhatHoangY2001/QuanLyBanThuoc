@@ -1,4 +1,4 @@
-package entity;
+package chucNang;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,10 +8,11 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 
 public class DateLabelFormatter extends AbstractFormatter {
 
-    /**
+
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6130965658782037825L;
 	private String datePattern = "yyyy-MM-dd";
     private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 

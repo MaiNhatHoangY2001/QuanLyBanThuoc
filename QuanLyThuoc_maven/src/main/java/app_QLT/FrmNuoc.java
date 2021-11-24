@@ -20,10 +20,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import chucNang.Regex1;
 import connectDB.ConnectDB;
 import dao.NuocSX_DAO;
 import entity.NuocSX;
-import entity.Regex1;
 
 public class FrmNuoc extends JFrame implements ActionListener, MouseListener{
 	

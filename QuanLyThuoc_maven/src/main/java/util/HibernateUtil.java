@@ -18,34 +18,34 @@ import entity.Thuoc;
 
 public class HibernateUtil {
 	private SessionFactory sessionFactory;
-	
+	private static HibernateUtil instance = null;
+
 	public HibernateUtil() {
-		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-				.configure() //hibernate.cfg.xml
+		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().configure() // hibernate.cfg.xml
 				.build();
-		
-		Metadata metadata = new MetadataSources(serviceRegistry)
-				.addAnnotatedClass(NuocSX.class)
-				.addAnnotatedClass(NhaCungCap.class)
-				.addAnnotatedClass(LoaiThuoc.class)
-				.addAnnotatedClass(Thuoc.class)
-				.addAnnotatedClass(KhachHang.class)
-				.addAnnotatedClass(HoaDon.class)
-				.addAnnotatedClass(NhanVien.class)
-				.addAnnotatedClass(ChiTietHoaDonPK.class)
-				.addAnnotatedClass(ChiTietHoaDon.class)
-				.getMetadataBuilder()
+
+		Metadata metadata = new MetadataSources(serviceRegistry).addAnnotatedClass(NuocSX.class)
+				.addAnnotatedClass(NhaCungCap.class).addAnnotatedClass(LoaiThuoc.class).addAnnotatedClass(Thuoc.class)
+				.addAnnotatedClass(KhachHang.class).addAnnotatedClass(HoaDon.class).addAnnotatedClass(NhanVien.class)
+				.addAnnotatedClass(ChiTietHoaDonPK.class).addAnnotatedClass(ChiTietHoaDon.class).getMetadataBuilder()
 				.build();
-		
-		sessionFactory = metadata
-				.getSessionFactoryBuilder()
-				.build();
+
+		if (sessionFactory == null) {
+			sessionFactory = metadata.getSessionFactoryBuilder().build();
+		}
 	}
-	
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
-	
+
+	public synchronized static HibernateUtil getInstance() {
+		if (instance == null) {
+			instance = new HibernateUtil();
+		}
+		return instance;
+	}
+
 	public void close() {
 		sessionFactory.close();
 	}

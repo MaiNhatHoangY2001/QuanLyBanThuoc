@@ -7,6 +7,10 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class ChiTietHoaDonPK implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7133030204579944457L;
 	private String hoaDon;
 	private String thuoc;
 	 public ChiTietHoaDonPK() {

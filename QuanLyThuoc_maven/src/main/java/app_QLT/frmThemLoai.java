@@ -20,10 +20,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import chucNang.Regex1;
 import connectDB.ConnectDB;
 import dao.LoaiThuoc1_DAO;
 import entity.LoaiThuoc;
-import entity.Regex1;
 
 public class frmThemLoai extends JFrame implements ActionListener, MouseListener{
 	

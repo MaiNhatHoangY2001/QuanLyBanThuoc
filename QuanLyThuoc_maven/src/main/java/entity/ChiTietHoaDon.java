@@ -16,7 +16,7 @@ public class ChiTietHoaDon implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3956251130076722107L;
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "maHoaDon")

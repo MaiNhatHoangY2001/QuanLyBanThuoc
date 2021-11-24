@@ -19,10 +19,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import chucNang.Regex;
 import connectDB.ConnectDB;
 import dao.ThemNCC_DAO;
 import entity.NhaCungCap;
-import entity.Regex;
 
 public class frmThemNCC extends JFrame implements ActionListener, MouseListener {
 
