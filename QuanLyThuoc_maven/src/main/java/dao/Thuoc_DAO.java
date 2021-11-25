@@ -25,8 +25,8 @@ public class Thuoc_DAO {
 			stmt = con.prepareStatement("update Thuoc set tenThuoc=?, donGia=?, ngaySX = ?, hanSuDung = ?, SLTon= ?, maNCC =?, maLoai =?, idNuoc = ? where maThuoc =? ");
 			stmt.setString(1, thuoc.getTenThuoc());
 			stmt.setDouble(2, thuoc.getDonGia());
-			stmt.setDate(3, thuoc.getNgaySX());
-			stmt.setDate(4, thuoc.getHanSuDung());
+//			stmt.setDate(3, thuoc.getNgaySX());
+//			stmt.setDate(4, thuoc.getHanSuDung());
 			stmt.setInt(5, thuoc.getSLTon());
 			stmt.setString(6, thuoc.getNcc().getMaNCC());
 			stmt.setString(7, thuoc.getLoaiThuoc().getMaLoai());
@@ -58,8 +58,8 @@ public class Thuoc_DAO {
 			stmt.setString(1, thuoc.getMaThuoc());
 			stmt.setString(2, thuoc.getTenThuoc());
 			stmt.setDouble(3, thuoc.getDonGia());
-			stmt.setDate(4, thuoc.getNgaySX());
-			stmt.setDate(5, thuoc.getHanSuDung());
+//			stmt.setDate(4, thuoc.getNgaySX());
+//			stmt.setDate(5, thuoc.getHanSuDung());
 			stmt.setInt(6, thuoc.getSLTon());
 			stmt.setString(7, thuoc.getNcc().getMaNCC());
 			stmt.setString(8, thuoc.getLoaiThuoc().getMaLoai());

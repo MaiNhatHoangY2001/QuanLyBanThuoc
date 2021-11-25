@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -27,8 +28,8 @@ public class Thuoc implements Serializable {
 	private String maThuoc;
 	private String tenThuoc;
 	private double donGia;
-	private Date ngaySX;
-	private Date hanSuDung;
+	private LocalDate ngaySX;
+	private LocalDate hanSuDung;
 	private int SLTon;
 
 	@ManyToOne
@@ -67,19 +68,19 @@ public class Thuoc implements Serializable {
 		this.donGia = donGia;
 	}
 
-	public Date getNgaySX() {
+	public LocalDate getNgaySX() {
 		return ngaySX;
 	}
 
-	public void setNgaySX(Date ngaySX) {
+	public void setNgaySX(LocalDate ngaySX) {
 		this.ngaySX = ngaySX;
 	}
 
-	public Date getHanSuDung() {
+	public LocalDate getHanSuDung() {
 		return hanSuDung;
 	}
 
-	public void setHanSuDung(Date hanSuDung) {
+	public void setHanSuDung(LocalDate hanSuDung) {
 		this.hanSuDung = hanSuDung;
 	}
 
@@ -120,7 +121,7 @@ public class Thuoc implements Serializable {
 		this.maThuoc = maThuoc;
 	}
 
-	public Thuoc(String tenThuoc, double donGia, Date ngaySX2, Date hanSD, int sLTon, NhaCungCap ncc2,
+	public Thuoc(String tenThuoc, double donGia, LocalDate ngaySX2, LocalDate hanSD, int sLTon, NhaCungCap ncc2,
 			LoaiThuoc loaiThuoc, NuocSX nuocSX) {
 		super();
 		this.tenThuoc = tenThuoc;

@@ -248,6 +248,9 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o=e.getSource();
+		if(o.equals(btnTimKiem)) {
+			clearTableThuoc();
+			timKH();
 //		if(o.equals(btnTimKiem)) {
 //			clearTableThuoc();
 //			timKH();
@@ -269,6 +272,8 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 //			}
 //			
 //		}
+			
+		}
 		//thong ke theo ngay
 		if(o.equals(btnThongKe)) {
 			clearTableThuoc();
@@ -371,6 +376,8 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	//Thong ke tong doanh thu
 //	private double tongDoanhThu() {
 //		double i=0;
+	private double tongDoanhThu() {
+		double i=0;
 //		i=ctHD_dao.getTongDoanhThuThuoc();
 //		return i;
 //	}
@@ -380,7 +387,11 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 //		i=ctHD_dao.getTongDoanhThuThuocTheoNgay((int)cbNgay.getSelectedItem(), (int)cbThang.getSelectedItem(), (int)cbNam.getSelectedItem());
 //		return i;
 //	}
-	
+////		i=ctHD_dao.getTongDoanhThuThuocTheoNgay((int)cbNgay.getSelectedItem(), (int)cbThang.getSelectedItem(), (int)cbNam.getSelectedItem());
+//		return i;
+		return 0;
+	}
+
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		Object o=e.getSource();

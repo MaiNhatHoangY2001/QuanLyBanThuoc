@@ -441,17 +441,17 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			boolean gioiTinh = radNam.isSelected();
 			Date ngaySinh = (Date) datePicker.getModel().getValue();
 //			KhachHang kh = new KhachHang(makh.maKH(), tenKH, ngaySinh, gioiTinh, diaChi, sDT);
-			KhachHang kh = new KhachHang(tenKH, ngaySinh, gioiTinh, diaChi, sDT);
-			if (kh_dao.getKhachHangTheoSDT(sDT) == null)
-				if (kh_dao.createKH(kh)) {
-					JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
-					lbXuatTenKH.setText(kh.getMaKH());
-
-				} else
-					JOptionPane.showMessageDialog(this, "Trùng mã khách hàng");
-
-			else
-				JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại");
+//			KhachHang kh = new KhachHang(tenKH, ngaySinh, gioiTinh, diaChi, sDT);
+//			if (kh_dao.getKhachHangTheoSDT(sDT) == null)
+//				if (kh_dao.createKH(kh)) {
+//					JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
+//					lbXuatTenKH.setText(kh.getMaKH());
+//
+//				} else
+//					JOptionPane.showMessageDialog(this, "Trùng mã khách hàng");
+//
+//			else
+//				JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại");
 
 		}
 	}
@@ -570,7 +570,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			lbXuatTenKH.setText(kh.getMaKH());
 			txtTenKH.setText(kh.getHoTen());
 			txtSDT.setText(kh.getSDT());
-			modelNgayKH.setValue(kh.getNgaySinh());
+//			modelNgayKH.setValue(kh.getNgaySinh());
 			txtDiaChi.setText(kh.getDiaChi());
 
 			if (kh.isGioiTinh()) {

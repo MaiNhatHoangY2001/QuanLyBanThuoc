@@ -2,8 +2,10 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,9 +25,11 @@ public class KhachHang implements Serializable {
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "KH"), strategy = "generator.SinhMaTheoNgay")
 	private String maKH;
+	@Column(columnDefinition = "Nvarchar(255)")
 	private String hoTen;
-	private Date ngaySinh;
+	private LocalDate ngaySinh;
 	private boolean gioiTinh;
+	@Column(columnDefinition = "Nvarchar(255)")
 	private String diaChi;
 	private String SDT;
 	
@@ -34,6 +38,10 @@ public class KhachHang implements Serializable {
 
 	public String getMaKH() {
 		return maKH;
+	}
+	
+	public void setMaKH(String maKH) {
+		this.maKH = maKH;
 	}
 
 	public String getHoTen() {
@@ -44,11 +52,11 @@ public class KhachHang implements Serializable {
 		this.hoTen = hoTen;
 	}
 
-	public Date getNgaySinh() {
+	public LocalDate getNgaySinh() {
 		return ngaySinh;
 	}
 
-	public void setNgaySinh(Date ngaySinh) {
+	public void setNgaySinh(LocalDate ngaySinh) {
 		this.ngaySinh = ngaySinh;
 	}
 
@@ -76,7 +84,7 @@ public class KhachHang implements Serializable {
 		SDT = sDT;
 	}
 
-	public KhachHang(String hoTen, Date ngaySinh, boolean gioiTinh, String diaChi, String sDT) {
+	public KhachHang(String hoTen, LocalDate ngaySinh, boolean gioiTinh, String diaChi, String sDT) {
 		super();
 		this.hoTen = hoTen;
 		this.ngaySinh = ngaySinh;
