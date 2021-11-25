@@ -108,7 +108,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		thuoc_dao = new Thuoc_DAO();
 		loaithuoc_dao = new LoaiThuoc_DAO();
 		hoadon_dao = new HoaDon_DAO();
-		cthd_dao = new CTHoaDon_DAO();
+//		cthd_dao = new CTHoaDon_DAO();
 		regex = new Regex();
 
 		setBackground(new Color(248, 248, 248));
@@ -441,17 +441,17 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			boolean gioiTinh = radNam.isSelected();
 			Date ngaySinh = (Date) datePicker.getModel().getValue();
 //			KhachHang kh = new KhachHang(makh.maKH(), tenKH, ngaySinh, gioiTinh, diaChi, sDT);
-			KhachHang kh = new KhachHang(tenKH, ngaySinh, gioiTinh, diaChi, sDT);
-			if (kh_dao.getKhachHangTheoSDT(sDT) == null)
-				if (kh_dao.createKH(kh)) {
-					JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
-					lbXuatTenKH.setText(kh.getMaKH());
-
-				} else
-					JOptionPane.showMessageDialog(this, "Trùng mã khách hàng");
-
-			else
-				JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại");
+//			KhachHang kh = new KhachHang(tenKH, ngaySinh, gioiTinh, diaChi, sDT);
+//			if (kh_dao.getKhachHangTheoSDT(sDT) == null)
+//				if (kh_dao.createKH(kh)) {
+//					JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
+//					lbXuatTenKH.setText(kh.getMaKH());
+//
+//				} else
+//					JOptionPane.showMessageDialog(this, "Trùng mã khách hàng");
+//
+//			else
+//				JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại");
 
 		}
 	}
@@ -552,7 +552,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		Date ngaylap = (Date) datePicker1.getModel().getValue();
 		NhanVien nvl = nv_dao.get1NhanVienTheoMaNV(cbmaNVNhap.getSelectedItem().toString());
 		KhachHang kh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
-		ChiTietHoaDon cthd = cthd_dao.getCTHDTheoMa(maCTHD);
+//		ChiTietHoaDon cthd = cthd_dao.getCTHDTheoMa(maCTHD);
 		Thuoc thuoc = thuoc_dao.getThuocTheoTen("abc");
 		NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM", 10000000);
 		HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien , kh);
@@ -570,7 +570,7 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			lbXuatTenKH.setText(kh.getMaKH());
 			txtTenKH.setText(kh.getHoTen());
 			txtSDT.setText(kh.getSDT());
-			modelNgayKH.setValue(kh.getNgaySinh());
+//			modelNgayKH.setValue(kh.getNgaySinh());
 			txtDiaChi.setText(kh.getDiaChi());
 
 			if (kh.isGioiTinh()) {

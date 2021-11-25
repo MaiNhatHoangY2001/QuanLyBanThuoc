@@ -237,7 +237,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		}
 		kh_dao = new KhachHang_DAO();
 		thuoc_dao=new Thuoc_DAO();
-		ctHD_dao=new CTHoaDon_DAO();
+//		ctHD_dao=new CTHoaDon_DAO();
 		txtMaKH=new JTextField(10);//luu ma khach hang
 	}
 
@@ -251,22 +251,22 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 		if(o.equals(btnTimKiem)) {
 			clearTableThuoc();
 			timKH();
-			txtTongKH.setText(""+dfKhachHang.getRowCount());
-			if (cbTimKiem.getSelectedIndex() == 1) {
-				txtTongSoThuoc.setText(""+thuoc_dao.getTongSoLuongThuocTheoMa(txttimKiem.getText()));
-				txtDoanhThu.setText(""+df.format(ctHD_dao.getTongDoanhTheoMa(txttimKiem.getText())));
-			}
-			else {
-				if (cbTimKiem.getSelectedIndex() == 0) {
-					txtTongSoThuoc.setText(""+thuoc_dao.getTongSoLuongThuocTheoTen(txttimKiem.getText()));
-					txtDoanhThu.setText(""+df.format(ctHD_dao.getTongDoanhTheoTen(txttimKiem.getText())));
-				}
-				else {
-					txtTongSoThuoc.setText(""+thuoc_dao.getTongSoLuongThuocTheoSDT(txttimKiem.getText()));
-					txtDoanhThu.setText(""+df.format(ctHD_dao.getTongDoanhTheoSDT(txttimKiem.getText())));
-				}
-				
-			}
+//			txtTongKH.setText(""+dfKhachHang.getRowCount());
+//			if (cbTimKiem.getSelectedIndex() == 1) {
+//				txtTongSoThuoc.setText(""+thuoc_dao.getTongSoLuongThuocTheoMa(txttimKiem.getText()));
+//				txtDoanhThu.setText(""+df.format(ctHD_dao.getTongDoanhTheoMa(txttimKiem.getText())));
+//			}
+//			else {
+//				if (cbTimKiem.getSelectedIndex() == 0) {
+//					txtTongSoThuoc.setText(""+thuoc_dao.getTongSoLuongThuocTheoTen(txttimKiem.getText()));
+//					txtDoanhThu.setText(""+df.format(ctHD_dao.getTongDoanhTheoTen(txttimKiem.getText())));
+//				}
+//				else {
+//					txtTongSoThuoc.setText(""+thuoc_dao.getTongSoLuongThuocTheoSDT(txttimKiem.getText()));
+//					txtDoanhThu.setText(""+df.format(ctHD_dao.getTongDoanhTheoSDT(txttimKiem.getText())));
+//				}
+//				
+//			}
 			
 		}
 		//thong ke theo ngay
@@ -275,7 +275,7 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 			timKHTheoNgay();
 			txtTongKH.setText(""+dfKhachHang.getRowCount());
 			txtTongSoThuoc.setText(""+tongThuocTheoNgay());
-			txtDoanhThu.setText(""+df.format(tongDoanhThuTheoNgay()));
+//			txtDoanhThu.setText(""+df.format(tongDoanhThuTheoNgay()));
 			
 			
 		}
@@ -371,14 +371,15 @@ public class FrmThongKe extends JPanel implements ActionListener,MouseListener{
 	//Thong ke tong doanh thu
 	private double tongDoanhThu() {
 		double i=0;
-		i=ctHD_dao.getTongDoanhThuThuoc();
-		return i;
-	}
-	//Thong ke tong doanh thu theo ngay
-	private double tongDoanhThuTheoNgay() {
-		double i=0;
-		i=ctHD_dao.getTongDoanhThuThuocTheoNgay((int)cbNgay.getSelectedItem(), (int)cbThang.getSelectedItem(), (int)cbNam.getSelectedItem());
-		return i;
+//		i=ctHD_dao.getTongDoanhThuThuoc();
+//		return i;
+//	}
+//	//Thong ke tong doanh thu theo ngay
+//	private double tongDoanhThuTheoNgay() {
+//		double i=0;
+////		i=ctHD_dao.getTongDoanhThuThuocTheoNgay((int)cbNgay.getSelectedItem(), (int)cbThang.getSelectedItem(), (int)cbNam.getSelectedItem());
+//		return i;
+		return 0;
 	}
 	
 	public void mouseClicked(MouseEvent e) {
