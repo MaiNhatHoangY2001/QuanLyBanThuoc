@@ -40,9 +40,9 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 	private JButton btnQuanLyNhanVien;
 
 	private FrmNhanVien trangNV = new FrmNhanVien();
-	private FrmThongKe trangTK = new FrmThongKe();
-	private FrmThuoc trangThuoc = new FrmThuoc();
-	private FrmBanHang trangBH = new FrmBanHang();
+	private FrmThongKe1 trangTK = new FrmThongKe1();
+	private FrmQuanLyThuoc trangThuoc = new FrmQuanLyThuoc();
+	private FrmBanThuoc trangBH = new FrmBanThuoc();
 	private JLabel lblNgay;
 	private JLabel lblGio;
 	private JLabel lblNewLabel_2;
@@ -102,6 +102,70 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		panel_1.setBounds(0, 200, 320, 807);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
+
+		JPanel pnlHead = new JPanel();
+		pnlHead.setBackground(new Color(68, 142, 255));
+		pnlHead.setBounds(320, 0, 1600, 91);
+		getContentPane().add(pnlHead);
+		pnlHead.setLayout(null);
+
+		lblHead = new JLabel("QUẢN LÝ HÓA ĐƠN");
+		lblHead.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHead.setForeground(Color.WHITE);
+		lblHead.setFont(new Font("Tahoma", Font.BOLD, 50));
+		lblHead.setBounds(460, 0, 614, 80);
+		pnlHead.add(lblHead);
+
+		/**
+		 * set Ngày giờ
+		 */
+		lblNgay = new JLabel("New label");
+		lblNgay.setForeground(Color.WHITE);
+		lblNgay.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNgay.setBounds(0, 16, 233, 33);
+		pnlHead.add(lblNgay);
+
+		lblGio = new JLabel("New label");
+		lblGio.setForeground(Color.WHITE);
+		lblGio.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblGio.setBounds(0, 50, 201, 30);
+		pnlHead.add(lblGio);
+
+		setGio(lblGio, lblNgay);
+
+		/**
+		 * Tên đăng nhập
+		 */
+
+		JLabel lblTenDN = new JLabel("Mai Ngọc Long");
+		lblTenDN.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblTenDN.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTenDN.setForeground(Color.WHITE);
+		lblTenDN.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTenDN.setBounds(1272, 11, 260, 33);
+		pnlHead.add(lblTenDN);
+
+		JLabel lblIconUser = new JLabel("");
+		Image imgUser = new ImageIcon("icon/userNho.png").getImage();
+		lblIconUser.setIcon(new ImageIcon(imgUser));
+		lblIconUser.setBounds(1536, 10, 38, 30);
+		pnlHead.add(lblIconUser);
+
+		/**
+		 * Đăng xuất
+		 */
+		JLabel lblDangXuat = new JLabel("Đăng xuất");
+		lblDangXuat.setForeground(Color.WHITE);
+		lblDangXuat.setFont(new Font("Arial", Font.PLAIN, 24));
+		lblDangXuat.setBounds(1419, 55, 110, 24);
+		pnlHead.add(lblDangXuat);
+
+		JLabel lblIconDX = new JLabel("");
+		Image imgDX = new ImageIcon("icon/thoatNho.png").getImage();
+		lblIconDX.setIcon(new ImageIcon(imgDX));
+		lblIconDX.setBounds(1536, 50, 38, 30);
+		pnlHead.add(lblIconDX);
+		lblDangXuat.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		/**
 		 * các nút menu
@@ -192,85 +256,22 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		btnThongKe.addActionListener(this);
 
 		pnlChange = new JPanel();
-		pnlChange.setBounds(320, 89, 1600, 909);
+		pnlChange.setBounds(320, 89, 1600, 928);
 		getContentPane().add(pnlChange);
 		pnlChange.setLayout(new CardLayout(0, 0));
 
 		cardLayout = (CardLayout) pnlChange.getLayout();
 
-		pnlChange.add(new FrmBanThuoc(), "btnQuanLyHoaDon");
+		pnlChange.add(trangBH, "btnQuanLyHoaDon");
 		pnlChange.add(trangTK, "btnThongKe");
 		pnlChange.add(trangNV, "btnQuanLyNhanVien");
-		pnlChange.add(new FrmQuanLyThuoc(), "btnQuanLyThuoc");
+		pnlChange.add(trangThuoc, "btnQuanLyThuoc");
 		// pnlChange.add(trangTK, "btnQuanLyTaiKhoan");
 
 		// set active khi bắt đầu vào
 		temp = btnQuanLyHoaDon;
 		activeButton(btnQuanLyHoaDon);
 
-		JPanel pnlHead = new JPanel();
-		pnlHead.setBackground(new Color(68, 142, 255));
-		pnlHead.setBounds(320, 0, 1584, 91);
-		getContentPane().add(pnlHead);
-		pnlHead.setLayout(null);
-
-		lblHead = new JLabel("QUẢN LÝ HÓA ĐƠN");
-		lblHead.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHead.setForeground(Color.WHITE);
-		lblHead.setFont(new Font("Tahoma", Font.BOLD, 50));
-		lblHead.setBounds(460, 0, 614, 80);
-		pnlHead.add(lblHead);
-
-		/**
-		 * set Ngày giờ
-		 */
-		lblNgay = new JLabel("New label");
-		lblNgay.setForeground(Color.WHITE);
-		lblNgay.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblNgay.setBounds(0, 16, 233, 33);
-		pnlHead.add(lblNgay);
-
-		lblGio = new JLabel("New label");
-		lblGio.setForeground(Color.WHITE);
-		lblGio.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblGio.setBounds(0, 50, 201, 30);
-		pnlHead.add(lblGio);
-
-		setGio(lblGio, lblNgay);
-
-		/**
-		 * Tên đăng nhập
-		 */
-
-		JLabel lblTenDN = new JLabel("Mai Ngọc Long");
-		lblTenDN.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblTenDN.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTenDN.setForeground(Color.WHITE);
-		lblTenDN.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblTenDN.setBounds(1272, 11, 260, 33);
-		pnlHead.add(lblTenDN);
-
-		JLabel lblIconUser = new JLabel("");
-		Image imgUser = new ImageIcon("icon/userNho.png").getImage();
-		lblIconUser.setIcon(new ImageIcon(imgUser));
-		lblIconUser.setBounds(1536, 10, 38, 30);
-		pnlHead.add(lblIconUser);
-
-		/**
-		 * Đăng xuất
-		 */
-		JLabel lblDangXuat = new JLabel("Đăng xuất");
-		lblDangXuat.setForeground(Color.WHITE);
-		lblDangXuat.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblDangXuat.setBounds(1419, 55, 110, 24);
-		pnlHead.add(lblDangXuat);
-
-		JLabel lblIconDX = new JLabel("");
-		Image imgDX = new ImageIcon("icon/thoatNho.png").getImage();
-		lblIconDX.setIcon(new ImageIcon(imgDX));
-		lblIconDX.setBounds(1536, 50, 38, 30);
-		pnlHead.add(lblIconDX);
-		lblDangXuat.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
 	@Override

@@ -28,6 +28,7 @@ public class CTHoaDonImpl extends UnicastRemoteObject implements CTHoaDon_DAO {
 	private SessionFactory session;
 
 	public CTHoaDonImpl() throws RemoteException {
+		super();
 		session = HibernateUtil.getInstance().getSessionFactory();
 	}
 

@@ -5,7 +5,6 @@
     <fullyQualifiedTypeName name="java.awt.event.WindowListener"/>
     <fullyQualifiedTypeName name="java.awt.event.WindowEvent"/>
     <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
-    <fullyQualifiedTypeName name="java.awt.Color"/>
     <fullyQualifiedTypeName name="java.awt.event.ActionEvent"/>
     <fullyQualifiedTypeName name="java.awt.CardLayout"/>
     <fullyQualifiedTypeName name="javax.swing.JButton"/>
@@ -26,9 +25,15 @@
     <fullyQualifiedTypeName name="entity.HoaDon"/>
     <fullyQualifiedTypeName name="java.rmi.Remote"/>
     <fullyQualifiedTypeName name="java.rmi.server.UnicastRemoteObject"/>
-    <fullyQualifiedTypeName name="dao.CTHoaDon_DAO"/>
-    <fullyQualifiedTypeName name="java.rmi.RemoteException"/>
     <fullyQualifiedTypeName name="javax.persistence.EntityManager"/>
     <fullyQualifiedTypeName name="org.hibernate.SessionFactory"/>
     <fullyQualifiedTypeName name="util.HibernateUtil"/>
+    <fullyQualifiedTypeName name="gui_package.ChucNang"/>
+    <fullyQualifiedTypeName name="chucNang.ChucNang"/>
+    <fullyQualifiedTypeName name="app_QLT.FrmBanThuoc"/>
+    <fullyQualifiedTypeName name="app_QLT.FrmQuanLyThuoc"/>
+    <fullyQualifiedTypeName name="java.awt.Color"/>
+    <fullyQualifiedTypeName name="dao.CTHoaDon_DAO"/>
+    <fullyQualifiedTypeName name="dao.impl.CTHoaDonImpl"/>
+    <fullyQualifiedTypeName name="java.rmi.RemoteException"/>
 </qualifiedTypeNameHistroy>
