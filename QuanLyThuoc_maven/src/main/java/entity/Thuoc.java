@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,6 +27,7 @@ public class Thuoc implements Serializable {
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "TH"), strategy = "generator.SinhMaTheoNgay")
 	private String maThuoc;
+	@Column(columnDefinition = "nvarchar(255)")
 	private String tenThuoc;
 	private double donGia;
 	private LocalDate ngaySX;

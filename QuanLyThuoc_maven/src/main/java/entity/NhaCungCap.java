@@ -3,6 +3,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,7 +23,9 @@ public class NhaCungCap implements Serializable {
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "NC"), strategy = "generator.SinhMaTheoNgay")
 	private String maNCC;
+	@Column(columnDefinition = "nvarchar(255)")
 	private String tenNCC;
+	@Column(columnDefinition = "nvarchar(255)")
 	private String diaChi;
 
 	@OneToMany(mappedBy = "ncc")
