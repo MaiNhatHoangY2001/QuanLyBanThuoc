@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.BorderFactory;
@@ -24,20 +26,26 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import org.hibernate.SessionFactory;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
-import chucNang.DateLabelFormatter;
+import com.toedter.calendar.JDateChooser;
+
 import chucNang.Regex;
 
-//import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JDateChooser;
 
 import connectDB.ConnectDB;
 import dao.NhanVien_DAO;
+import dao.impl.NhanVienImlp;
 import entity.NhanVien;
+import util.HibernateUtil;
 
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
@@ -57,13 +65,13 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	private DefaultTableModel modelNV;
 	private SqlDateModel modelNgay;
 	private NhanVien_DAO nv_dao;
-	private Regex regex;
 	private DecimalFormat df = new DecimalFormat("#");
 	private Properties p;
-	private JDatePickerImpl datePicker;
-//	private JDateChooser ngaySinh;
+	private JDateChooser ngaySinh;
+	private Regex regex;
+	
 
-	public FrmNhanVien() {
+	public FrmNhanVien(){
 		setLayout(null);
 		setBounds(0, 0, 1600, 1002);
 		
@@ -137,11 +145,11 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		lblSDT.setBounds(514, 149, 158, 40);
 		pThongTinNV.add(lblSDT);
 
-//		ngaySinh = new JDateChooser();
-//		ngaySinh.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 20));
-//		ngaySinh.setBounds(173, 89, 227, 40);
-//		pThongTinNV.add(ngaySinh);
-//		ngaySinh.setDateFormatString("dd/MM/yyyy");
+		ngaySinh = new JDateChooser();
+		ngaySinh.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 20));
+		ngaySinh.setBounds(173, 89, 227, 40);
+		pThongTinNV.add(ngaySinh);
+		ngaySinh.setDateFormatString("dd/MM/yyyy");
 
 		JLabel lblNgay = new JLabel("Ngày sinh:");
 		lblNgay.setBounds(29, 89, 100, 40);
@@ -223,7 +231,6 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		lblThongTinTK.setBounds(626, 20, 244, 40);
 		pTimKiem.add(lblThongTinTK);
 		lblThongTinTK.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnTim.addActionListener(this);
 		cboLoaiTK.addItem("Tìm kiếm theo tên");
 		cboLoaiTK.addItem("Tìm kiếm theo mã");
 		
@@ -231,7 +238,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		 * Phần bảng
 		 */
 		JPanel pTable = new JPanel();
-		pTable.setBounds(10, 381, 1573, 708);
+		pTable.setBounds(10, 381, 1573, 604);
 		add(pTable);
 		
 		modelNV=new DefaultTableModel(column,0);
@@ -243,7 +250,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		JScrollPane scrollNhanVien;
 		pTable.setLayout(null);
 		scrollNhanVien=new JScrollPane(tableNV,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollNhanVien.setBounds(10, 10, 1563, 571);
+		scrollNhanVien.setBounds(10, 10, 1563, 499);
 		scrollNhanVien.setBackground(new Color(248,248,248));
 		scrollNhanVien.setBorder(BorderFactory.createTitledBorder("Danh sách nhân viên"));
 		pTable.add(scrollNhanVien);
@@ -256,28 +263,25 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		btnXoa.addActionListener(this);
 		btnThem.addActionListener(this);
 		tableNV.addMouseListener(this);
+		btnTim.addActionListener(this);
 		
-		
-		/**
-		 * DataBase
-		 */
+		//kết nối database
 		try {
-			ConnectDB.getInstance().connect();
-		} catch (SQLException e) {
+			nv_dao=new NhanVienImlp();
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		nv_dao = new NhanVien_DAO();
-		// Kết nối Database
-		DocDuLieuDatabase();
-
-		/**
-		 * Regex
-		 */
-		regex = new Regex();
+		
+		try {
+			DocDuLieuDatabase();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
-	private void DocDuLieuDatabase() {
-		ArrayList<NhanVien> list = nv_dao.getalltbNhanVien();
+	private void DocDuLieuDatabase() throws RemoteException {
+		List<NhanVien> list = nv_dao.getAllNhanVien();
 		for (NhanVien nv : list) {
 			modelNV.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.getNgaySinh(),
 					strGioiTinh(nv.isGioiTinh()), nv.getDiaChi(), df.format(nv.getLuong()) });
@@ -288,65 +292,88 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object key = e.getSource();
-		if (key == btnThem)
-			themNV();
+		if (key == btnThem) {
+			try {
+				themNV();
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			}
+		}
+			
 		else if (key == btnXoaRong)
 			xoaRong();
-		else if (key == btnXoa)
-			xoaNV();
-		else if (key == btnTim)
-			timMaNV();
-		else if (key == btnSua)
-			suaNV();
-
-	}
-
-	private void suaNV() {
-		if (kiemTra()) {
-
-//			String maNV = txtMaNV.getText();
-//			Double luong = Double.parseDouble(txtLuong.getText());
-//			String hoTen = txtTenNV.getText();
-//			String soDienThoai = txtSDT.getText();
-//			Date ngaySinh = (Date) datePicker.getModel().getValue();
-//			boolean gioiTinh = radNam.isSelected();
-//			String diaChi = txtDiaChi.getText();
-//			NhanVien nv = new NhanVien(maNV, hoTen, soDienThoai, ngaySinh, gioiTinh, diaChi, luong);
-//			if (nv_dao.update(nv)) {
-//				clearTable();
-//				DocDuLieuDatabase();
-//			} else
-//				JOptionPane.showMessageDialog(this, "Mã nhân viên không tồn tại");
+		else if (key == btnXoa) {
+			try {
+				xoaNV();
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			}
 		}
-
-	}
-
-	private void timMaNV() {
-		ArrayList<NhanVien> dsnv;
-		if (btnTim.getText().equals("Tìm")) {
-			btnTim.setText("Hủy tìm");
-
-			if (cboLoaiTK.getSelectedIndex() == 1)
-				dsnv = nv_dao.getNhanVienTheoMaNV(txtTim.getText());
-			else
-				dsnv = nv_dao.getNhanVienTheoTenNV((txtTim.getText()));
-
-			clearTable();// xóa bảng
-
-			if (!dsnv.isEmpty()) {
-				for (NhanVien nv : dsnv) {
+			
+		else if (key == btnSua) {
+			try {
+				suaNV();
+			} catch (HeadlessException | RemoteException e1) {
+				e1.printStackTrace();
+			}
+		}
+		else if(key.equals(btnTim)) {
+			if(cboLoaiTK.getSelectedItem().equals("Tìm kiếm theo mã")) {
+				try {
+					clearTable();
+					NhanVien nv=nv_dao.getNhanVienTheoMa(txtTim.getText());
+					if(nv!=null)
 					modelNV.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.getNgaySinh(),
 							strGioiTinh(nv.isGioiTinh()), nv.getDiaChi(), df.format(nv.getLuong()) });
+					if(tableNV.getRowCount()==0)
+						JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin của nhân viên có mã: "+txtTim.getText());
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
 				}
-
-			} else {
-				JOptionPane.showMessageDialog(this, "Không có nhân viên nào theo thông tin tìm");
 			}
-		} else {
-			btnTim.setText("Tìm");
-			clearTable();
-			DocDuLieuDatabase();
+			else if(cboLoaiTK.getSelectedItem().toString().equals("Tìm kiếm theo tên")) {
+				try {
+					clearTable();
+					List<NhanVien> dsnv=nv_dao.getNhanVienTheoTen(txtTim.getText());
+					for(NhanVien nv:dsnv) {
+						modelNV.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.getNgaySinh(),
+								strGioiTinh(nv.isGioiTinh()), nv.getDiaChi(), df.format(nv.getLuong()) });
+					}
+					if(tableNV.getRowCount()==0)
+						JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin của nhân viên có tên: "+txtTim.getText());
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}
+			
+
+	}
+
+	private void suaNV() throws HeadlessException, RemoteException {
+		if (kiemTra()) {
+
+			String maNV = txtMaNV.getText();
+			Double luong = Double.parseDouble(txtLuong.getText());
+			String hoTen = txtTenNV.getText();
+			String soDienThoai = txtSDT.getText();
+			Date ns = new Date(ngaySinh.getDate().getTime());
+			boolean gioiTinh = radNam.isSelected();
+			String diaChi = txtDiaChi.getText();
+			NhanVien nv = new NhanVien(maNV,hoTen, soDienThoai, ns, gioiTinh, diaChi, luong);
+			int tl;
+			tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nhân viên này không ?", "Cảnh báo",
+					JOptionPane.YES_OPTION);
+			if (tl == JOptionPane.YES_OPTION) {
+				nv_dao.suaNhanVien(nv);
+				clearTable();
+				DocDuLieuDatabase();
+				JOptionPane.showMessageDialog(this, "Thông tin nhân viên đã được cập nhật");
+			}
+			else
+				JOptionPane.showMessageDialog(this, "Đã hủy");
+		}
+
 	}
 
 	private void clearTable() {
@@ -355,7 +382,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		}
 	}
 
-	private void xoaNV() {
+	private void xoaNV() throws RemoteException {
 		if (tableNV.getSelectedRow() == -1) {
 			JOptionPane.showMessageDialog(this, "Hãy chọn nhân viên cần xóa");
 		} else {
@@ -364,8 +391,9 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 					JOptionPane.YES_OPTION);
 			if (tl == JOptionPane.YES_OPTION) {
 				int index = tableNV.getSelectedRow();
-				nv_dao.xoa(modelNV.getValueAt(tableNV.getSelectedRow(), 0).toString());
-				modelNV.removeRow(index);
+				nv_dao.xoaNhanVien(tableNV.getValueAt(index, 0).toString());
+				clearTable();
+				DocDuLieuDatabase();
 			}
 		}
 
@@ -382,22 +410,21 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		txtMaNV.requestFocus();
 	}
 
-	private void themNV() {
+	private void themNV() throws RemoteException {
 		if (kiemTra()) {
-//			String maNV = txtMaNV.getText();
-//			Double luong = Double.parseDouble(txtLuong.getText());
-//			String hoTen = txtTenNV.getText();
-//			String soDienThoai = txtSDT.getText();
-//			Date ngaySinh = (Date) datePicker.getModel().getValue();
-//			boolean gioiTinh = radNam.isSelected();
-//			String diaChi = txtDiaChi.getText();
-//			NhanVien nv = new NhanVien(maNV, hoTen, soDienThoai, ngaySinh, gioiTinh, diaChi, luong);
-//
-//			if (nv_dao.create(nv)) {
-//				modelNV.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.getNgaySinh(),
-//						strGioiTinh(nv.isGioiTinh()), nv.getDiaChi(), df.format(nv.getLuong()) });
-//			} else
-//				JOptionPane.showMessageDialog(this, "Trùng mã nhân viên");
+			//String maNV = txtMaNV.getText();
+			Double luong = Double.parseDouble(txtLuong.getText());
+			String hoTen = txtTenNV.getText();
+			String soDienThoai = txtSDT.getText();
+			Date ns = new Date(ngaySinh.getDate().getTime());
+			boolean gioiTinh = radNam.isSelected();
+			String diaChi = txtDiaChi.getText();
+			NhanVien nv = new NhanVien(hoTen, soDienThoai, ns, gioiTinh, diaChi, luong);
+
+			nv_dao.themNhanVien(nv);
+			JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công");
+			clearTable();
+			DocDuLieuDatabase();
 		}
 
 	}
@@ -408,7 +435,8 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		txtMaNV.setText(modelNV.getValueAt(row, 0).toString());
 		txtTenNV.setText(modelNV.getValueAt(row, 1).toString());
 		txtSDT.setText(modelNV.getValueAt(row, 2).toString());
-		modelNgay.setValue(Date.valueOf(modelNV.getValueAt(row, 3).toString()));
+		ngaySinh.setDate(Date.valueOf(modelNV.getValueAt(row, 3).toString()));
+		//modelNgay.setValue(Date.valueOf(modelNV.getValueAt(row, 3).toString()));
 		String gioiTinh = modelNV.getValueAt(row, 4).toString();
 		if (gioiTinh.equals("Nam")) {
 			radNam.setSelected(true);
@@ -453,28 +481,29 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	}
 
 	private boolean kiemTra() {
-		if (regex.kiemTraRong(txtMaNV))
-			return false;
-		if (regex.RegexMaNV(txtMaNV))
-			return false;
-		if (regex.kiemTraRong(txtTenNV))
-			return false;
-		if (regex.RegexTen(txtTenNV))
-			return false;
-		if (regex.kiemTraRong(txtSDT))
-			return false;
-		if (regex.RegexSDT(txtSDT))
-			return false;
-		if (regex.kiemTraRong(txtDiaChi))
-			return false;
-		if (regex.RegexDiaChi(txtDiaChi))
-			return false;
-		if (regex.kiemTraRong(txtLuong))
-			return false;
-		if (regex.kiemTraSo(txtLuong))
-			return false;
-		if (regex.kiemTraTuoi(modelNgay))
-			return false;
+//		if (regex.kiemTraRong(txtMaNV))
+//			return false;
+//		if (regex.RegexMaNV(txtMaNV))
+//			return false;
+		
+//		if (regex.kiemTraRong(txtTenNV))
+//			return false;
+//		if (regex.RegexTen(txtTenNV))
+//			return false;
+//		if (regex.kiemTraRong(txtSDT))
+//			return false;
+//		if (regex.RegexSDT(txtSDT))
+//			return false;
+//		if (regex.kiemTraRong(txtDiaChi))
+//			return false;
+//		if (regex.RegexDiaChi(txtDiaChi))
+//			return false;
+//		if (regex.kiemTraRong(txtLuong))
+//			return false;
+//		if (regex.kiemTraSo(txtLuong))
+//			return false;
+//		if (regex.kiemTraTuoi(modelNgay))
+//			return false;
 		return true;
 	}
 }

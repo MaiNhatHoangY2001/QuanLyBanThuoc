@@ -138,4 +138,77 @@ public class ChucNang {
 		}
 
 	}
+//	public static void setLabelName(String name,JPanel panel,Gui_Chinh fChinh,Gui_DangNhap fDangNhap){
+//		/**
+//		 * Tên đăng nhập
+//		 */
+//		
+//		JLabel lblTenDN = new JLabel(name);
+//		lblTenDN.setHorizontalTextPosition(SwingConstants.LEFT);
+//		lblTenDN.setHorizontalAlignment(SwingConstants.RIGHT);
+//		lblTenDN.setForeground(Color.WHITE);
+//		lblTenDN.setFont(new Font("Tahoma", Font.PLAIN, 24));
+//		lblTenDN.setBounds(1272, 11, 260, 33);
+//		panel.add(lblTenDN);
+//
+//		JLabel lblIconUser = new JLabel("");
+//		Image imgUser = new ImageIcon("img\\userNho.png").getImage();
+//		lblIconUser.setIcon(new ImageIcon(imgUser));
+//		lblIconUser.setBounds(1536, 10, 38, 30);
+//		panel.add(lblIconUser);
+//
+//		/**
+//		 * Đăng xuất
+//		 */
+//		JLabel lblDangXuat = new JLabel("Đăng xuất");
+//		lblDangXuat.setForeground(Color.WHITE);
+//		lblDangXuat.setFont(new Font("Arial", Font.PLAIN, 24));
+//		lblDangXuat.setBounds(1419, 55, 110, 24);
+//		panel.add(lblDangXuat);
+//
+//		JLabel lblIconDX = new JLabel("");
+//		Image imgDX = new ImageIcon("img\\thoatNho.png").getImage();
+//		lblIconDX.setIcon(new ImageIcon(imgDX));
+//		lblIconDX.setBounds(1536, 50, 38, 30);
+//		panel.add(lblIconDX);
+//		lblDangXuat.setCursor(new Cursor(Cursor.HAND_CURSOR));
+//		
+//		lblDangXuat.addMouseListener(new MouseListener() {
+//			
+//			@Override
+//			public void mouseReleased(MouseEvent e) {
+//				
+//			}
+//			
+//			@Override
+//			public void mousePressed(MouseEvent e) {
+//				int temp= JOptionPane.showConfirmDialog(fChinh, "Bạn có muốn đăng xuất","Thông báo", JOptionPane.YES_NO_OPTION);
+//				if(temp==JOptionPane.YES_OPTION) {
+//					fDangNhap.setVisible(true);
+//					fChinh.setVisible(false);
+//				}
+//				
+//			}
+//			
+//			@Override
+//			public void mouseExited(MouseEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void mouseEntered(MouseEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
+//		
+//		
+//	}
 }

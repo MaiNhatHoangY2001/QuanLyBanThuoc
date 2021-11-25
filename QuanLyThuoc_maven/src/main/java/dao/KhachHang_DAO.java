@@ -20,7 +20,7 @@ public class KhachHang_DAO {
 		try {
 			stmt = con.prepareStatement("update KhachHang set hoTen=?,ngaySinh=?,gioiTinh = ?, diaChi = ?, SDT = ? where maKh =? ");
 			stmt.setString(1, kh.getHoTen());
-			stmt.setDate(2, kh.getNgaySinh());
+//			stmt.setDate(2, kh.getNgaySinh());
 			stmt.setBoolean(3, kh.isGioiTinh());
 			stmt.setString(4, kh.getDiaChi());
 			stmt.setString(5, kh.getSDT());
@@ -52,7 +52,7 @@ public class KhachHang_DAO {
 			
 			stmt.setString(1, kh.getMaKH());
 			stmt.setString(2, kh.getHoTen());
-			stmt.setDate(3, kh.getNgaySinh());
+//			stmt.setDate(3, kh.getNgaySinh());
 			stmt.setBoolean(4, kh.isGioiTinh());
 			stmt.setString(5, kh.getDiaChi());
 			stmt.setString(6, kh.getSDT());

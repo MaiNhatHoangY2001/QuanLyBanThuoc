@@ -3,6 +3,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ public class LoaiThuoc implements Serializable {
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "LT"), strategy = "generator.SinhMaTheoNgay")
 	private String maLoai;
+	@Column(columnDefinition = "nvarchar(255)")
 	private String tenLoai;
 	
 	@OneToMany(mappedBy = "loaiThuoc")

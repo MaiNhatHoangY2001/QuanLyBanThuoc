@@ -27,6 +27,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import chucNang.ChucNang;
+
 public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 
 	private JButton temp;
@@ -34,13 +36,12 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 	private CardLayout cardLayout;
 	private JPanel pnlChange;
 	private JButton btnThoat;
-	private JButton btnQuanLyTaiKhoan;
 	private JButton btnQuanLyThuoc;
 	private JButton btnThongKe;
 	private JButton btnQuanLyNhanVien;
 
 	private FrmNhanVien trangNV = new FrmNhanVien();
-	private FrmThongKe1 trangTK = new FrmThongKe1();
+	private FrmThongKe trangTK = new FrmThongKe();
 	private FrmQuanLyThuoc trangThuoc = new FrmQuanLyThuoc();
 	private FrmBanThuoc trangBH = new FrmBanThuoc();
 	private JLabel lblNgay;
@@ -68,6 +69,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 	 * Create the frame.
 	 */
 	public FrmChinh() {
+		ChucNang.setTableAlternateRow();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setSize(1920, 1037);
 		setResizable(false);
@@ -174,7 +176,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		btnThoat.setFocusPainted(false);
 		btnThoat.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThoat.setIcon(new ImageIcon("icon\\icons8-close-64.png"));
-		btnThoat.setBounds(0, 670, 320, 134);
+		btnThoat.setBounds(0, 645, 320, 160);
 		panel_1.add(btnThoat);
 		btnThoat.setForeground(Color.BLACK);
 		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -185,23 +187,11 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 			thongBaoThoat();
 		});
 
-		btnQuanLyTaiKhoan = new JButton("Quản lý tài khoản");
-		btnQuanLyTaiKhoan.setFocusPainted(false);
-		btnQuanLyTaiKhoan.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnQuanLyTaiKhoan.setIcon(new ImageIcon("icon/icons8-userSetting-39.png"));
-		btnQuanLyTaiKhoan.setBounds(0, 536, 320, 134);
-		panel_1.add(btnQuanLyTaiKhoan);
-		btnQuanLyTaiKhoan.setIconTextGap(10);
-		btnQuanLyTaiKhoan.setForeground(Color.BLACK);
-		btnQuanLyTaiKhoan.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		btnQuanLyTaiKhoan.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnQuanLyTaiKhoan.setBackground(new Color(255, 255, 255));
-
 		btnQuanLyThuoc = new JButton("Quản lý bán thuốc");
 		btnQuanLyThuoc.setFocusPainted(false);
 		btnQuanLyThuoc.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnQuanLyThuoc.setIcon(new ImageIcon("icon/thuoc_menu.png"));
-		btnQuanLyThuoc.setBounds(0, 0, 320, 134);
+		btnQuanLyThuoc.setBounds(0, 1, 320, 160);
 
 		panel_1.add(btnQuanLyThuoc);
 		btnQuanLyThuoc.setIconTextGap(10);
@@ -214,7 +204,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		btnThongKe.setFocusPainted(false);
 		btnThongKe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThongKe.setIcon(new ImageIcon("icon/icons8-chart-39.png"));
-		btnThongKe.setBounds(0, 268, 320, 134);
+		btnThongKe.setBounds(0, 323, 320, 160);
 		panel_1.add(btnThongKe);
 		btnThongKe.setIconTextGap(0);
 		btnThongKe.setForeground(Color.BLACK);
@@ -228,7 +218,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		btnQuanLyHoaDon.setFocusPainted(false);
 		btnQuanLyHoaDon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnQuanLyHoaDon.setIcon(new ImageIcon("icon/icons8-money-39.png"));
-		btnQuanLyHoaDon.setBounds(0, 134, 320, 134);
+		btnQuanLyHoaDon.setBounds(0, 162, 320, 160);
 		panel_1.add(btnQuanLyHoaDon);
 		btnQuanLyHoaDon.setIconTextGap(10);
 		btnQuanLyHoaDon.setForeground(Color.BLACK);
@@ -242,7 +232,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		btnQuanLyNhanVien.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnQuanLyNhanVien.setIconTextGap(10);
 		btnQuanLyNhanVien.setIcon(new ImageIcon("icon/icons8-user-39.png"));
-		btnQuanLyNhanVien.setBounds(0, 402, 320, 134);
+		btnQuanLyNhanVien.setBounds(0, 484, 320, 160);
 		panel_1.add(btnQuanLyNhanVien);
 		btnQuanLyNhanVien.setForeground(Color.BLACK);
 		btnQuanLyNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -252,7 +242,6 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		btnQuanLyHoaDon.addActionListener(this);
 		btnQuanLyNhanVien.addActionListener(this);
 		btnQuanLyThuoc.addActionListener(this);
-		btnQuanLyTaiKhoan.addActionListener(this);
 		btnThongKe.addActionListener(this);
 
 		pnlChange = new JPanel();
@@ -291,9 +280,6 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		} else if (key == btnQuanLyThuoc) {
 			cardLayout.show(pnlChange, "btnQuanLyThuoc");
 			lblHead.setText("QUẢN LÝ THUỐC");
-		} else if (key == btnQuanLyTaiKhoan) {
-			cardLayout.show(pnlChange, "btnQuanLyTaiKhoan");
-			lblHead.setText("QUẢN LÝ TÀI KHOẢN");
 		} else if (key == btnThongKe) {
 			cardLayout.show(pnlChange, "btnThongKe");
 			lblHead.setText("THỐNG KÊ");

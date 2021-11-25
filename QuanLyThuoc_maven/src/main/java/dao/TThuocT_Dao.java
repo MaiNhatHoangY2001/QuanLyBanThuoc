@@ -25,8 +25,8 @@ public class TThuocT_Dao {
 					"update Thuoc set tenThuoc=?, donGia=?, ngaySX=?, hanSuDung=?,  SLTon=?, maNCC=?, maLoai=?, idNuoc=? where maThuoc=? ");
 			stmt.setString(1, t.getTenThuoc());
 			stmt.setDouble(2, t.getDonGia());
-			stmt.setDate(3, t.getNgaySX());
-			stmt.setDate(4, t.getHanSuDung());
+//			stmt.setDate(3, t.getNgaySX());
+//			stmt.setDate(4, t.getHanSuDung());
 			stmt.setInt(5, t.getSLTon());
 			stmt.setString(6, t.getNcc().getMaNCC());
 			stmt.setString(7, t.getLoaiThuoc().getMaLoai());
@@ -55,8 +55,8 @@ public class TThuocT_Dao {
 			stmt.setString(1, t.getMaThuoc());
 			stmt.setString(2, t.getTenThuoc());
 			stmt.setDouble(3, t.getDonGia());
-			stmt.setDate(4, t.getNgaySX());
-			stmt.setDate(5, t.getHanSuDung());
+//			stmt.setDate(4, t.getNgaySX());
+//			stmt.setDate(5, t.getHanSuDung());
 			stmt.setInt(6, t.getSLTon());
 			stmt.setString(7, t.getNcc().getMaNCC());
 			stmt.setString(8, t.getLoaiThuoc().getMaLoai());

@@ -18,7 +18,6 @@ import org.hibernate.annotations.Parameter;
 @Entity
 public class HoaDon implements Serializable {
 
-
 	/**
 	 * 
 	 */
@@ -53,7 +52,15 @@ public class HoaDon implements Serializable {
 		this.ngayLap = ngayLap;
 		this.nv = nv;
 		this.kh = kh;
+		this.thanhtien = thanhTien();
+	}
 
+	public double thanhTien() {
+		double tong = 0;
+		for (ChiTietHoaDon chiTietHoaDon : ctHD) {
+			tong += chiTietHoaDon.getDonGia();
+		}
+		return tong;
 	}
 
 	public String getMaHoaDon() {

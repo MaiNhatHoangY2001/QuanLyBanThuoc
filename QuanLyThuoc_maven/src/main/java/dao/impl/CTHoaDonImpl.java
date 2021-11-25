@@ -9,12 +9,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import connectDB.ConnectDB;
 import dao.CTHoaDon_DAO;
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
+import entity.KhachHang;
 import entity.Thuoc;
 import util.HibernateUtil;
 
@@ -25,11 +28,11 @@ public class CTHoaDonImpl extends UnicastRemoteObject implements CTHoaDon_DAO {
 	 */
 	private static final long serialVersionUID = -38764425465890166L;
 
-	private SessionFactory session;
+	private SessionFactory sessionFactory;
 
 	public CTHoaDonImpl() throws RemoteException {
 		super();
-		session = HibernateUtil.getInstance().getSessionFactory();
+		sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 	}
 
 	@Override
@@ -132,50 +135,24 @@ public class CTHoaDonImpl extends UnicastRemoteObject implements CTHoaDon_DAO {
 	}
 
 	@Override
-	public double getTongDoanhThuThuoc() throws RemoteException {
-		double doanhthu = 0;
-
-		ConnectDB.getInstance();
-		Connection con = ConnectDB.getConnection();
-		try {
-			String sql = "SELECT doanhthu=sum(ChiTietHoaDon.soLuong*Thuoc.donGia)\r\n" + "FROM Thuoc INNER JOIN\r\n"
-					+ "ChiTietHoaDon ON Thuoc.maThuoc = ChiTietHoaDon.maThuoc";
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(sql);
-			while (rs.next()) {
-				doanhthu = Double.parseDouble(rs.getString(1));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			// TODO: handle exception
-		}
-		return doanhthu;
-	}
-
-	@Override
 	public double getTongDoanhThuThuocTheoNgay(int ngay, int thang, int nam) throws RemoteException {
-		double doanhthu = 0;
-
-		ConnectDB.getInstance();
-		Connection con = ConnectDB.getConnection();
+		Object doanhthu = null;
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
 		try {
-			String sql = "SELECT doanhthu=sum(ChiTietHoaDon.soLuong*Thuoc.donGia)\r\n"
-					+ "FROM ChiTietHoaDon INNER JOIN\r\n"
-					+ "HoaDon ON ChiTietHoaDon.maChiTietHD = HoaDon.maChiTietHD INNER JOIN\r\n"
-					+ "Thuoc ON ChiTietHoaDon.maThuoc = Thuoc.maThuoc\r\n" + "where day([ngayLap])='" + ngay
-					+ "' and MONTH([ngayLap])='" + thang + "' and YEAR([ngayLap])='" + nam + "'";
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(sql);
-			while (rs.next()) {
-				doanhthu = Double.parseDouble(rs.getString(1));
-			}
-
-		} catch (SQLException e) {
+			tr.begin();
+			String query = "SELECT        sum(thanhtien)\r\n" + "FROM              HoaDon\r\n" + "where DAY(ngayLap) = "
+					+ ngay + " and MONTH(ngayLap) = " + thang + " and YEAR(ngayLap) = " + nam;
+			doanhthu = session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
 			e.printStackTrace();
-			// TODO: handle exception
+			tr.rollback();
+		} finally {
+			session.close();
 		}
-		return doanhthu;
+
+		return doanhthu == null ? 0 : (double) doanhthu;
 	}
 
 	@Override
@@ -276,6 +253,48 @@ public class CTHoaDonImpl extends UnicastRemoteObject implements CTHoaDon_DAO {
 
 		return doanhthu;
 
+	}
+
+	@Override
+	public double getTongDoanhThuThuocTheoThang(int thang, int nam) throws RemoteException {
+		Object doanhthu = null;
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT        sum(thanhtien)\r\n" + "FROM              HoaDon\r\n"
+					+ "where MONTH(ngayLap) = " + thang + " and YEAR(ngayLap) = " + nam;
+			doanhthu = session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+
+		return doanhthu == null ? 0 : (double) doanhthu;
+	}
+
+	@Override
+	public double getTongDoanhThuThuocTheoNam(int nam) throws RemoteException {
+		Object doanhthu = null;
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT        sum(thanhtien)\r\n" + "FROM              HoaDon\r\n"
+					+ "where YEAR(ngayLap) = " + nam;
+			doanhthu = session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+
+		return doanhthu == null ? 0 : (double) doanhthu;
 	}
 
 }
