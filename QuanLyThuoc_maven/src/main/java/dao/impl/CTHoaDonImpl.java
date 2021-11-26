@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
@@ -135,27 +136,6 @@ public class CTHoaDonImpl extends UnicastRemoteObject implements CTHoaDon_DAO {
 	}
 
 	@Override
-	public double getTongDoanhThuThuocTheoNgay(int ngay, int thang, int nam) throws RemoteException {
-		Object doanhthu = null;
-		Session session = sessionFactory.openSession();
-		Transaction tr = session.getTransaction();
-		try {
-			tr.begin();
-			String query = "SELECT        sum(thanhtien)\r\n" + "FROM              HoaDon\r\n" + "where DAY(ngayLap) = "
-					+ ngay + " and MONTH(ngayLap) = " + thang + " and YEAR(ngayLap) = " + nam;
-			doanhthu = session.createNativeQuery(query).getSingleResult();
-			tr.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			tr.rollback();
-		} finally {
-			session.close();
-		}
-
-		return doanhthu == null ? 0 : (double) doanhthu;
-	}
-
-	@Override
 	public double getTongDoanhTheoTen(String ten) throws RemoteException {
 		double doanhthu = 0;
 
@@ -257,14 +237,16 @@ public class CTHoaDonImpl extends UnicastRemoteObject implements CTHoaDon_DAO {
 
 	@Override
 	public double getTongDoanhThuThuocTheoThang(int thang, int nam) throws RemoteException {
-		Object doanhthu = null;
+		BigDecimal doanhthu = null;
 		Session session = sessionFactory.openSession();
 		Transaction tr = session.getTransaction();
 		try {
 			tr.begin();
-			String query = "SELECT        sum(thanhtien)\r\n" + "FROM              HoaDon\r\n"
+			String query = "SELECT      sum(ct.donGia * ct.soLuong)\r\n"
+					+ "FROM              ChiTietHoaDon AS ct INNER JOIN\r\n"
+					+ "                               HoaDon AS hd ON ct.maHoaDon = hd.maHoaDon "
 					+ "where MONTH(ngayLap) = " + thang + " and YEAR(ngayLap) = " + nam;
-			doanhthu = session.createNativeQuery(query).getSingleResult();
+			doanhthu = (BigDecimal) session.createNativeQuery(query).getSingleResult();
 			tr.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -273,19 +255,21 @@ public class CTHoaDonImpl extends UnicastRemoteObject implements CTHoaDon_DAO {
 			session.close();
 		}
 
-		return doanhthu == null ? 0 : (double) doanhthu;
+		return doanhthu == null ? 0 : doanhthu.doubleValue();
 	}
 
 	@Override
 	public double getTongDoanhThuThuocTheoNam(int nam) throws RemoteException {
-		Object doanhthu = null;
+		BigDecimal doanhthu = null;
 		Session session = sessionFactory.openSession();
 		Transaction tr = session.getTransaction();
 		try {
 			tr.begin();
-			String query = "SELECT        sum(thanhtien)\r\n" + "FROM              HoaDon\r\n"
+			String query = "SELECT      sum(ct.donGia * ct.soLuong)\r\n"
+					+ "FROM              ChiTietHoaDon AS ct INNER JOIN\r\n"
+					+ "                               HoaDon AS hd ON ct.maHoaDon = hd.maHoaDon "
 					+ "where YEAR(ngayLap) = " + nam;
-			doanhthu = session.createNativeQuery(query).getSingleResult();
+			doanhthu = (BigDecimal) session.createNativeQuery(query).getSingleResult();
 			tr.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -294,7 +278,29 @@ public class CTHoaDonImpl extends UnicastRemoteObject implements CTHoaDon_DAO {
 			session.close();
 		}
 
-		return doanhthu == null ? 0 : (double) doanhthu;
+		return doanhthu == null ? 0 : doanhthu.doubleValue();
 	}
 
+	@Override
+	public double getTongDoanhThuThuocTheoNgay(int ngay, int thang, int nam) throws RemoteException {
+		BigDecimal doanhthu = null;
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT      sum(ct.donGia * ct.soLuong)\r\n"
+					+ "FROM              ChiTietHoaDon AS ct INNER JOIN\r\n"
+					+ "                               HoaDon AS hd ON ct.maHoaDon = hd.maHoaDon "
+					+ "where DAY(ngayLap) = " + ngay + " and MONTH(ngayLap) = " + thang + " and YEAR(ngayLap) = " + nam;
+			doanhthu = (BigDecimal) session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+
+		return doanhthu == null ? 0 : doanhthu.doubleValue();
+	}
 }

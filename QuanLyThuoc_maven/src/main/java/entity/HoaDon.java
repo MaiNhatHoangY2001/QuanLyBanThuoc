@@ -30,8 +30,6 @@ public class HoaDon implements Serializable {
 	private String maHoaDon;
 	@Column(nullable = false)
 	private LocalDate ngayLap;
-	@Column(columnDefinition = "money", nullable = false)
-	private double thanhtien;
 	@ManyToOne
 	@JoinColumn(name = "maNV", nullable = false)
 	private NhanVien nv;
@@ -100,17 +98,6 @@ public class HoaDon implements Serializable {
 
 	public void setCtHD(List<ChiTietHoaDon> ctHD) {
 		this.ctHD = ctHD;
-	}
-
-	public double getThanhtien() {
-		return thanhtien;
-	}
-
-	public void setThanhtien() {
-		this.thanhtien = 0;
-		for (ChiTietHoaDon chiTietHoaDon : ctHD) {
-			this.thanhtien += chiTietHoaDon.getDonGia();
-		}
 	}
 
 	@Override
