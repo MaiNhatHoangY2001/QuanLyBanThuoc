@@ -95,14 +95,9 @@ public class ThuocDaoImpl extends UnicastRemoteObject implements ThuocDao {
 		Transaction tr = session.getTransaction();
 		try {
 			tr.begin();
-			String query = "select * from Thuoc\r\n"
-					+ "where tenThuoc like '%"+tenThuoc+"%' \r\n"
-					+ "and maLoai like '%"+maLoai+"%'\r\n"
-					+ "and maNCC like '%"+maNcc+"%'\r\n"
-					+ "and idNuoc like '%"+maNuoc+"%'";
-			list = session.createNativeQuery(query, Thuoc.class).getResultList();
-			tr.commit();
-			return list;
+			String query = "select * from Thuoc\r\n" + "where tenThuoc like '%" + tenThuoc + "%' \r\n"
+					+ "and maLoai like '%" + maLoai + "%'\r\n" + "and maNCC like '%" + maNcc + "%'\r\n"
+					+ "and idNuoc like '%" + maNuoc + "%'";
 		} catch (Exception e) {
 			e.printStackTrace();
 			tr.rollback();
@@ -131,14 +126,61 @@ public class ThuocDaoImpl extends UnicastRemoteObject implements ThuocDao {
 	}
 
 	@Override
-	public List<Thuoc> getdsThuocTheoMaNcc(String maNCC) throws RemoteException {
+	public int getTongSoLuongThuoc(int year) throws RemoteException {
+		int soluong = 0;
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT       count(ct.maThuoc)\r\n" + "FROM              HoaDon AS hd INNER JOIN\r\n"
+					+ "                               ChiTietHoaDon AS ct ON hd.maHoaDon = ct.maHoaDon\r\n"
+					+ "where YEAR(hd.ngayLap) = " + year + "\r\n";
+			soluong = (int) session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+		return soluong;
+	}
+
+	@Override
+	public int getTongLoaiThuocTheoNgay(int ngay, int thang, int nam) throws RemoteException {
+		int soluong = 0;
+
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT       count(ct.maThuoc)\r\n" + "FROM              HoaDon AS hd INNER JOIN\r\n"
+					+ "                               ChiTietHoaDon AS ct ON hd.maHoaDon = ct.maHoaDon\r\n"
+					+ "where DAY(hd.ngayLap) = " + ngay + " and MONTH(ngayLap) = " + thang + " and YEAR(hd.ngayLap) = "
+					+ nam;
+			soluong = (int) session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+
+		return soluong;
+	}
+
+	@Override
+	public List<Thuoc> getThuocKhachHangDaMua(String maKH) throws RemoteException {
 		List<Thuoc> list = new ArrayList<Thuoc>();
 		Session session = sessionFactory.openSession();
 		Transaction tr = session.getTransaction();
 		try {
 			tr.begin();
-			String query = "select * from Thuoc\r\n"
-					+ "where maNCC like '"+maNCC+"'";
+			String query = "SELECT        t.*\r\n" + "FROM              Thuoc AS t INNER JOIN\r\n"
+					+ "                               ChiTietHoaDon AS ct ON t.maThuoc = ct.maThuoc INNER JOIN\r\n"
+					+ "                               HoaDon AS hd ON ct.maHoaDon = hd.maHoaDon\r\n"
+					+ "where  hd.maKH = '" + maKH + "'";
 			list = session.createNativeQuery(query, Thuoc.class).getResultList();
 			tr.commit();
 			return list;
@@ -151,4 +193,135 @@ public class ThuocDaoImpl extends UnicastRemoteObject implements ThuocDao {
 		return null;
 	}
 
+	@Override
+	public int getTongSoLuongThuocTheoNgay(int ngay, int thang, int nam) throws RemoteException {
+		int soluong = 0;
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT       sum(ct.soLuong)\r\n" + "FROM              HoaDon AS hd INNER JOIN\r\n"
+					+ "                               ChiTietHoaDon AS ct ON hd.maHoaDon = ct.maHoaDon\r\n"
+					+ "where DAY(hd.ngayLap) = " + ngay + " and MONTH(ngayLap) = " + thang + " and YEAR(hd.ngayLap) = "
+					+ nam;
+			soluong = (int) session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+		return soluong;
+	}
+
+	@Override
+	public List<Thuoc> getdsThuocTheoMaNcc(String maNCC) throws RemoteException {
+		List<Thuoc> list = new ArrayList<Thuoc>();
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "select * from Thuoc\r\n" + "where maNCC like '" + maNCC + "'";
+			list = session.createNativeQuery(query, Thuoc.class).getResultList();
+			tr.commit();
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+
+	@Override
+	public int getTongLoaiThuocTheoThang(int thang, int nam) throws RemoteException {
+		int soluong = 0;
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT       count(ct.maThuoc)\r\n" + "FROM              HoaDon AS hd INNER JOIN\r\n"
+					+ "                               ChiTietHoaDon AS ct ON hd.maHoaDon = ct.maHoaDon\r\n"
+					+ "where MONTH(ngayLap) = " + thang + " and YEAR(hd.ngayLap) = " + nam;
+			soluong = (int) session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+		return soluong;
+	}
+
+	@Override
+	public int getTongLoaiThuocTheoNam(int nam) throws RemoteException {
+		int soluong = 0;
+
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT       count(ct.maThuoc)\r\n" + "FROM              HoaDon AS hd INNER JOIN\r\n"
+					+ "                               ChiTietHoaDon AS ct ON hd.maHoaDon = ct.maHoaDon\r\n"
+					+ "where YEAR(hd.ngayLap) = " + nam;
+			soluong = (int) session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+
+		return soluong;
+	}
+
+	@Override
+	public int getTongSoLuongThuocTheoThang(int thang, int nam) throws RemoteException {
+		int soluong = 0;
+
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT       sum(ct.soLuong)\r\n" + "FROM              HoaDon AS hd INNER JOIN\r\n"
+					+ "                               ChiTietHoaDon AS ct ON hd.maHoaDon = ct.maHoaDon\r\n"
+					+ "where MONTH(ngayLap) = " + thang + " and YEAR(hd.ngayLap) = " + nam;
+			soluong = (int) session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+
+		return soluong;
+	}
+
+	@Override
+	public int getTongSoLuongThuocTheoNam(int nam) throws RemoteException {
+		int soluong = 0;
+
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT       sum(ct.soLuong)\r\n" + "FROM              HoaDon AS hd INNER JOIN\r\n"
+					+ "                               ChiTietHoaDon AS ct ON hd.maHoaDon = ct.maHoaDon\r\n"
+					+ "where YEAR(hd.ngayLap) = " + nam;
+			soluong = (int) session.createNativeQuery(query).getSingleResult();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+
+		return soluong;
+	}
 }

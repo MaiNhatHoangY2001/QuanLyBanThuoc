@@ -136,7 +136,7 @@ public class FrmBanThuoc extends JPanel {
 		pnlNgang.setBounds(new Rectangle(10, 10, 10, 10));
 		pnlNgang.setLayout(null);
 		pnlNgang.setBackground(Color.WHITE);
-		pnlNgang.setBounds(0, 0, 1600, 910);
+		pnlNgang.setBounds(0, 0, 1600, 933);
 		add(pnlNgang);
 
 		/*

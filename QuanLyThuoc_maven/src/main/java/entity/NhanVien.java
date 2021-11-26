@@ -26,12 +26,13 @@ public class NhanVien implements Serializable {
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "NV"), strategy = "generator.SinhMaTheoNgay")
 	private String maNV;
-	@Column(columnDefinition = "Nvarchar(255)")
+	@Column(columnDefinition = "nvarchar(255)")
 	private String hoTen;
+	@Column(name="SDT",columnDefinition = "nvarchar(255)")
 	private String soDienThoai;
 	private LocalDate ngaySinh;
 	private boolean gioiTinh;
-	@Column(columnDefinition = "Nvarchar(255)")
+	@Column(columnDefinition = "nvarchar(255)")
 	private String diaChi;
 	private double luong;
 
@@ -92,6 +93,20 @@ public class NhanVien implements Serializable {
 
 	public NhanVien(String hoTen, String soDienThoai, LocalDate ngaySinh, boolean gioiTinh, String diaChi, double luong) {
 		super();
+		this.hoTen = hoTen;
+		this.soDienThoai = soDienThoai;
+		this.ngaySinh = ngaySinh;
+		this.gioiTinh = gioiTinh;
+		this.diaChi = diaChi;
+		this.luong = luong;
+	}
+	
+	
+
+	public NhanVien(String maNV, String hoTen, String soDienThoai, LocalDate ngaySinh, boolean gioiTinh, String diaChi,
+			double luong) {
+		super();
+		this.maNV = maNV;
 		this.hoTen = hoTen;
 		this.soDienThoai = soDienThoai;
 		this.ngaySinh = ngaySinh;

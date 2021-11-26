@@ -51,8 +51,15 @@ public class NhaCungCap implements Serializable {
 		this.diaChi = diaChi;
 	}
 
+	public NhaCungCap(String tenNCC, String diaChi) {
+		super();
+		this.tenNCC = tenNCC;
+		this.diaChi = diaChi;
+	}
+
 	public NhaCungCap(String maNCC, String tenNCC, String diaChi) {
 		super();
+		this.maNCC = maNCC;
 		this.tenNCC = tenNCC;
 		this.diaChi = diaChi;
 	}

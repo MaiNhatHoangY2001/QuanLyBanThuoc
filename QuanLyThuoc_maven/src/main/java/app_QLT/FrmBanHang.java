@@ -104,11 +104,11 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			e.printStackTrace();
 		}
 		kh_dao = new KhachHang_DAO();
-		nv_dao = new NhanVien_DAO();
+//		nv_dao = new NhanVien_DAO();
 		thuoc_dao = new Thuoc_DAO();
 		loaithuoc_dao = new LoaiThuoc_DAO();
 		hoadon_dao = new HoaDon_DAO();
-//		cthd_dao = new CTHoaDon_DAO();
+		// cthd_dao = new CTHoaDon_DAO();
 		regex = new Regex();
 
 		setBackground(new Color(248, 248, 248));
@@ -325,11 +325,11 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		add(lbmaNVNhap);
 		cbmaNVNhap = new JComboBox<String>();
 		cbmaNVNhap.setBounds(200, 570, 100, 30);
-		ArrayList<NhanVien> lsNVNhap = nv_dao.getalltbNhanVien();
-		for (NhanVien n : lsNVNhap) {
-			cbmaNVNhap.addItem(n.getMaNV());
-			;
-		}
+//		ArrayList<NhanVien> lsNVNhap = nv_dao.getalltbNhanVien();
+//		for (NhanVien n : lsNVNhap) {
+//			cbmaNVNhap.addItem(n.getMaNV());
+//			;
+//		}
 		add(cbmaNVNhap);
 
 //		thanh toan
@@ -425,11 +425,11 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 		cboTenThuoc.removeAllItems();
 		txtTenKH.requestFocus();
 		cbmaNVNhap.removeAllItems();
-		ArrayList<NhanVien> lsNVNhap = nv_dao.getalltbNhanVien();
-		for (NhanVien n : lsNVNhap) {
-			cbmaNVNhap.addItem(n.getMaNV());
-			;
-		}
+//		ArrayList<NhanVien> lsNVNhap = nv_dao.getalltbNhanVien();
+//		for (NhanVien n : lsNVNhap) {
+//			cbmaNVNhap.addItem(n.getMaNV());
+//			;
+//		}
 	}
 
 	private void themKH() {
@@ -467,6 +467,9 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
 //			NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM", 10000000);
 //			HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien , kh);
+//			NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM",
+//					10000000);
+//			HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien, kh);
 			// ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
 //			ChiTietHoaDon cthd = new ChiTietHoaDon(hoadon, thuoc, soLuongThuoc);
 //			if (soLuongThuoc > 0) {
@@ -556,6 +559,19 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 //		Thuoc thuoc = thuoc_dao.getThuocTheoTen("abc");
 //		NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM", 10000000);
 //		HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien , kh);
+//		HoaDon hd = new HoaDon(ngaylap, nhanvien, kh);
+//		if (hoadon_dao.createHD(hd))
+//			System.out.println("Success");
+//		PhatSinhMa ma = new PhatSinhMa();
+//		Date ngaylap = (Date) datePicker1.getModel().getValue();
+////		NhanVien nvl = nv_dao.get1NhanVienTheoMaNV(cbmaNVNhap.getSelectedItem().toString());
+//		KhachHang kh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
+//		// ChiTietHoaDon cthd = cthd_dao.getCTHDTheoMa(maCTHD);
+////		ChiTietHoaDon cthd = cthd_dao.getCTHDTheoMa(maCTHD);
+//		Thuoc thuoc = thuoc_dao.getThuocTheoTen("abc");
+//		NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM",
+//				10000000);
+//		HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien, kh);
 //		HoaDon hd = new HoaDon(ngaylap, nhanvien, kh);
 //		if (hoadon_dao.createHD(hd))
 //			System.out.println("Success");

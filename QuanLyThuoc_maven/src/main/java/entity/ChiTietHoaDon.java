@@ -37,7 +37,7 @@ public class ChiTietHoaDon implements Serializable {
 		this.hoaDon = hoaDon;
 		this.thuoc = thuoc;
 		this.soLuong = soLuong;
-		this.donGia = thuoc.getDonGia() * soLuong;
+		this.donGia = thuoc.getDonGia() * soLuong + 20000;
 	}
 
 	public HoaDon getHoaDon() {
@@ -70,25 +70,6 @@ public class ChiTietHoaDon implements Serializable {
 	
 	public void setDonGia() {
 		this.donGia = getSoLuong() * getThuoc().getDonGia();
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(donGia, hoaDon, soLuong, thuoc);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ChiTietHoaDon other = (ChiTietHoaDon) obj;
-		return Double.doubleToLongBits(donGia) == Double.doubleToLongBits(other.donGia)
-				&& Objects.equals(hoaDon, other.hoaDon) && soLuong == other.soLuong
-				&& Objects.equals(thuoc, other.thuoc);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 
 import dao.LoaiThuocDao;
 import entity.LoaiThuoc;
+import entity.NhanVien;
 import util.HibernateUtil;
 
 public class LoaiThuocDaoImpl extends UnicastRemoteObject implements LoaiThuocDao {
@@ -43,6 +44,63 @@ public class LoaiThuocDaoImpl extends UnicastRemoteObject implements LoaiThuocDa
 			session.close();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean themLoaiThuoc(LoaiThuoc loaiThuoc) throws RemoteException {
+		Session session = sessionFactory.getCurrentSession();
+
+		Transaction tr = session.getTransaction();
+
+		try {
+			tr.begin();
+			session.save(loaiThuoc); //JPA - persist
+			tr.commit();
+
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean xoaLoaiThuoc(String maLoai) throws RemoteException {
+		Session session = sessionFactory.getCurrentSession();
+
+		Transaction tr = session.getTransaction();
+
+		try {
+			tr.begin();
+			session.delete(session.find(LoaiThuoc.class, maLoai));
+			tr.commit();
+
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean updateloaiThuoc(LoaiThuoc loaiThuoc) throws RemoteException {
+		Session session = sessionFactory.getCurrentSession();
+
+		Transaction tr = session.getTransaction();
+
+		try {
+			tr.begin();
+			session.update(loaiThuoc);
+			tr.commit();
+
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+		}
+
+		return false;
 	}
 	
 }

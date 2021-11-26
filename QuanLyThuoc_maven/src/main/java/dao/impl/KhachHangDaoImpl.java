@@ -2,6 +2,9 @@ package dao.impl;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -102,10 +105,101 @@ public class KhachHangDaoImpl extends UnicastRemoteObject implements KhachHangDa
 		Transaction tr = session.getTransaction();
 		try {
 			tr.begin();
-			String query = "select * from KhachHang\r\n" + "where maKH like '" + data + "'\r\n" + "or SDT like '"+data+"'";
+			String query = "select * from KhachHang\r\n" + "where maKH like '" + data + "'\r\n" + "or SDT like '" + data
+					+ "'";
 			KhachHang kh = session.createNativeQuery(query, KhachHang.class).getSingleResult();
 			tr.commit();
 			return kh;
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+
+	@Override
+	public List<KhachHang> getKhachHangDaMuaThuocTheoNgay(int ngay, int thang, int nam) throws RemoteException {
+		List<KhachHang> dskh = new ArrayList<KhachHang>();
+
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT        *\r\n" + "FROM              KhachHang\r\n" + "where maKH in (\r\n" + "\r\n"
+					+ "SELECT        maKH\r\n" + "FROM              HoaDon\r\n" + "where DAY(ngayLap) = " + ngay
+					+ " and MONTH(ngayLap) = " + thang + " and YEAR(ngayLap) = " + nam + "\r\n" + ")";
+			dskh = session.createNativeQuery(query, KhachHang.class).getResultList();
+			tr.commit();
+			return dskh;
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+
+	@Override
+	public List<KhachHang> getAllKhachHang() throws RemoteException {
+		List<KhachHang> dskh = new ArrayList<KhachHang>();
+
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "select * from KhachHang";
+			dskh = session.createNativeQuery(query, KhachHang.class).getResultList();
+			tr.commit();
+			return dskh;
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+
+	@Override
+	public List<KhachHang> getKhachHangDaMuaThuocTheoThang(int thang, int nam) throws RemoteException {
+		List<KhachHang> dskh = new ArrayList<KhachHang>();
+
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT        *\r\n" + "FROM              KhachHang\r\n" + "where maKH in (\r\n" + "\r\n"
+					+ "SELECT        maKH\r\n" + "FROM              HoaDon\r\n" + "where MONTH(ngayLap) = " + thang
+					+ " and YEAR(ngayLap) = " + nam + "\r\n" + ")";
+			dskh = session.createNativeQuery(query, KhachHang.class).getResultList();
+			tr.commit();
+			return dskh;
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+
+	@Override
+	public List<KhachHang> getKhachHangDaMuaThuocTheoNam(int nam) throws RemoteException {
+		List<KhachHang> dskh = new ArrayList<KhachHang>();
+
+		Session session = sessionFactory.openSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			String query = "SELECT        *\r\n" + "FROM              KhachHang\r\n" + "where maKH in (\r\n" + "\r\n"
+					+ "SELECT        maKH\r\n" + "FROM              HoaDon\r\n" + "where YEAR(ngayLap) = " + nam
+					+ "\r\n" + ")";
+			dskh = session.createNativeQuery(query, KhachHang.class).getResultList();
+			tr.commit();
+			return dskh;
 		} catch (Exception e) {
 			e.printStackTrace();
 			tr.rollback();

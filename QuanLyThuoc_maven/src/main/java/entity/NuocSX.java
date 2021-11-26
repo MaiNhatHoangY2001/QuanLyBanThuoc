@@ -3,6 +3,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ public class NuocSX implements Serializable {
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "SX"), strategy = "generator.SinhMaTheoNgay")
 	private String idNuoc;
+	@Column(columnDefinition = "nvarchar(255)")
 	private String tenNuoc;
 
 	@OneToMany(mappedBy = "nuocSX")
@@ -46,6 +48,12 @@ public class NuocSX implements Serializable {
 
 	public NuocSX() {
 		super();
+	}
+
+	public NuocSX(String idNuoc, String tenNuoc) {
+		super();
+		this.idNuoc = idNuoc;
+		this.tenNuoc = tenNuoc;
 	}
 
 	@Override

@@ -46,6 +46,9 @@ import javax.swing.ListSelectionModel;
 import java.awt.Dimension;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
@@ -55,8 +58,10 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class FrmQuanLyThuoc extends JPanel {
+public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListener{
 
 	/**
 	 * 
@@ -102,7 +107,7 @@ public class FrmQuanLyThuoc extends JPanel {
 	 * Create the panel.
 	 */
 	public FrmQuanLyThuoc() {
-		setSize(1600, 911);
+		setSize(1600, 935);
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 
@@ -112,7 +117,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		JPanel pnlNgang = new JPanel();
 		pnlNgang.setBounds(new Rectangle(10, 10, 10, 10));
 		pnlNgang.setLayout(null);
-		pnlNgang.setBounds(0, 0, 1600, 910);
+		pnlNgang.setBounds(0, 0, 1600, 935);
 		add(pnlNgang);
 
 		RoundedPanel pnlChonSP = new RoundedPanel();
@@ -192,7 +197,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		pnlThongTInNV.setShady(false);
 		pnlThongTInNV.setLayout(null);
 		pnlThongTInNV.setBackground(Color.WHITE);
-		pnlThongTInNV.setBounds(10, 422, 350, 477);
+		pnlThongTInNV.setBounds(10, 422, 350, 488);
 		pnlNgang.add(pnlThongTInNV);
 
 		JLabel lblNewLabel = new JLabel("Danh sách nhà cung cấp");
@@ -242,7 +247,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		pnlThongTInNV_1.setLayout(null);
 		pnlThongTInNV_1.setShady(false);
 		pnlThongTInNV_1.setBackground(Color.WHITE);
-		pnlThongTInNV_1.setBounds(370, 422, 894, 477);
+		pnlThongTInNV_1.setBounds(370, 422, 894, 488);
 		pnlNgang.add(pnlThongTInNV_1);
 
 		JLabel lblNhpThngTin = new JLabel("Nhập thông tin thuốc");
@@ -406,6 +411,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		btnThemLoai.setBackground(new Color(20, 140, 255));
 		btnThemLoai.setBounds(634, 74, 230, 40);
 		panel.add(btnThemLoai);
+		btnThemLoai.addActionListener(this);
 
 		txtSoLuong = new JTextField();
 		txtSoLuong.setBounds(154, 302, 710, 40);
@@ -432,7 +438,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		pnlThongTInNV_2.setLayout(null);
 		pnlThongTInNV_2.setShady(false);
 		pnlThongTInNV_2.setBackground(Color.WHITE);
-		pnlThongTInNV_2.setBounds(1274, 422, 300, 477);
+		pnlThongTInNV_2.setBounds(1274, 422, 300, 488);
 		pnlNgang.add(pnlThongTInNV_2);
 
 		btnLuu = new JButton("Thêm");
@@ -560,5 +566,53 @@ public class FrmQuanLyThuoc extends JPanel {
 	private void load1NCCVaoTree(NhaCungCap ncc) {
 		DefaultMutableTreeNode tam = new DefaultMutableTreeNode(ncc.getTenNCC());
 		node.add(tam);
+		
+		btnThemNCC.addActionListener(this);
+		btnThemNSX.addActionListener(this);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o=e.getSource();
+		if(o.equals(btnThemLoai)) {
+			new FrmThemLoaiThuoc().setVisible(true);
+		}
+		else if(o.equals(btnThemNCC)) {
+			new FrmThemNCCNew().setVisible(true);
+		}
+		else if(o.equals(btnThemNSX)) {
+			new FrmThemNuoc().setVisible(true);
+		}
+		
 	}
 }

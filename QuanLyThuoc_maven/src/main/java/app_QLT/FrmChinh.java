@@ -27,6 +27,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import chucNang.ChucNang;
+
 public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 
 	private JButton temp;
@@ -34,15 +36,14 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 	private CardLayout cardLayout;
 	private JPanel pnlChange;
 	private JButton btnThoat;
-	private JButton btnQuanLyTaiKhoan;
 	private JButton btnQuanLyThuoc;
 	private JButton btnThongKe;
 	private JButton btnQuanLyNhanVien;
 
 	private FrmNhanVien trangNV = new FrmNhanVien();
 	private FrmThongKe trangTK = new FrmThongKe();
-	private FrmThuoc trangThuoc = new FrmThuoc();
-	private FrmBanHang trangBH = new FrmBanHang();
+	private FrmQuanLyThuoc trangThuoc = new FrmQuanLyThuoc();
+	private FrmBanThuoc trangBH = new FrmBanThuoc();
 	private JLabel lblNgay;
 	private JLabel lblGio;
 	private JLabel lblNewLabel_2;
@@ -68,6 +69,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 	 * Create the frame.
 	 */
 	public FrmChinh() {
+		ChucNang.setTableAlternateRow();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setSize(1920, 1037);
 		setResizable(false);
@@ -103,114 +105,9 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 
-		/**
-		 * các nút menu
-		 */
-		btnThoat = new JButton("Thoát");
-		btnThoat.setFocusPainted(false);
-		btnThoat.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnThoat.setIcon(new ImageIcon("icon\\icons8-close-64.png"));
-		btnThoat.setBounds(0, 670, 320, 134);
-		panel_1.add(btnThoat);
-		btnThoat.setForeground(Color.BLACK);
-		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		btnThoat.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnThoat.setBackground(new Color(255, 255, 255));
-		// Sự kiện thoát
-		btnThoat.addActionListener(e -> {
-			thongBaoThoat();
-		});
-
-		btnQuanLyTaiKhoan = new JButton("Quản lý tài khoản");
-		btnQuanLyTaiKhoan.setFocusPainted(false);
-		btnQuanLyTaiKhoan.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnQuanLyTaiKhoan.setIcon(new ImageIcon("icon/icons8-userSetting-39.png"));
-		btnQuanLyTaiKhoan.setBounds(0, 536, 320, 134);
-		panel_1.add(btnQuanLyTaiKhoan);
-		btnQuanLyTaiKhoan.setIconTextGap(10);
-		btnQuanLyTaiKhoan.setForeground(Color.BLACK);
-		btnQuanLyTaiKhoan.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		btnQuanLyTaiKhoan.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnQuanLyTaiKhoan.setBackground(new Color(255, 255, 255));
-
-		btnQuanLyThuoc = new JButton("Quản lý bán thuốc");
-		btnQuanLyThuoc.setFocusPainted(false);
-		btnQuanLyThuoc.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnQuanLyThuoc.setIcon(new ImageIcon("icon/thuoc_menu.png"));
-		btnQuanLyThuoc.setBounds(0, 0, 320, 134);
-
-		panel_1.add(btnQuanLyThuoc);
-		btnQuanLyThuoc.setIconTextGap(10);
-		btnQuanLyThuoc.setForeground(Color.BLACK);
-		btnQuanLyThuoc.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		btnQuanLyThuoc.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnQuanLyThuoc.setBackground(new Color(255, 255, 255));
-
-		btnThongKe = new JButton("Thống kê thu chi");
-		btnThongKe.setFocusPainted(false);
-		btnThongKe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnThongKe.setIcon(new ImageIcon("icon/icons8-chart-39.png"));
-		btnThongKe.setBounds(0, 268, 320, 134);
-		panel_1.add(btnThongKe);
-		btnThongKe.setIconTextGap(0);
-		btnThongKe.setForeground(Color.BLACK);
-		btnThongKe.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		btnThongKe.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnThongKe.setBackground(new Color(255, 255, 255));
-
-		// btnQuanLyLuong.setBounds(0, 230, 320, 115);
-
-		btnQuanLyHoaDon = new JButton("Quản lý hóa đơn");
-		btnQuanLyHoaDon.setFocusPainted(false);
-		btnQuanLyHoaDon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnQuanLyHoaDon.setIcon(new ImageIcon("icon/icons8-money-39.png"));
-		btnQuanLyHoaDon.setBounds(0, 134, 320, 134);
-		panel_1.add(btnQuanLyHoaDon);
-		btnQuanLyHoaDon.setIconTextGap(10);
-		btnQuanLyHoaDon.setForeground(Color.BLACK);
-		btnQuanLyHoaDon.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		btnQuanLyHoaDon.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnQuanLyHoaDon.setBackground(new Color(255, 255, 255));
-		btnQuanLyHoaDon.setAlignmentX(1.0f);
-
-		btnQuanLyNhanVien = new JButton("Quản lý nhân viên");
-		btnQuanLyNhanVien.setFocusPainted(false);
-		btnQuanLyNhanVien.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnQuanLyNhanVien.setIconTextGap(10);
-		btnQuanLyNhanVien.setIcon(new ImageIcon("icon/icons8-user-39.png"));
-		btnQuanLyNhanVien.setBounds(0, 402, 320, 134);
-		panel_1.add(btnQuanLyNhanVien);
-		btnQuanLyNhanVien.setForeground(Color.BLACK);
-		btnQuanLyNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		btnQuanLyNhanVien.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnQuanLyNhanVien.setBackground(new Color(255, 255, 255));
-
-		btnQuanLyHoaDon.addActionListener(this);
-		btnQuanLyNhanVien.addActionListener(this);
-		btnQuanLyThuoc.addActionListener(this);
-		btnQuanLyTaiKhoan.addActionListener(this);
-		btnThongKe.addActionListener(this);
-
-		pnlChange = new JPanel();
-		pnlChange.setBounds(320, 89, 1600, 909);
-		getContentPane().add(pnlChange);
-		pnlChange.setLayout(new CardLayout(0, 0));
-
-		cardLayout = (CardLayout) pnlChange.getLayout();
-
-		pnlChange.add(new FrmBanThuoc(), "btnQuanLyHoaDon");
-		pnlChange.add(trangTK, "btnThongKe");
-		pnlChange.add(trangNV, "btnQuanLyNhanVien");
-		pnlChange.add(new FrmQuanLyThuoc(), "btnQuanLyThuoc");
-		// pnlChange.add(trangTK, "btnQuanLyTaiKhoan");
-
-		// set active khi bắt đầu vào
-		temp = btnQuanLyHoaDon;
-		activeButton(btnQuanLyHoaDon);
-
 		JPanel pnlHead = new JPanel();
 		pnlHead.setBackground(new Color(68, 142, 255));
-		pnlHead.setBounds(320, 0, 1584, 91);
+		pnlHead.setBounds(320, 0, 1600, 91);
 		getContentPane().add(pnlHead);
 		pnlHead.setLayout(null);
 
@@ -271,6 +168,99 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		lblIconDX.setBounds(1536, 50, 38, 30);
 		pnlHead.add(lblIconDX);
 		lblDangXuat.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+		/**
+		 * các nút menu
+		 */
+		btnThoat = new JButton("Thoát");
+		btnThoat.setFocusPainted(false);
+		btnThoat.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnThoat.setIcon(new ImageIcon("icon\\icons8-close-64.png"));
+		btnThoat.setBounds(0, 645, 320, 160);
+		panel_1.add(btnThoat);
+		btnThoat.setForeground(Color.BLACK);
+		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnThoat.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnThoat.setBackground(new Color(255, 255, 255));
+		// Sự kiện thoát
+		btnThoat.addActionListener(e -> {
+			thongBaoThoat();
+		});
+
+		btnQuanLyThuoc = new JButton("Quản lý bán thuốc");
+		btnQuanLyThuoc.setFocusPainted(false);
+		btnQuanLyThuoc.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnQuanLyThuoc.setIcon(new ImageIcon("icon/thuoc_menu.png"));
+		btnQuanLyThuoc.setBounds(0, 1, 320, 160);
+
+		panel_1.add(btnQuanLyThuoc);
+		btnQuanLyThuoc.setIconTextGap(10);
+		btnQuanLyThuoc.setForeground(Color.BLACK);
+		btnQuanLyThuoc.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnQuanLyThuoc.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnQuanLyThuoc.setBackground(new Color(255, 255, 255));
+
+		btnThongKe = new JButton("Thống kê thu chi");
+		btnThongKe.setFocusPainted(false);
+		btnThongKe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnThongKe.setIcon(new ImageIcon("icon/icons8-chart-39.png"));
+		btnThongKe.setBounds(0, 323, 320, 160);
+		panel_1.add(btnThongKe);
+		btnThongKe.setIconTextGap(0);
+		btnThongKe.setForeground(Color.BLACK);
+		btnThongKe.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnThongKe.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnThongKe.setBackground(new Color(255, 255, 255));
+
+		// btnQuanLyLuong.setBounds(0, 230, 320, 115);
+
+		btnQuanLyHoaDon = new JButton("Quản lý hóa đơn");
+		btnQuanLyHoaDon.setFocusPainted(false);
+		btnQuanLyHoaDon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnQuanLyHoaDon.setIcon(new ImageIcon("icon/icons8-money-39.png"));
+		btnQuanLyHoaDon.setBounds(0, 162, 320, 160);
+		panel_1.add(btnQuanLyHoaDon);
+		btnQuanLyHoaDon.setIconTextGap(10);
+		btnQuanLyHoaDon.setForeground(Color.BLACK);
+		btnQuanLyHoaDon.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnQuanLyHoaDon.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnQuanLyHoaDon.setBackground(new Color(255, 255, 255));
+		btnQuanLyHoaDon.setAlignmentX(1.0f);
+
+		btnQuanLyNhanVien = new JButton("Quản lý nhân viên");
+		btnQuanLyNhanVien.setFocusPainted(false);
+		btnQuanLyNhanVien.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnQuanLyNhanVien.setIconTextGap(10);
+		btnQuanLyNhanVien.setIcon(new ImageIcon("icon/icons8-user-39.png"));
+		btnQuanLyNhanVien.setBounds(0, 484, 320, 160);
+		panel_1.add(btnQuanLyNhanVien);
+		btnQuanLyNhanVien.setForeground(Color.BLACK);
+		btnQuanLyNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnQuanLyNhanVien.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnQuanLyNhanVien.setBackground(new Color(255, 255, 255));
+
+		btnQuanLyHoaDon.addActionListener(this);
+		btnQuanLyNhanVien.addActionListener(this);
+		btnQuanLyThuoc.addActionListener(this);
+		btnThongKe.addActionListener(this);
+
+		pnlChange = new JPanel();
+		pnlChange.setBounds(320, 89, 1600, 928);
+		getContentPane().add(pnlChange);
+		pnlChange.setLayout(new CardLayout(0, 0));
+
+		cardLayout = (CardLayout) pnlChange.getLayout();
+
+		pnlChange.add(trangBH, "btnQuanLyHoaDon");
+		pnlChange.add(trangTK, "btnThongKe");
+		pnlChange.add(trangNV, "btnQuanLyNhanVien");
+		pnlChange.add(trangThuoc, "btnQuanLyThuoc");
+		// pnlChange.add(trangTK, "btnQuanLyTaiKhoan");
+
+		// set active khi bắt đầu vào
+		temp = btnQuanLyHoaDon;
+		activeButton(btnQuanLyHoaDon);
+
 	}
 
 	@Override
@@ -290,9 +280,6 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		} else if (key == btnQuanLyThuoc) {
 			cardLayout.show(pnlChange, "btnQuanLyThuoc");
 			lblHead.setText("QUẢN LÝ THUỐC");
-		} else if (key == btnQuanLyTaiKhoan) {
-			cardLayout.show(pnlChange, "btnQuanLyTaiKhoan");
-			lblHead.setText("QUẢN LÝ TÀI KHOẢN");
 		} else if (key == btnThongKe) {
 			cardLayout.show(pnlChange, "btnThongKe");
 			lblHead.setText("THỐNG KÊ");
