@@ -69,6 +69,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setResizable(false);
 		setUndecorated(false);
+//		setSize(1920, 1037);
 		setSize(r.width, r.height);
 		setTitle("Ứng dụng quản lý cửa hàng thuốc Long Đúng");
 		setIconImage(new ImageIcon("icon/thuoc _navbar.png").getImage());
