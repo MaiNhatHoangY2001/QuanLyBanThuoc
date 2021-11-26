@@ -34,6 +34,7 @@ import org.jdatepicker.impl.SqlDateModel;
 import com.toedter.calendar.JDateChooser;
 
 import chucNang.Regex;
+import chucNang.Regex1;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -405,7 +406,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		txtLuong.setText("");
 		txtSDT.setText("");
 		txtTenNV.setText("");
-		modelNgay.setDate(1990, 8, 24);
+		//modelNgay.setDate(1990, 8, 24);
 		tableNV.clearSelection();
 		txtMaNV.requestFocus();
 	}
@@ -481,29 +482,30 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	}
 
 	private boolean kiemTra() {
+		regex=new Regex();
 //		if (regex.kiemTraRong(txtMaNV))
 //			return false;
 //		if (regex.RegexMaNV(txtMaNV))
 //			return false;
 		
-//		if (regex.kiemTraRong(txtTenNV))
-//			return false;
-//		if (regex.RegexTen(txtTenNV))
-//			return false;
-//		if (regex.kiemTraRong(txtSDT))
-//			return false;
-//		if (regex.RegexSDT(txtSDT))
-//			return false;
-//		if (regex.kiemTraRong(txtDiaChi))
-//			return false;
-//		if (regex.RegexDiaChi(txtDiaChi))
-//			return false;
-//		if (regex.kiemTraRong(txtLuong))
-//			return false;
-//		if (regex.kiemTraSo(txtLuong))
-//			return false;
-//		if (regex.kiemTraTuoi(modelNgay))
-//			return false;
+		if (regex.kiemTraRong(txtTenNV))
+			return false;
+		if (regex.RegexTen(txtTenNV))
+			return false;
+		if (regex.kiemTraRong(txtSDT))
+			return false;
+		if (regex.RegexSDT(txtSDT))
+			return false;
+		if (regex.kiemTraRong(txtDiaChi))
+			return false;
+		if (regex.RegexDiaChi(txtDiaChi))
+			return false;
+		if (regex.kiemTraRong(txtLuong))
+			return false;
+		if (regex.kiemTraSo(txtLuong))
+			return false;
+		if (regex.kiemTraTuoi(modelNgay))
+			return false;
 		return true;
 	}
 }

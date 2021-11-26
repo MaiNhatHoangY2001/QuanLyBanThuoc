@@ -27,10 +27,15 @@ import javax.swing.ListSelectionModel;
 import java.awt.Dimension;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class FrmQuanLyThuoc extends JPanel {
+public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListener{
 
 	/**
 	 * 
@@ -41,6 +46,7 @@ public class FrmQuanLyThuoc extends JPanel {
 	private JTextField txtDonGia;
 	private JTextField txtSoLuong;
 	private DefaultTableModel model;
+	private JButton btnThemLoai,btnThemNCC,btnThemNSX;
 
 	/**
 	 * Create the panel.
@@ -145,7 +151,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		tree.setRowHeight(25);
 		scrollPane_1.setViewportView(tree);
 
-		JButton btnThemNCC = new JButton("Thêm nhà cung cấp");
+		btnThemNCC = new JButton("Thêm nhà cung cấp");
 		btnThemNCC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemNCC.setForeground(Color.WHITE);
 		btnThemNCC.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -300,7 +306,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		cmbNSX.setBounds(154, 131, 470, 40);
 		panel.add(cmbNSX);
 
-		JButton btnThemNSX = new JButton("Thêm nước sản xuất");
+		btnThemNSX = new JButton("Thêm nước sản xuất");
 		btnThemNSX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemNSX.setForeground(Color.WHITE);
 		btnThemNSX.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -308,13 +314,14 @@ public class FrmQuanLyThuoc extends JPanel {
 		btnThemNSX.setBounds(634, 131, 230, 40);
 		panel.add(btnThemNSX);
 
-		JButton btnThemLoai = new JButton("Thêm loại thuốc");
+		btnThemLoai = new JButton("Thêm loại thuốc");
 		btnThemLoai.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemLoai.setForeground(Color.WHITE);
 		btnThemLoai.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnThemLoai.setBackground(new Color(20, 140, 255));
 		btnThemLoai.setBounds(634, 74, 230, 40);
 		panel.add(btnThemLoai);
+		btnThemLoai.addActionListener(this);
 
 		txtSoLuong = new JTextField();
 		txtSoLuong.setBounds(154, 302, 710, 40);
@@ -375,5 +382,53 @@ public class FrmQuanLyThuoc extends JPanel {
 		btnLamMoi.setBackground(new Color(248, 96, 96));
 		btnLamMoi.setBounds(25, 364, 250, 80);
 		pnlThongTInNV_2.add(btnLamMoi);
+		
+		btnThemNCC.addActionListener(this);
+		btnThemNSX.addActionListener(this);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o=e.getSource();
+		if(o.equals(btnThemLoai)) {
+			new FrmThemLoaiThuoc().setVisible(true);
+		}
+		else if(o.equals(btnThemNCC)) {
+			new FrmThemNCCNew().setVisible(true);
+		}
+		else if(o.equals(btnThemNSX)) {
+			new FrmThemNuoc().setVisible(true);
+		}
+		
 	}
 }
