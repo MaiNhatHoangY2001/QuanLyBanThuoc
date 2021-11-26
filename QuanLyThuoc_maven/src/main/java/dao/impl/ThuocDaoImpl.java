@@ -195,7 +195,7 @@ public class ThuocDaoImpl extends UnicastRemoteObject implements ThuocDao {
 
 	@Override
 	public int getTongSoLuongThuocTheoNgay(int ngay, int thang, int nam) throws RemoteException {
-		int soluong = 0;
+		Object soluong = null;
 		Session session = sessionFactory.openSession();
 		Transaction tr = session.getTransaction();
 		try {
@@ -204,7 +204,7 @@ public class ThuocDaoImpl extends UnicastRemoteObject implements ThuocDao {
 					+ "                               ChiTietHoaDon AS ct ON hd.maHoaDon = ct.maHoaDon\r\n"
 					+ "where DAY(hd.ngayLap) = " + ngay + " and MONTH(ngayLap) = " + thang + " and YEAR(hd.ngayLap) = "
 					+ nam;
-			soluong = (int) session.createNativeQuery(query).getSingleResult();
+			soluong = session.createNativeQuery(query).getSingleResult();
 			tr.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -212,7 +212,7 @@ public class ThuocDaoImpl extends UnicastRemoteObject implements ThuocDao {
 		} finally {
 			session.close();
 		}
-		return soluong;
+		return soluong == null ? 0 : (int) soluong;
 	}
 
 	@Override
