@@ -29,8 +29,6 @@
     <fullyQualifiedTypeName name="app_QLT.FrmBanThuoc"/>
     <fullyQualifiedTypeName name="app_QLT.FrmQuanLyThuoc"/>
     <fullyQualifiedTypeName name="java.awt.Color"/>
-    <fullyQualifiedTypeName name="dao.CTHoaDon_DAO"/>
-    <fullyQualifiedTypeName name="dao.impl.CTHoaDonImpl"/>
     <fullyQualifiedTypeName name="dao.impl.KhachHangDaoImpl"/>
     <fullyQualifiedTypeName name="dao.KhachHangDao"/>
     <fullyQualifiedTypeName name="dao.ThuocDao"/>
@@ -45,7 +43,6 @@
     <fullyQualifiedTypeName name="gui_package.ChucNang"/>
     <fullyQualifiedTypeName name="chucNang.ChucNang"/>
     <fullyQualifiedTypeName name="java.rmi.RemoteException"/>
-    <fullyQualifiedTypeName name="entity.ChiTietHoaDon"/>
     <fullyQualifiedTypeName name="javax.persistence.Column"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="java.lang.Object"/>
@@ -59,4 +56,7 @@
     <fullyQualifiedTypeName name="java.awt.Rectangle"/>
     <fullyQualifiedTypeName name="app_QLT.FrmDangNhap"/>
     <fullyQualifiedTypeName name="frm.FrmDangNhap"/>
+    <fullyQualifiedTypeName name="entity.ChiTietHoaDon"/>
+    <fullyQualifiedTypeName name="dao.CTHoaDon_DAO"/>
+    <fullyQualifiedTypeName name="dao.impl.CTHoaDonImpl"/>
 </qualifiedTypeNameHistroy>

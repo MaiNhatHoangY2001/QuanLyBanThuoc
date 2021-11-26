@@ -2,32 +2,25 @@ package dao.impl;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import connectDB.ConnectDB;
 import dao.NhanVien_DAO;
 import entity.NhanVien;
 import util.HibernateUtil;
 
-public class NhanVienImlp extends UnicastRemoteObject implements NhanVien_DAO{
+public class NhanVienImlp extends UnicastRemoteObject implements NhanVien_DAO {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3671510881434717081L;
 	private SessionFactory sessionFactory;
-	
-	public NhanVienImlp() throws RemoteException{
+
+	public NhanVienImlp() throws RemoteException {
 		this.sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 	}
 
@@ -39,7 +32,7 @@ public class NhanVienImlp extends UnicastRemoteObject implements NhanVien_DAO{
 
 		try {
 			tr.begin();
-			session.save(nv); //JPA - persist
+			session.save(nv); // JPA - persist
 			tr.commit();
 
 			return true;
@@ -97,8 +90,7 @@ public class NhanVienImlp extends UnicastRemoteObject implements NhanVien_DAO{
 
 			String sql = "select * from NhanVien";
 
-			List<NhanVien> dsNV =session.createNativeQuery(sql, NhanVien.class)
-					.getResultList();
+			List<NhanVien> dsNV = session.createNativeQuery(sql, NhanVien.class).getResultList();
 
 			tr.commit();
 
@@ -119,8 +111,7 @@ public class NhanVienImlp extends UnicastRemoteObject implements NhanVien_DAO{
 
 			String sql = "select * from NhanVien where maNV = '" + maNV + "'";
 
-			NhanVien nv =session.createNativeQuery(sql, NhanVien.class)
-					.getSingleResult();
+			NhanVien nv = session.createNativeQuery(sql, NhanVien.class).getSingleResult();
 
 			tr.commit();
 
@@ -141,8 +132,7 @@ public class NhanVienImlp extends UnicastRemoteObject implements NhanVien_DAO{
 
 			String sql = "select * from NhanVien where hoTen = N'" + tenNV + "'";
 
-			List<NhanVien> dsNV =session.createNativeQuery(sql, NhanVien.class)
-					.getResultList();
+			List<NhanVien> dsNV = session.createNativeQuery(sql, NhanVien.class).getResultList();
 
 			tr.commit();
 

@@ -6,14 +6,14 @@ import javax.swing.JPanel;
 
 import chucNang.ChucNang;
 import chucNang.RoundedPanel;
-import dao.ChiTietHoaDonDao;
+import dao.CTHoaDon_DAO;
 import dao.HoaDonDao;
 import dao.KhachHangDao;
 import dao.LoaiThuocDao;
 import dao.NhaCungCapDao;
 import dao.NuocDao;
 import dao.ThuocDao;
-import dao.impl.ChiTietHoaDonDaoImpl;
+import dao.impl.CTHoaDonImpl;
 import dao.impl.HoaDonDaoImpl;
 import dao.impl.KhachHangDaoImpl;
 import dao.impl.LoaiThuocDaoImpl;
@@ -84,7 +84,7 @@ public class FrmBanThuoc extends JPanel {
 	private NhaCungCapDao nccDao;
 	private NuocDao nuocDao;
 	private HoaDonDao hdDao;
-	private ChiTietHoaDonDao cthdDao;
+	private CTHoaDon_DAO cthdDao;
 	private KhachHang kh;
 	private JLabel lblTenKH;
 	private JLabel lblSDTKH;
@@ -119,7 +119,7 @@ public class FrmBanThuoc extends JPanel {
 			nccDao = new NhaCungCapDaoImpl();
 			nuocDao = new NuocDaoImpl();
 			hdDao = new HoaDonDaoImpl();
-			cthdDao = new ChiTietHoaDonDaoImpl();
+			cthdDao = new CTHoaDonImpl();
 			kh = null;
 			thuocDao = new ThuocDaoImpl();
 		} catch (RemoteException e1) {
@@ -640,7 +640,7 @@ public class FrmBanThuoc extends JPanel {
 				int indexNuoc = cmbNuoc.getSelectedIndex();
 				String maNuoc = indexNuoc == 0 ? "" : listMaNuocChon.get(indexNuoc - 1);
 				List<Thuoc> list = thuocDao.getdsThuocTheoTenNccNuocLoai(data, maNCC, maNuoc, maloai);
-				System.out.println(maloai+maNCC+maNuoc+list);
+				System.out.println(maloai + maNCC + maNuoc + list);
 				if (list == null) {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy");
 					loadThongTinVaoTableSanPham(listThuocChon);

@@ -242,7 +242,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		btnThemNCC = new JButton("Thêm nhà cung cấp");
 		btnThemNCC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new FrmThemNCCNew().setVisible(true);
+				new FrmThemNCC().setVisible(true);
 			}
 		});
 		btnThemNCC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

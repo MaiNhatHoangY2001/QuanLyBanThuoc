@@ -32,12 +32,9 @@ import javax.swing.table.JTableHeader;
 
 import com.toedter.calendar.JYearChooser;
 
-import connectDB.ConnectDB;
 import dao.CTHoaDon_DAO;
 import dao.KhachHangDao;
-import dao.KhachHang_DAO;
 import dao.ThuocDao;
-import dao.Thuoc_DAO;
 import dao.impl.CTHoaDonImpl;
 import dao.impl.KhachHangDaoImpl;
 import dao.impl.ThuocDaoImpl;
@@ -57,7 +54,7 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8852565351571804656L;
 	private JComboBox<Integer> cboNgay, cboThang, cboNam;
 	private DefaultTableModel modelKH, modelThuoc;
 	private JTable tblKhachHang, tblThuoc;

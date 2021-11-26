@@ -26,42 +26,31 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import org.hibernate.SessionFactory;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
 import com.toedter.calendar.JDateChooser;
 
 import chucNang.Regex;
-import chucNang.Regex1;
 
-import com.toedter.calendar.JDateChooser;
-
-import connectDB.ConnectDB;
 import dao.NhanVien_DAO;
 import dao.impl.NhanVienImlp;
 import entity.NhanVien;
-import util.HibernateUtil;
 
 import java.awt.Font;
 import java.awt.HeadlessException;
-
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 
 public class FrmNhanVien extends JPanel implements ActionListener, MouseListener {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1480922184973547119L;
 	private JTextField txtMaNV, txtTenNV, txtLuong, txtDiaChi, txtSDT, txtTim;
 	private JRadioButton radNam, radNu;
 	private JComboBox<String> cboLoaiTK;
 	private JButton btnTim, btnThem, btnXoa, btnXoaRong, btnSua;
 	private String column[] = { "Mã nhân viên", "Tên nhân viên", "Số điện thoại", "Ngày sinh", "Giới tính", "Địa chỉ",
-	"Lương" };
+			"Lương" };
 	private JTable tableNV;
 	private DefaultTableModel modelNV;
 	private SqlDateModel modelNgay;
@@ -70,16 +59,15 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	private Properties p;
 	private JDateChooser ngaySinh;
 	private Regex regex;
-	
 
-	public FrmNhanVien(){
+	public FrmNhanVien() {
 		setLayout(null);
 		setBounds(0, 0, 1600, 1002);
-		
+
 		JPanel pThongTinNV = new JPanel();
 		pThongTinNV.setBorder(BorderFactory.createTitledBorder("Nhập Thông tin nhân viên"));
 		pThongTinNV.setBounds(10, 10, 1006, 275);
-		pThongTinNV.setBackground(new Color(248,248,248));
+		pThongTinNV.setBackground(new Color(248, 248, 248));
 		add(pThongTinNV);
 		pThongTinNV.setLayout(null);
 		txtTenNV = new JTextField();
@@ -104,13 +92,13 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		radNu.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		radNu.setBounds(839, 89, 60, 40);
 		pThongTinNV.add(radNu);
-		radNu.setBackground(new Color(248,248,248));
+		radNu.setBackground(new Color(248, 248, 248));
 		bg.add(radNu);
 		radNam = new JRadioButton("Nam");
 		radNam.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		radNam.setBounds(728, 89, 81, 40);
 		pThongTinNV.add(radNam);
-		radNam.setBackground(new Color(248,248,248));
+		radNam.setBackground(new Color(248, 248, 248));
 		bg.add(radNam);
 		radNam.setSelected(true);
 
@@ -156,12 +144,12 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		lblNgay.setBounds(29, 89, 100, 40);
 		pThongTinNV.add(lblNgay);
 		lblNgay.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		setBackground(new Color(248,248,248));
-		
+		setBackground(new Color(248, 248, 248));
+
 		JPanel pTacVu = new JPanel();
 		pTacVu.setBorder(BorderFactory.createTitledBorder("Tác vụ"));
 		pTacVu.setBounds(1026, 10, 557, 275);
-		pTacVu.setBackground(new Color(248,248,248));
+		pTacVu.setBackground(new Color(248, 248, 248));
 		add(pTacVu);
 		pTacVu.setLayout(null);
 		btnThem = new JButton("Thêm nhân viên");
@@ -199,12 +187,11 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		btnSua.setBackground(new Color(20, 140, 255));
 		btnSua.setForeground(Color.DARK_GRAY);
 		btnSua.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		
 
 		JPanel pTimKiem = new JPanel();
 		pTimKiem.setBorder(BorderFactory.createTitledBorder("Tìm kiếm theo tên/mã nhân viên"));
 		pTimKiem.setBounds(10, 295, 1573, 83);
-		pTimKiem.setBackground(new Color(248,248,248));
+		pTimKiem.setBackground(new Color(248, 248, 248));
 		add(pTimKiem);
 		pTimKiem.setLayout(null);
 		cboLoaiTK = new JComboBox<String>();
@@ -234,28 +221,29 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		lblThongTinTK.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cboLoaiTK.addItem("Tìm kiếm theo tên");
 		cboLoaiTK.addItem("Tìm kiếm theo mã");
-		
+
 		/**
 		 * Phần bảng
 		 */
 		JPanel pTable = new JPanel();
 		pTable.setBounds(10, 381, 1573, 604);
 		add(pTable);
-		
-		modelNV=new DefaultTableModel(column,0);
-		tableNV=new JTable(modelNV);
+
+		modelNV = new DefaultTableModel(column, 0);
+		tableNV = new JTable(modelNV);
 		tableNV.setRowHeight(20);
 		tableNV.getTableHeader().setFont(new Font("Times New Roman", Font.BOLD, 20));
 		tableNV.setRowHeight(40);
 		tableNV.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		JScrollPane scrollNhanVien;
 		pTable.setLayout(null);
-		scrollNhanVien=new JScrollPane(tableNV,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollNhanVien = new JScrollPane(tableNV, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollNhanVien.setBounds(10, 10, 1563, 499);
-		scrollNhanVien.setBackground(new Color(248,248,248));
+		scrollNhanVien.setBackground(new Color(248, 248, 248));
 		scrollNhanVien.setBorder(BorderFactory.createTitledBorder("Danh sách nhân viên"));
 		pTable.add(scrollNhanVien);
-		
+
 		/**
 		 * thêm sự kiện
 		 */
@@ -265,20 +253,20 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		btnThem.addActionListener(this);
 		tableNV.addMouseListener(this);
 		btnTim.addActionListener(this);
-		
-		//kết nối database
+
+		// kết nối database
 		try {
-			nv_dao=new NhanVienImlp();
+			nv_dao = new NhanVienImlp();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			DocDuLieuDatabase();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private void DocDuLieuDatabase() throws RemoteException {
@@ -300,7 +288,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 				e1.printStackTrace();
 			}
 		}
-			
+
 		else if (key == btnXoaRong)
 			xoaRong();
 		else if (key == btnXoa) {
@@ -310,44 +298,45 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 				e1.printStackTrace();
 			}
 		}
-			
+
 		else if (key == btnSua) {
 			try {
 				suaNV();
 			} catch (HeadlessException | RemoteException e1) {
 				e1.printStackTrace();
 			}
-		}
-		else if(key.equals(btnTim)) {
-			if(cboLoaiTK.getSelectedItem().equals("Tìm kiếm theo mã")) {
+		} else if (key.equals(btnTim)) {
+			if (cboLoaiTK.getSelectedItem().equals("Tìm kiếm theo mã")) {
 				try {
 					clearTable();
-					NhanVien nv=nv_dao.getNhanVienTheoMa(txtTim.getText());
-					if(nv!=null)
-					modelNV.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.getNgaySinh(),
-							strGioiTinh(nv.isGioiTinh()), nv.getDiaChi(), df.format(nv.getLuong()) });
-					if(tableNV.getRowCount()==0)
-						JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin của nhân viên có mã: "+txtTim.getText());
+					NhanVien nv = nv_dao.getNhanVienTheoMa(txtTim.getText());
+					if (nv != null)
+						modelNV.addRow(
+								new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.getNgaySinh(),
+										strGioiTinh(nv.isGioiTinh()), nv.getDiaChi(), df.format(nv.getLuong()) });
+					if (tableNV.getRowCount() == 0)
+						JOptionPane.showMessageDialog(this,
+								"Không tìm thấy thông tin của nhân viên có mã: " + txtTim.getText());
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}
-			}
-			else if(cboLoaiTK.getSelectedItem().toString().equals("Tìm kiếm theo tên")) {
+			} else if (cboLoaiTK.getSelectedItem().toString().equals("Tìm kiếm theo tên")) {
 				try {
 					clearTable();
-					List<NhanVien> dsnv=nv_dao.getNhanVienTheoTen(txtTim.getText());
-					for(NhanVien nv:dsnv) {
-						modelNV.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.getNgaySinh(),
-								strGioiTinh(nv.isGioiTinh()), nv.getDiaChi(), df.format(nv.getLuong()) });
+					List<NhanVien> dsnv = nv_dao.getNhanVienTheoTen(txtTim.getText());
+					for (NhanVien nv : dsnv) {
+						modelNV.addRow(
+								new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.getNgaySinh(),
+										strGioiTinh(nv.isGioiTinh()), nv.getDiaChi(), df.format(nv.getLuong()) });
 					}
-					if(tableNV.getRowCount()==0)
-						JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin của nhân viên có tên: "+txtTim.getText());
+					if (tableNV.getRowCount() == 0)
+						JOptionPane.showMessageDialog(this,
+								"Không tìm thấy thông tin của nhân viên có tên: " + txtTim.getText());
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}
 			}
 		}
-			
 
 	}
 
@@ -370,8 +359,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 				clearTable();
 				DocDuLieuDatabase();
 				JOptionPane.showMessageDialog(this, "Thông tin nhân viên đã được cập nhật");
-			}
-			else
+			} else
 				JOptionPane.showMessageDialog(this, "Đã hủy");
 		}
 
@@ -406,14 +394,14 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		txtLuong.setText("");
 		txtSDT.setText("");
 		txtTenNV.setText("");
-		//modelNgay.setDate(1990, 8, 24);
+		// modelNgay.setDate(1990, 8, 24);
 		tableNV.clearSelection();
 		txtMaNV.requestFocus();
 	}
 
 	private void themNV() throws RemoteException {
 		if (kiemTra()) {
-			//String maNV = txtMaNV.getText();
+			// String maNV = txtMaNV.getText();
 			Double luong = Double.parseDouble(txtLuong.getText());
 			String hoTen = txtTenNV.getText();
 			String soDienThoai = txtSDT.getText();
@@ -437,7 +425,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		txtTenNV.setText(modelNV.getValueAt(row, 1).toString());
 		txtSDT.setText(modelNV.getValueAt(row, 2).toString());
 		ngaySinh.setDate(Date.valueOf(modelNV.getValueAt(row, 3).toString()));
-		//modelNgay.setValue(Date.valueOf(modelNV.getValueAt(row, 3).toString()));
+		// modelNgay.setValue(Date.valueOf(modelNV.getValueAt(row, 3).toString()));
 		String gioiTinh = modelNV.getValueAt(row, 4).toString();
 		if (gioiTinh.equals("Nam")) {
 			radNam.setSelected(true);
@@ -482,12 +470,12 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	}
 
 	private boolean kiemTra() {
-		regex=new Regex();
+		regex = new Regex();
 //		if (regex.kiemTraRong(txtMaNV))
 //			return false;
 //		if (regex.RegexMaNV(txtMaNV))
 //			return false;
-		
+
 		if (regex.kiemTraRong(txtTenNV))
 			return false;
 		if (regex.RegexTen(txtTenNV))
