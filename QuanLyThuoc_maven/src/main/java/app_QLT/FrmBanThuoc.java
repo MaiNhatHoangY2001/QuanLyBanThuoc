@@ -111,6 +111,7 @@ public class FrmBanThuoc extends JPanel {
 	 * Create the panel.
 	 */
 	public FrmBanThuoc() {
+		kh = new KhachHang();
 		hoadon = new HoaDon(LocalDateTime.now(), new NhanVien("NV21110001"), kh);
 		try {
 			khDao = new KhachHangDaoImpl();
