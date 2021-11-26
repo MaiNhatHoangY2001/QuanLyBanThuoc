@@ -2,8 +2,10 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,10 +26,12 @@ public class NhanVien implements Serializable {
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "NV"), strategy = "generator.SinhMaTheoNgay")
 	private String maNV;
+	@Column(columnDefinition = "Nvarchar(255)")
 	private String hoTen;
 	private String soDienThoai;
-	private Date ngaySinh;
+	private LocalDate ngaySinh;
 	private boolean gioiTinh;
+	@Column(columnDefinition = "Nvarchar(255)")
 	private String diaChi;
 	private double luong;
 
@@ -54,11 +58,11 @@ public class NhanVien implements Serializable {
 		this.soDienThoai = soDienThoai;
 	}
 
-	public Date getNgaySinh() {
+	public LocalDate getNgaySinh() {
 		return ngaySinh;
 	}
 
-	public void setNgaySinh(Date ngaySinh) {
+	public void setNgaySinh(LocalDate ngaySinh) {
 		this.ngaySinh = ngaySinh;
 	}
 
@@ -86,7 +90,7 @@ public class NhanVien implements Serializable {
 		this.luong = luong;
 	}
 
-	public NhanVien(String hoTen, String soDienThoai, Date ngaySinh, boolean gioiTinh, String diaChi, double luong) {
+	public NhanVien(String hoTen, String soDienThoai, LocalDate ngaySinh, boolean gioiTinh, String diaChi, double luong) {
 		super();
 		this.hoTen = hoTen;
 		this.soDienThoai = soDienThoai;

@@ -465,26 +465,26 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 			String tenT = (String) cboTenThuoc.getSelectedItem();
 			String loaiT = (String) cboLoaiThuoc.getSelectedItem();
 			Thuoc thuoc = thuoc_dao.getThuocTheoTen(tenT);
-			NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM", 10000000);
-			HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien , kh);
+//			NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM", 10000000);
+//			HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien , kh);
 			// ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD.maCTHD(), soLuongThuoc, thuoc);
-			ChiTietHoaDon cthd = new ChiTietHoaDon(hoadon, thuoc, soLuongThuoc);
-			if (soLuongThuoc > 0) {
-				if (timRow() != -1) {
-
-					double soluong = soLuong();
-
-					modelBanHang.removeRow(timRow());
-					modelBanHang.addRow(new Object[] { thuoc.getTenThuoc(), loaiT, df.format(soluong),
-							df.format(thuoc.getDonGia()), df.format(thuoc.getDonGia() * soluong) });
-				} else {
-					modelBanHang.addRow(new Object[] { thuoc.getTenThuoc(), loaiT, df.format(cthd.getSoLuong()),
-							df.format(thuoc.getDonGia()), df.format(thuoc.getDonGia() * cthd.getSoLuong()) });
-
-				}
-				tongTien();
-			} else
-				JOptionPane.showMessageDialog(this, "Số lượng thuốc phải lớn hơn 0");
+//			ChiTietHoaDon cthd = new ChiTietHoaDon(hoadon, thuoc, soLuongThuoc);
+//			if (soLuongThuoc > 0) {
+//				if (timRow() != -1) {
+//
+//					double soluong = soLuong();
+//
+//					modelBanHang.removeRow(timRow());
+//					modelBanHang.addRow(new Object[] { thuoc.getTenThuoc(), loaiT, df.format(soluong),
+//							df.format(thuoc.getDonGia()), df.format(thuoc.getDonGia() * soluong) });
+//				} else {
+//					modelBanHang.addRow(new Object[] { thuoc.getTenThuoc(), loaiT, df.format(cthd.getSoLuong()),
+//							df.format(thuoc.getDonGia()), df.format(thuoc.getDonGia() * cthd.getSoLuong()) });
+//
+//				}
+//				tongTien();
+//			} else
+//				JOptionPane.showMessageDialog(this, "Số lượng thuốc phải lớn hơn 0");
 
 		}
 	}
@@ -548,17 +548,17 @@ public class FrmBanHang extends JPanel implements ActionListener, MouseListener,
 
 	private void themhd(String maCTHD, int row) {
 
-		PhatSinhMa ma = new PhatSinhMa();
-		Date ngaylap = (Date) datePicker1.getModel().getValue();
-		NhanVien nvl = nv_dao.get1NhanVienTheoMaNV(cbmaNVNhap.getSelectedItem().toString());
-		KhachHang kh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
-//		ChiTietHoaDon cthd = cthd_dao.getCTHDTheoMa(maCTHD);
-		Thuoc thuoc = thuoc_dao.getThuocTheoTen("abc");
-		NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM", 10000000);
-		HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien , kh);
-		HoaDon hd = new HoaDon(ngaylap, nhanvien, kh);
-		if (hoadon_dao.createHD(hd))
-			System.out.println("Success");
+//		PhatSinhMa ma = new PhatSinhMa();
+//		Date ngaylap = (Date) datePicker1.getModel().getValue();
+//		NhanVien nvl = nv_dao.get1NhanVienTheoMaNV(cbmaNVNhap.getSelectedItem().toString());
+//		KhachHang kh = kh_dao.getKhachHangTheoSDT(txtSDT.getText());
+////		ChiTietHoaDon cthd = cthd_dao.getCTHDTheoMa(maCTHD);
+//		Thuoc thuoc = thuoc_dao.getThuocTheoTen("abc");
+//		NhanVien nhanvien = new NhanVien("Nguyễn Văn Lâm", "0123456789", new Date(1998, 12, 11), true, "TP.HCM", 10000000);
+//		HoaDon hoadon = new HoaDon(new Date(2020, 11, 24), nhanvien , kh);
+//		HoaDon hd = new HoaDon(ngaylap, nhanvien, kh);
+//		if (hoadon_dao.createHD(hd))
+//			System.out.println("Success");
 	}
 
 	private void timSDTKH() {

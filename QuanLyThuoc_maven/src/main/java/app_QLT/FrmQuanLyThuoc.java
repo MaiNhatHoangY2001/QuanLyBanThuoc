@@ -3,10 +3,28 @@ package app_QLT;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JPanel;
 
+import chucNang.ChucNang;
 import chucNang.RoundedPanel;
+import dao.LoaiThuocDao;
+import dao.NhaCungCapDao;
+import dao.NuocDao;
+import dao.ThuocDao;
+import dao.impl.LoaiThuocDaoImpl;
+import dao.impl.NhaCungCapDaoImpl;
+import dao.impl.NuocDaoImpl;
+import dao.impl.ThuocDaoImpl;
+import entity.LoaiThuoc;
+import entity.NhaCungCap;
+import entity.NuocSX;
+import entity.Thuoc;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -18,6 +36,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import java.awt.Cursor;
@@ -29,6 +48,13 @@ import java.awt.Insets;
 import javax.swing.SwingConstants;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
+import java.text.NumberFormat;
+
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FrmQuanLyThuoc extends JPanel {
 
@@ -41,6 +67,36 @@ public class FrmQuanLyThuoc extends JPanel {
 	private JTextField txtDonGia;
 	private JTextField txtSoLuong;
 	private DefaultTableModel model;
+	private NhaCungCapDao nccDao;
+	private ThuocDao thuocDao;
+	private LoaiThuocDao loaiDao;
+	private NuocDao nuocDao;
+	private DefaultMutableTreeNode node;
+	private List<NhaCungCap> listNCC;
+	private List<String> listMaNCC;
+	private List<Thuoc> listThuoc;
+	private List<String> listMaThuoc;
+	private List<LoaiThuoc> listLoai;
+	private List<String> listMaLoai;
+	private List<NuocSX> listNuoc;
+	private List<String> listMaNuoc;
+	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private NumberFormat vnFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
+	private JComboBox cmbLoai;
+	private JComboBox cmbNSX;
+	private JComboBox cmbNgaySX;
+	private JComboBox cmbNgayHSD;
+	private JComboBox cmbThangSX;
+	private JComboBox cmbThangHSD;
+	private JComboBox cmbNamSX;
+	private JComboBox cmbNamHSD;
+	private JButton btnThemLoai;
+	private JButton btnThemNSX;
+	private JButton btnLuu;
+	private JButton btnXoaRong;
+	private JButton btnSua;
+	private JButton btnThemNCC;
+	private JTree tree;
 
 	/**
 	 * Create the panel.
@@ -70,7 +126,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		scrollPane.setBounds(10, 50, 1544, 339);
 		pnlChonSP.add(scrollPane);
 
-		String headerTitle[] = { "Tên thuốc", "Loại thuốc", "Nước sản xuất", "Ngày sản xuất", "Hạn sử dụng", "Số lượng", "Đơn giá" };
+		String headerTitle[] = { "Tên thuốc", "Ngày sản xuất", "Hạn sử dụng", "Số lượng", "Đơn giá" };
 		// Model Table
 		model = new DefaultTableModel(headerTitle, 50) {
 			/**
@@ -89,6 +145,33 @@ public class FrmQuanLyThuoc extends JPanel {
 		};
 		// Table
 		table = new JTable(model);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int count = table.getSelectedRowCount();
+				if (count != 0) {
+					int index = table.getSelectedRow();
+					String ma = listMaThuoc.get(index);
+					try {
+						Thuoc thuoc = thuocDao.getThuocTheoMa(ma);
+						txtTen.setText(thuoc.getTenThuoc());
+						int vtLoai = getViTriTrongList(listMaLoai, thuoc.getLoaiThuoc().getMaLoai());
+						cmbLoai.setSelectedIndex(vtLoai);
+						int vtNuoc = getViTriTrongList(listMaNuoc, thuoc.getNuocSX().getIdNuoc());
+						cmbNSX.setSelectedIndex(vtNuoc);
+						setDate(cmbNgaySX, cmbThangSX, cmbNamSX, thuoc.getNgaySX());
+						setDate(cmbNgayHSD, cmbThangHSD, cmbNamHSD, thuoc.getHanSuDung());
+						txtSoLuong.setText(thuoc.getSLTon()+"");
+						String dongia = (thuoc.getDonGia() % 1) == 0 ? ((int) thuoc.getDonGia()) + "" : thuoc.getDonGia() + "";
+						txtDonGia.setText(dongia);
+					} catch (RemoteException e1) {
+						e1.printStackTrace();
+					}
+					
+				}
+			}
+			
+		});
 		table.setRowHeight(35); // set height items
 		table.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -121,31 +204,33 @@ public class FrmQuanLyThuoc extends JPanel {
 		scrollPane_1.setBounds(10, 50, 330, 370);
 		pnlThongTInNV.add(scrollPane_1);
 
-		DefaultMutableTreeNode node = new DefaultMutableTreeNode("Project");
-		DefaultMutableTreeNode node1 = new DefaultMutableTreeNode("App");
-		DefaultMutableTreeNode node2 = new DefaultMutableTreeNode("Website");
-		DefaultMutableTreeNode node3 = new DefaultMutableTreeNode("WebApp");
-		node.add(node1);
-		node.add(node2);
-		node.add(node3);
-		DefaultMutableTreeNode one = new DefaultMutableTreeNode("Learning website");
-		DefaultMutableTreeNode two = new DefaultMutableTreeNode("Business website");
-		DefaultMutableTreeNode three = new DefaultMutableTreeNode("News publishing website");
-		DefaultMutableTreeNode four = new DefaultMutableTreeNode("Android app");
-		DefaultMutableTreeNode five = new DefaultMutableTreeNode("iOS app");
-		DefaultMutableTreeNode six = new DefaultMutableTreeNode("Editor WebApp");
-		node1.add(one);
-		node1.add(two);
-		node1.add(three);
-		node2.add(four);
-		node2.add(five);
-		node3.add(six);
-		JTree tree = new JTree(node);
+		node = new DefaultMutableTreeNode("Nhà cung cấp");
+		tree = new JTree(node);
+		tree.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent arg) {
+				TreePath chon = arg.getNewLeadSelectionPath();
+				if(chon != null) {
+					Object ncc = chon.getLastPathComponent();
+					if (ncc.toString().equals("Nhà cung cấp")) {
+						loadThongTinThuoc(listThuoc);
+					} else {
+						int index[] = tree.getSelectionRows();
+						String ma = listMaNCC.get(index[0] - 1);
+						try {
+							List<Thuoc> list = thuocDao.getdsThuocTheoMaNcc(ma);
+							loadThongTinThuoc(list);
+						} catch (RemoteException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 		tree.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		tree.setRowHeight(25);
 		scrollPane_1.setViewportView(tree);
 
-		JButton btnThemNCC = new JButton("Thêm nhà cung cấp");
+		btnThemNCC = new JButton("Thêm nhà cung cấp");
 		btnThemNCC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemNCC.setForeground(Color.WHITE);
 		btnThemNCC.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -202,62 +287,68 @@ public class FrmQuanLyThuoc extends JPanel {
 		lblNewLabel_1_1_1_1_1_1.setBounds(10, 359, 134, 40);
 		panel.add(lblNewLabel_1_1_1_1_1_1);
 
-		DefaultComboBoxModel<String> modelNgay = new DefaultComboBoxModel<String>();
+		DefaultComboBoxModel<String> ngaySX = new DefaultComboBoxModel<String>();
 		for (int i = 1; i <= 31; i++) {
-			modelNgay.addElement(i + "");
+			ngaySX.addElement(i + "");
 		}
-
-		DefaultComboBoxModel<String> modelThang = new DefaultComboBoxModel<String>();
-		for (int i = 1; i <= 12; i++) {
-			modelThang.addElement("Tháng " + i);
-		}
-
-		JComboBox cmbNgaySX = new JComboBox();
-		cmbNgaySX.setModel(modelNgay);
+		cmbNgaySX = new JComboBox();
+		cmbNgaySX.setModel(ngaySX);
 		cmbNgaySX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmbNgaySX.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cmbNgaySX.setBounds(154, 188, 230, 40);
 		panel.add(cmbNgaySX);
 
-		JComboBox cmbThangSX = new JComboBox();
-		cmbThangSX.setModel(modelThang);
+		DefaultComboBoxModel<String> thangSX = new DefaultComboBoxModel<String>();
+		for (int i = 1; i <= 12; i++) {
+			thangSX.addElement("Tháng " + i);
+		}
+		cmbThangSX = new JComboBox();
+		cmbThangSX.setModel(thangSX);
 		cmbThangSX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmbThangSX.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cmbThangSX.setBounds(394, 188, 230, 40);
 		panel.add(cmbThangSX);
 
-		DefaultComboBoxModel<String> modelNam = new DefaultComboBoxModel<String>();
+		DefaultComboBoxModel<String> namSX = new DefaultComboBoxModel<String>();
 		for (int i = LocalDate.now().getYear(); i >= 2000; i--) {
-			modelNam.addElement(i + "");
+			namSX.addElement(i + "");
 		}
-		JComboBox cmbNamSX = new JComboBox();
-		cmbNamSX.setModel(modelNam);
+		cmbNamSX = new JComboBox();
+		cmbNamSX.setModel(namSX);
 		cmbNamSX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmbNamSX.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cmbNamSX.setBounds(634, 188, 230, 40);
 		panel.add(cmbNamSX);
 
-		JComboBox cmbNgayHSD = new JComboBox();
-		cmbNgayHSD.setModel(modelNgay);
+		DefaultComboBoxModel<String> ngayHSD = new DefaultComboBoxModel<String>();
+		for (int i = 1; i <= 31; i++) {
+			ngayHSD.addElement(i + "");
+		}
+		cmbNgayHSD = new JComboBox();
+		cmbNgayHSD.setModel(ngayHSD);
 		cmbNgayHSD.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmbNgayHSD.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cmbNgayHSD.setBounds(154, 245, 230, 40);
 		panel.add(cmbNgayHSD);
 
-		JComboBox cmbThangHSD = new JComboBox();
-		cmbThangHSD.setModel(modelThang);
+		DefaultComboBoxModel<String> thangHSD = new DefaultComboBoxModel<String>();
+		for (int i = 1; i <= 12; i++) {
+			thangHSD.addElement("Tháng " + i);
+		}
+		cmbThangHSD = new JComboBox();
+		cmbThangHSD.setModel(thangHSD);
 		cmbThangHSD.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmbThangHSD.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cmbThangHSD.setBounds(394, 245, 230, 40);
 		panel.add(cmbThangHSD);
 
 		int nam = LocalDate.now().getYear();
-		DefaultComboBoxModel<String> modelNam1 = new DefaultComboBoxModel<String>();
+		DefaultComboBoxModel<String> namHSD = new DefaultComboBoxModel<String>();
 		for (int i = nam; i <= nam + 10; i++) {
-			modelNam1.addElement(i + "");
+			namHSD.addElement(i + "");
 		}
-		JComboBox cmbNamHSD = new JComboBox();
-		cmbNamHSD.setModel(modelNam1);
+		cmbNamHSD = new JComboBox();
+		cmbNamHSD.setModel(namHSD);
 		cmbNamHSD.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmbNamHSD.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cmbNamHSD.setBounds(634, 245, 230, 40);
@@ -288,19 +379,19 @@ public class FrmQuanLyThuoc extends JPanel {
 		txtDonGia.setBounds(154, 359, 710, 40);
 		panel.add(txtDonGia);
 
-		JComboBox cmbLoai = new JComboBox();
+		cmbLoai = new JComboBox();
 		cmbLoai.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmbLoai.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cmbLoai.setBounds(154, 74, 470, 40);
 		panel.add(cmbLoai);
 
-		JComboBox cmbNSX = new JComboBox();
+		cmbNSX = new JComboBox();
 		cmbNSX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmbNSX.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cmbNSX.setBounds(154, 131, 470, 40);
 		panel.add(cmbNSX);
 
-		JButton btnThemNSX = new JButton("Thêm nước sản xuất");
+		btnThemNSX = new JButton("Thêm nước sản xuất");
 		btnThemNSX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemNSX.setForeground(Color.WHITE);
 		btnThemNSX.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -308,7 +399,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		btnThemNSX.setBounds(634, 131, 230, 40);
 		panel.add(btnThemNSX);
 
-		JButton btnThemLoai = new JButton("Thêm loại thuốc");
+		btnThemLoai = new JButton("Thêm loại thuốc");
 		btnThemLoai.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemLoai.setForeground(Color.WHITE);
 		btnThemLoai.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -344,7 +435,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		pnlThongTInNV_2.setBounds(1274, 422, 300, 477);
 		pnlNgang.add(pnlThongTInNV_2);
 
-		JButton btnLuu = new JButton("Lưu");
+		btnLuu = new JButton("Thêm");
 		btnLuu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLuu.setBounds(25, 31, 250, 80);
 		pnlThongTInNV_2.add(btnLuu);
@@ -352,7 +443,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 24));
 		btnLuu.setBackground(new Color(20, 140, 255));
 
-		JButton btnXoaRong = new JButton("Xóa Rỗng");
+		btnXoaRong = new JButton("Xóa Rỗng");
 		btnXoaRong.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnXoaRong.setForeground(Color.WHITE);
 		btnXoaRong.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -360,7 +451,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		btnXoaRong.setBounds(25, 142, 250, 80);
 		pnlThongTInNV_2.add(btnXoaRong);
 
-		JButton btnSua = new JButton("Sửa");
+		btnSua = new JButton("Sửa");
 		btnSua.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSua.setForeground(Color.WHITE);
 		btnSua.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -375,5 +466,99 @@ public class FrmQuanLyThuoc extends JPanel {
 		btnLamMoi.setBackground(new Color(248, 96, 96));
 		btnLamMoi.setBounds(25, 364, 250, 80);
 		pnlThongTInNV_2.add(btnLamMoi);
+
+		try {
+			nccDao = new NhaCungCapDaoImpl();
+			listNCC = nccDao.getdsNhaCungCap();
+			listMaNCC = new ArrayList<String>();
+			
+			thuocDao = new ThuocDaoImpl();
+			listThuoc = thuocDao.getdsThuoc();
+			listMaThuoc = new ArrayList<String>();
+			
+			loaiDao = new LoaiThuocDaoImpl();
+			listLoai = loaiDao.getdsLoaiThuoc();
+			listMaLoai = new ArrayList<String>();
+			
+			nuocDao = new NuocDaoImpl();
+			listNuoc = nuocDao.getdsNuocSX();
+			listMaNuoc = new ArrayList<String>();
+			
+			loadNCCVaoTree(listNCC);
+			tree.setSelectionRow(0);
+			loadLoaiVaoCmb(listLoai);
+			loadNuocVaoCmb(listNuoc);
+			
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	private void setDate(JComboBox ngay, JComboBox thang, JComboBox nam, LocalDate date) {
+		ngay.setSelectedItem(date.getDayOfMonth()+"");
+		thang.setSelectedItem("Tháng " + date.getMonthValue());
+		nam.setSelectedItem(date.getYear()+"");
+		
+	}
+	
+	private int getViTriTrongList(List<String> list, String ma) {
+		int index = 0;
+		for (String str : list) {
+			if (str.equals(ma))
+				return index;
+			index++;
+		}
+		return -1;
+	}
+
+	private void loadNuocVaoCmb(List<NuocSX> list) {
+		cmbNSX.removeAllItems();
+		for (NuocSX nuoc : list) {
+			load1NuocVaoCmb(nuoc);
+			listMaNuoc.add(nuoc.getIdNuoc());
+		}
+	}
+
+	private void load1NuocVaoCmb(NuocSX nuoc) {
+		cmbNSX.addItem(nuoc.getTenNuoc());
+	}
+
+	private void loadLoaiVaoCmb(List<LoaiThuoc> listLoai2) {
+		cmbLoai.removeAllItems();
+		for (LoaiThuoc loai : listLoai2) {
+			load1LoaiVaoCmb(loai);
+			listMaLoai.add(loai.getMaLoai());
+		}
+	}
+
+	private void load1LoaiVaoCmb(LoaiThuoc loai) {
+		cmbLoai.addItem(loai.getTenLoai());
+	}
+
+	private void loadThongTinThuoc(List<Thuoc> list) {
+		ChucNang.clearDataTable(model);
+		for (Thuoc thuoc : list) {
+			load1ThongTinThuoc(thuoc);
+			listMaThuoc.add(thuoc.getMaThuoc());
+		}
+	}
+
+	private void load1ThongTinThuoc(Thuoc thuoc) {
+		String[] str = { thuoc.getTenThuoc(), dtf.format(thuoc.getNgaySX()), dtf.format(thuoc.getHanSuDung()),
+				thuoc.getSLTon() + "", vnFormat.format(thuoc.getDonGia()) };
+		model.addRow(str);
+	}
+
+	private void loadNCCVaoTree(List<NhaCungCap> list) {
+		node.removeAllChildren();
+		for (NhaCungCap ncc : list) {
+			load1NCCVaoTree(ncc);
+			listMaNCC.add(ncc.getMaNCC());
+		}
+	}
+
+	private void load1NCCVaoTree(NhaCungCap ncc) {
+		DefaultMutableTreeNode tam = new DefaultMutableTreeNode(ncc.getTenNCC());
+		node.add(tam);
 	}
 }

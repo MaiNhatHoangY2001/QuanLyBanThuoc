@@ -297,7 +297,6 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 			cardLayout.show(pnlChange, "btnThongKe");
 			lblHead.setText("THỐNG KÊ");
 		}
-
 	}
 
 	/**

@@ -22,7 +22,7 @@ public class NhanVien_DAO {
 					"update NhanVien set luong=?, hoTen=?, ngaySinh=?, gioiTinh=?,diaChi=?,  SDT=? where maNV=? ");
 			stmt.setDouble(1, nv.getLuong());
 			stmt.setString(2, nv.getHoTen());
-			stmt.setDate(3, nv.getNgaySinh());
+//			stmt.setDate(3, nv.getNgaySinh());
 			stmt.setBoolean(4, nv.isGioiTinh());
 			stmt.setString(5, nv.getDiaChi());
 			stmt.setString(6, nv.getSoDienThoai());
@@ -49,7 +49,6 @@ public class NhanVien_DAO {
 			stmt = con.prepareStatement("insert into NhanVien values (?, ?,?,?,?,?,?)");
 			stmt.setDouble(2, nv.getLuong());
 			stmt.setString(3, nv.getHoTen());
-			stmt.setDate(4, nv.getNgaySinh());
 			stmt.setBoolean(5, nv.isGioiTinh());
 			stmt.setString(6, nv.getDiaChi());
 			stmt.setString(7, nv.getSoDienThoai());

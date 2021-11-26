@@ -7,8 +7,11 @@ import java.util.List;
 import entity.Thuoc;
 
 public interface ThuocDao extends Remote {
-	 
+	public boolean capNhatThuoc(Thuoc t) throws RemoteException;
 	public List<Thuoc> getdsThuoc() throws RemoteException;
 	public List<?> getdsChiTietThuoc() throws RemoteException;
+	public Thuoc getThuocTheoMa(String ma) throws RemoteException;
+	public List<Thuoc> getdsThuocTheoTenNccNuocLoai(String tenThuoc, String maNcc, String maNuoc, String maLoai) throws RemoteException;
+	public List<Thuoc> getdsThuocTheoMaNcc(String maNCC) throws RemoteException;
 
 }

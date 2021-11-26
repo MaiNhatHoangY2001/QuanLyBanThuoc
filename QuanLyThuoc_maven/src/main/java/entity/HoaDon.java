@@ -2,6 +2,8 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +29,7 @@ public class HoaDon implements Serializable {
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "HD"), strategy = "generator.SinhMaTheoNgay")
 	private String maHoaDon;
-	private Date ngayLap;
+	private LocalDateTime ngayLap;
 	private double thanhtien;
 	@ManyToOne
 	@JoinColumn(name = "maNV")
@@ -48,23 +50,22 @@ public class HoaDon implements Serializable {
 		this.maHoaDon = maHoaDon;
 	}
 
-	public HoaDon(Date ngayLap, NhanVien nv, KhachHang kh) {
+	public HoaDon(LocalDateTime ngayLap, NhanVien nv, KhachHang kh) {
 		super();
 		this.ngayLap = ngayLap;
 		this.nv = nv;
 		this.kh = kh;
-
 	}
 
 	public String getMaHoaDon() {
 		return maHoaDon;
 	}
 
-	public Date getNgayLap() {
+	public LocalDateTime getNgayLap() {
 		return ngayLap;
 	}
 
-	public void setNgayLap(Date ngayLap) {
+	public void setNgayLap(LocalDateTime ngayLap) {
 		this.ngayLap = ngayLap;
 	}
 
@@ -94,6 +95,13 @@ public class HoaDon implements Serializable {
 
 	public double getThanhtien() {
 		return thanhtien;
+	}
+	
+	public void setThanhtien() {
+		this.thanhtien = 0;
+		for (ChiTietHoaDon chiTietHoaDon : ctHD) {
+			this.thanhtien += chiTietHoaDon.getDonGia();
+		}
 	}
 
 	@Override
