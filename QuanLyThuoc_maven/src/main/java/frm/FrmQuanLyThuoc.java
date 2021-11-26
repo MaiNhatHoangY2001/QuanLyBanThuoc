@@ -28,6 +28,8 @@ import entity.Thuoc;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 
 import javax.swing.DefaultComboBoxModel;
@@ -37,6 +39,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import java.awt.Cursor;
@@ -61,7 +64,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListener{
+public class FrmQuanLyThuoc extends JPanel {
 
 	/**
 	 * 
@@ -156,26 +159,21 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 				int count = table.getSelectedRowCount();
 				if (count != 0) {
 					int index = table.getSelectedRow();
-					String ma = listMaThuoc.get(index);
-					try {
-						Thuoc thuoc = thuocDao.getThuocTheoMa(ma);
-						txtTen.setText(thuoc.getTenThuoc());
-						int vtLoai = getViTriTrongList(listMaLoai, thuoc.getLoaiThuoc().getMaLoai());
-						cmbLoai.setSelectedIndex(vtLoai);
-						int vtNuoc = getViTriTrongList(listMaNuoc, thuoc.getNuocSX().getIdNuoc());
-						cmbNSX.setSelectedIndex(vtNuoc);
-						setDate(cmbNgaySX, cmbThangSX, cmbNamSX, thuoc.getNgaySX());
-						setDate(cmbNgayHSD, cmbThangHSD, cmbNamHSD, thuoc.getHanSuDung());
-						txtSoLuong.setText(thuoc.getSLTon()+"");
-						String dongia = (thuoc.getDonGia() % 1) == 0 ? ((int) thuoc.getDonGia()) + "" : thuoc.getDonGia() + "";
-						txtDonGia.setText(dongia);
-					} catch (RemoteException e1) {
-						e1.printStackTrace();
-					}
-					
+					Thuoc thuoc = listThuoc.get(table.getSelectedRow());
+					txtTen.setText(thuoc.getTenThuoc());
+					int vtLoai = getViTriTrongList(listMaLoai, thuoc.getLoaiThuoc().getMaLoai());
+					cmbLoai.setSelectedIndex(vtLoai);
+					int vtNuoc = getViTriTrongList(listMaNuoc, thuoc.getNuocSX().getIdNuoc());
+					cmbNSX.setSelectedIndex(vtNuoc);
+					setDate(cmbNgaySX, cmbThangSX, cmbNamSX, thuoc.getNgaySX());
+					setDate(cmbNgayHSD, cmbThangHSD, cmbNamHSD, thuoc.getHanSuDung());
+					txtSoLuong.setText(thuoc.getSLTon() + "");
+					String dongia = (thuoc.getDonGia() % 1) == 0 ? ((int) thuoc.getDonGia()) + ""
+							: thuoc.getDonGia() + "";
+					txtDonGia.setText(dongia);
 				}
 			}
-			
+
 		});
 		table.setRowHeight(35); // set height items
 		table.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -214,16 +212,21 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent arg) {
 				TreePath chon = arg.getNewLeadSelectionPath();
-				if(chon != null) {
+				if (chon != null) {
 					Object ncc = chon.getLastPathComponent();
 					if (ncc.toString().equals("Nhà cung cấp")) {
-						loadThongTinThuoc(listThuoc);
-					} else {
-						int index[] = tree.getSelectionRows();
-						String ma = listMaNCC.get(index[0] - 1);
 						try {
-							List<Thuoc> list = thuocDao.getdsThuocTheoMaNcc(ma);
-							loadThongTinThuoc(list);
+							listThuoc = thuocDao.getdsThuoc();
+							loadThongTinThuoc(listThuoc);
+						} catch (RemoteException e) {
+							e.printStackTrace();
+						}
+					} else {
+						int index = tree.getSelectionRows()[0];
+						String ma = listMaNCC.get(index - 1);
+						try {
+							listThuoc = thuocDao.getdsThuocTheoMaNcc(ma);
+							loadThongTinThuoc(listThuoc);
 						} catch (RemoteException e) {
 							e.printStackTrace();
 						}
@@ -233,9 +236,15 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		});
 		tree.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		tree.setRowHeight(25);
+		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		scrollPane_1.setViewportView(tree);
 
 		btnThemNCC = new JButton("Thêm nhà cung cấp");
+		btnThemNCC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new FrmThemNCCNew().setVisible(true);
+			}
+		});
 		btnThemNCC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemNCC.setForeground(Color.WHITE);
 		btnThemNCC.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -371,10 +380,11 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char vChar = e.getKeyChar();
-				if (!(Character.isDigit(vChar) || (vChar == KeyEvent.VK_BACK_SPACE) || (vChar == KeyEvent.VK_DELETE)
-						|| (vChar == KeyEvent.VK_PERIOD))) {
+				if (txtDonGia.getText().length() >= 10)
 					e.consume();
-				}
+				else if (!(Character.isDigit(vChar) || (vChar == KeyEvent.VK_BACK_SPACE)
+						|| (vChar == KeyEvent.VK_DELETE) || (vChar == KeyEvent.VK_MINUS)))
+					e.consume();
 			}
 		});
 		txtDonGia.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -397,6 +407,11 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		panel.add(cmbNSX);
 
 		btnThemNSX = new JButton("Thêm nước sản xuất");
+		btnThemNSX.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new FrmThemNuoc().setVisible(true);
+			}
+		});
 		btnThemNSX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemNSX.setForeground(Color.WHITE);
 		btnThemNSX.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -405,13 +420,17 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		panel.add(btnThemNSX);
 
 		btnThemLoai = new JButton("Thêm loại thuốc");
+		btnThemLoai.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new FrmThemLoaiThuoc().setVisible(true);
+			}
+		});
 		btnThemLoai.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemLoai.setForeground(Color.WHITE);
 		btnThemLoai.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnThemLoai.setBackground(new Color(20, 140, 255));
 		btnThemLoai.setBounds(634, 74, 230, 40);
 		panel.add(btnThemLoai);
-		btnThemLoai.addActionListener(this);
 
 		txtSoLuong = new JTextField();
 		txtSoLuong.setBounds(154, 302, 710, 40);
@@ -420,7 +439,10 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char vChar = e.getKeyChar();
-				if (!(Character.isDigit(vChar) || (vChar == KeyEvent.VK_BACK_SPACE) || (vChar == KeyEvent.VK_DELETE)))
+				if (txtSoLuong.getText().length() >= 8)
+					e.consume();
+				else if (!(Character.isDigit(vChar) || (vChar == KeyEvent.VK_BACK_SPACE)
+						|| (vChar == KeyEvent.VK_DELETE) || (vChar == KeyEvent.VK_MINUS)))
 					e.consume();
 			}
 		});
@@ -442,6 +464,28 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		pnlNgang.add(pnlThongTInNV_2);
 
 		btnLuu = new JButton("Thêm");
+		btnLuu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = tree.getSelectionRows()[0];
+				if (index == 0) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp cần thêm");
+				} else {
+					Thuoc thuoc = getThuoc();
+					if (thuoc != null) {
+						try {
+							boolean rs = thuocDao.themThuoc(thuoc);
+							if (rs) {
+								JOptionPane.showMessageDialog(null, "Thêm thành công");
+								tree.setSelectionRow(0);
+							} else
+								JOptionPane.showMessageDialog(null, "Thêm thất bại");
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 		btnLuu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLuu.setBounds(25, 31, 250, 80);
 		pnlThongTInNV_2.add(btnLuu);
@@ -450,6 +494,11 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		btnLuu.setBackground(new Color(20, 140, 255));
 
 		btnXoaRong = new JButton("Xóa Rỗng");
+		btnXoaRong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				xoaRong();
+			}
+		});
 		btnXoaRong.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnXoaRong.setForeground(Color.WHITE);
 		btnXoaRong.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -458,6 +507,43 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		pnlThongTInNV_2.add(btnXoaRong);
 
 		btnSua = new JButton("Sửa");
+		btnSua.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = tree.getSelectionRows()[0];
+				if (index == 0) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp cần sửa");
+				} else {
+					int count = table.getSelectedRowCount();
+					if (count >= 0) {
+						Thuoc thuoc = listThuoc.get(table.getSelectedRow());
+						Thuoc thuoc1 = getThuoc();
+						thuoc.setTenThuoc(thuoc1.getTenThuoc());
+						thuoc.setLoaiThuoc(thuoc1.getLoaiThuoc());
+						thuoc.setNcc(thuoc1.getNcc());
+						thuoc.setNuocSX(thuoc1.getNuocSX());
+						thuoc.setNgaySX(thuoc1.getNgaySX());
+						thuoc.setHanSuDung(thuoc1.getHanSuDung());
+						thuoc.setSLTon(thuoc1.getSLTon());
+						thuoc.setDonGia(thuoc1.getDonGia());
+						System.out.println(thuoc);
+						if (thuoc != null) {
+							try {
+								boolean rs = thuocDao.capNhatThuoc(thuoc);
+								if (rs) {
+									JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+									tree.setSelectionRow(0);
+								} else
+									JOptionPane.showMessageDialog(null, "Cập nhật thất bại");
+							} catch (RemoteException e1) {
+								e1.printStackTrace();
+							}
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Bạn hãy chọn thuốc cần sửa");
+					}
+				}
+			}
+		});
 		btnSua.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSua.setForeground(Color.WHITE);
 		btnSua.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -466,6 +552,23 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		pnlThongTInNV_2.add(btnSua);
 
 		JButton btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				xoaRong();
+				try {
+					listNCC = nccDao.getdsNhaCungCap();
+					loadNCCVaoTree(listNCC);
+					tree.setSelectionRow(0);
+					listLoai = loaiDao.getdsLoaiThuoc();
+					loadLoaiVaoCmb(listLoai);
+					listNuoc = nuocDao.getdsNuocSX();
+					loadNuocVaoCmb(listNuoc);
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		btnLamMoi.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLamMoi.setForeground(Color.WHITE);
 		btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -477,36 +580,76 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 			nccDao = new NhaCungCapDaoImpl();
 			listNCC = nccDao.getdsNhaCungCap();
 			listMaNCC = new ArrayList<String>();
-			
+
 			thuocDao = new ThuocDaoImpl();
-			listThuoc = thuocDao.getdsThuoc();
 			listMaThuoc = new ArrayList<String>();
-			
+
 			loaiDao = new LoaiThuocDaoImpl();
 			listLoai = loaiDao.getdsLoaiThuoc();
 			listMaLoai = new ArrayList<String>();
-			
+
 			nuocDao = new NuocDaoImpl();
 			listNuoc = nuocDao.getdsNuocSX();
 			listMaNuoc = new ArrayList<String>();
-			
+
 			loadNCCVaoTree(listNCC);
 			tree.setSelectionRow(0);
 			loadLoaiVaoCmb(listLoai);
 			loadNuocVaoCmb(listNuoc);
-			
+
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
 	}
-	
-	private void setDate(JComboBox ngay, JComboBox thang, JComboBox nam, LocalDate date) {
-		ngay.setSelectedItem(date.getDayOfMonth()+"");
-		thang.setSelectedItem("Tháng " + date.getMonthValue());
-		nam.setSelectedItem(date.getYear()+"");
-		
+
+	private void xoaRong() {
+		txtTen.setText("");
+		txtSoLuong.setText("");
+		txtDonGia.setText("");
+		cmbLoai.setSelectedIndex(0);
+		cmbNSX.setSelectedIndex(0);
+		cmbNgaySX.setSelectedIndex(0);
+		cmbThangSX.setSelectedIndex(0);
+		cmbNamSX.setSelectedIndex(0);
+		cmbNgayHSD.setSelectedIndex(0);
+		cmbThangHSD.setSelectedIndex(0);
+		cmbNamHSD.setSelectedIndex(0);
+		txtTen.requestFocus();
 	}
-	
+
+	private Thuoc getThuoc() {
+		try {
+			String ten = txtTen.getText();
+			int index = tree.getSelectionRows()[0];
+			NhaCungCap ncc = listNCC.get(index - 1);
+			LoaiThuoc loai = listLoai.get(cmbLoai.getSelectedIndex());
+			NuocSX nuoc = listNuoc.get(cmbNSX.getSelectedIndex());
+			LocalDate NSX = getDate(cmbNgaySX, cmbThangSX, cmbNamSX);
+			LocalDate HSD = getDate(cmbNgayHSD, cmbThangHSD, cmbNamHSD);
+			int soLuong = Integer.parseInt(txtSoLuong.getText());
+			double dongia = Double.parseDouble(txtDonGia.getText());
+			return new Thuoc(ten, dongia, NSX, HSD, soLuong, ncc, loai, nuoc);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private LocalDate getDate(JComboBox ngay, JComboBox thang, JComboBox nam) {
+		int ng = Integer.parseInt(ngay.getSelectedItem().toString());
+		String word[] = thang.getSelectedItem().toString().split(" ");
+		int th = Integer.parseInt(word[1]);
+		int n = Integer.parseInt(nam.getSelectedItem().toString());
+		return LocalDate.of(n, th, ng);
+	}
+
+	private void setDate(JComboBox ngay, JComboBox thang, JComboBox nam, LocalDate date) {
+		ngay.setSelectedItem(date.getDayOfMonth() + "");
+		thang.setSelectedItem("Tháng " + date.getMonthValue());
+		nam.setSelectedItem(date.getYear() + "");
+
+	}
+
 	private int getViTriTrongList(List<String> list, String ma) {
 		int index = 0;
 		for (String str : list) {
@@ -566,53 +709,5 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 	private void load1NCCVaoTree(NhaCungCap ncc) {
 		DefaultMutableTreeNode tam = new DefaultMutableTreeNode(ncc.getTenNCC());
 		node.add(tam);
-		
-		btnThemNCC.addActionListener(this);
-		btnThemNSX.addActionListener(this);
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o=e.getSource();
-		if(o.equals(btnThemLoai)) {
-			new FrmThemLoaiThuoc().setVisible(true);
-		}
-		else if(o.equals(btnThemNCC)) {
-			new FrmThemNCCNew().setVisible(true);
-		}
-		else if(o.equals(btnThemNSX)) {
-			new FrmThemNuoc().setVisible(true);
-		}
-		
 	}
 }
