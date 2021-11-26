@@ -24,22 +24,26 @@ public class KhachHang implements Serializable {
 	@Id
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "KH"), strategy = "generator.SinhMaTheoNgay")
+	@Column(columnDefinition = "char(10)")
 	private String maKH;
-	@Column(columnDefinition = "Nvarchar(255)")
+	@Column(columnDefinition = "Nvarchar(255)", nullable = false)
 	private String hoTen;
+	@Column(nullable = false)
 	private LocalDate ngaySinh;
+	@Column(nullable = false)
 	private boolean gioiTinh;
-	@Column(columnDefinition = "Nvarchar(255)")
+	@Column(columnDefinition = "Nvarchar(255)", nullable = false)
 	private String diaChi;
+	@Column(columnDefinition = "varchar(10)", nullable = false)
 	private String SDT;
-	
+
 	@OneToMany(mappedBy = "kh")
 	private List<HoaDon> hoaDons;
 
 	public String getMaKH() {
 		return maKH;
 	}
-	
+
 	public void setMaKH(String maKH) {
 		this.maKH = maKH;
 	}

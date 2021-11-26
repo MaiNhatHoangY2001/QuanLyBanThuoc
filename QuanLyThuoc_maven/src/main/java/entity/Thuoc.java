@@ -26,22 +26,27 @@ public class Thuoc implements Serializable {
 	@Id
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "TH"), strategy = "generator.SinhMaTheoNgay")
+	@Column(columnDefinition = "char(10)")
 	private String maThuoc;
-	@Column(columnDefinition = "nvarchar(255)")
+	@Column(columnDefinition = "nvarchar(255)", nullable = false)
 	private String tenThuoc;
+	@Column(columnDefinition = "money", nullable = false)
 	private double donGia;
+	@Column(nullable = false)
 	private LocalDate ngaySX;
+	@Column(nullable = false)
 	private LocalDate hanSuDung;
+	@Column(nullable = false)
 	private int SLTon;
 
 	@ManyToOne
-	@JoinColumn(name = "maNCC")
+	@JoinColumn(name = "maNCC", nullable = false)
 	private NhaCungCap ncc;
 	@ManyToOne
-	@JoinColumn(name = "maLoai")
+	@JoinColumn(name = "maLoai", nullable = false)
 	private LoaiThuoc loaiThuoc;
 	@ManyToOne
-	@JoinColumn(name = "idNuoc")
+	@JoinColumn(name = "idNuoc", nullable = false)
 	private NuocSX nuocSX;
 	@OneToMany(mappedBy = "thuoc")
 	private List<ChiTietHoaDon> ctDH;

@@ -15,7 +15,6 @@ import org.hibernate.annotations.Parameter;
 @Entity
 public class LoaiThuoc implements Serializable {
 
-
 	/**
 	 * 
 	 */
@@ -23,10 +22,11 @@ public class LoaiThuoc implements Serializable {
 	@Id
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "LT"), strategy = "generator.SinhMaTheoNgay")
+	@Column(columnDefinition = "char(10)")
 	private String maLoai;
-	@Column(columnDefinition = "nvarchar(255)")
+	@Column(columnDefinition = "Nvarchar(255)", nullable = false)
 	private String tenLoai;
-	
+
 	@OneToMany(mappedBy = "loaiThuoc")
 	private List<Thuoc> thuocs;
 

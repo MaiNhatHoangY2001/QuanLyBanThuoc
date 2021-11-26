@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,14 +26,17 @@ public class HoaDon implements Serializable {
 	@Id
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "HD"), strategy = "generator.SinhMaTheoNgay")
+	@Column(columnDefinition = "char(10)")
 	private String maHoaDon;
+	@Column(nullable = false)
 	private Date ngayLap;
+	@Column(columnDefinition = "money", nullable = false)
 	private double thanhtien;
 	@ManyToOne
-	@JoinColumn(name = "maNV")
+	@JoinColumn(name = "maNV", nullable = false)
 	private NhanVien nv;
 	@ManyToOne
-	@JoinColumn(name = "maKH")
+	@JoinColumn(name = "maKH", nullable = false)
 	private KhachHang kh;
 
 	@OneToMany(mappedBy = "hoaDon")
