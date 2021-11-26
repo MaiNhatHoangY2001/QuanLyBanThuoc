@@ -34,6 +34,7 @@ import org.jdatepicker.impl.SqlDateModel;
 import com.toedter.calendar.JDateChooser;
 
 import chucNang.Regex;
+import chucNang.Regex1;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -360,12 +361,12 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 			Date ns = new Date(ngaySinh.getDate().getTime());
 			boolean gioiTinh = radNam.isSelected();
 			String diaChi = txtDiaChi.getText();
-			NhanVien nv = new NhanVien(maNV,hoTen, soDienThoai, ns, gioiTinh, diaChi, luong);
+//			NhanVien nv = new NhanVien(maNV,hoTen, soDienThoai, ns, gioiTinh, diaChi, luong);
 			int tl;
 			tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nhân viên này không ?", "Cảnh báo",
 					JOptionPane.YES_OPTION);
 			if (tl == JOptionPane.YES_OPTION) {
-				nv_dao.suaNhanVien(nv);
+//				nv_dao.suaNhanVien(nv);
 				clearTable();
 				DocDuLieuDatabase();
 				JOptionPane.showMessageDialog(this, "Thông tin nhân viên đã được cập nhật");
@@ -405,7 +406,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		txtLuong.setText("");
 		txtSDT.setText("");
 		txtTenNV.setText("");
-		modelNgay.setDate(1990, 8, 24);
+		//modelNgay.setDate(1990, 8, 24);
 		tableNV.clearSelection();
 		txtMaNV.requestFocus();
 	}
@@ -419,9 +420,9 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 			Date ns = new Date(ngaySinh.getDate().getTime());
 			boolean gioiTinh = radNam.isSelected();
 			String diaChi = txtDiaChi.getText();
-			NhanVien nv = new NhanVien(hoTen, soDienThoai, ns, gioiTinh, diaChi, luong);
+//			NhanVien nv = new NhanVien(hoTen, soDienThoai, ns, gioiTinh, diaChi, luong);
 
-			nv_dao.themNhanVien(nv);
+//			nv_dao.themNhanVien(nv);
 			JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công");
 			clearTable();
 			DocDuLieuDatabase();
@@ -481,29 +482,30 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	}
 
 	private boolean kiemTra() {
+		regex=new Regex();
 //		if (regex.kiemTraRong(txtMaNV))
 //			return false;
 //		if (regex.RegexMaNV(txtMaNV))
 //			return false;
 		
-//		if (regex.kiemTraRong(txtTenNV))
-//			return false;
-//		if (regex.RegexTen(txtTenNV))
-//			return false;
-//		if (regex.kiemTraRong(txtSDT))
-//			return false;
-//		if (regex.RegexSDT(txtSDT))
-//			return false;
-//		if (regex.kiemTraRong(txtDiaChi))
-//			return false;
-//		if (regex.RegexDiaChi(txtDiaChi))
-//			return false;
-//		if (regex.kiemTraRong(txtLuong))
-//			return false;
-//		if (regex.kiemTraSo(txtLuong))
-//			return false;
-//		if (regex.kiemTraTuoi(modelNgay))
-//			return false;
+		if (regex.kiemTraRong(txtTenNV))
+			return false;
+		if (regex.RegexTen(txtTenNV))
+			return false;
+		if (regex.kiemTraRong(txtSDT))
+			return false;
+		if (regex.RegexSDT(txtSDT))
+			return false;
+		if (regex.kiemTraRong(txtDiaChi))
+			return false;
+		if (regex.RegexDiaChi(txtDiaChi))
+			return false;
+		if (regex.kiemTraRong(txtLuong))
+			return false;
+		if (regex.kiemTraSo(txtLuong))
+			return false;
+		if (regex.kiemTraTuoi(modelNgay))
+			return false;
 		return true;
 	}
 }

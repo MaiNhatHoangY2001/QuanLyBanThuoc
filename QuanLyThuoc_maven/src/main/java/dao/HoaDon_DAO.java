@@ -23,7 +23,7 @@ public class HoaDon_DAO {
 		try {
 			stmt = con.prepareStatement("update HoaDon set ngayLap=?,maNV=?,maChiTietHD = ? where maHoaDon =? ");
 			
-			stmt.setDate(1, hd.getNgayLap());
+//			stmt.setDate(1, hd.getNgayLap());
 			stmt.setString(2,hd.getNv().getMaNV());
 			stmt.setString(3, hd.getKh().getMaKH());
 			stmt.setString(4, hd.getMaHoaDon());
@@ -51,7 +51,7 @@ public class HoaDon_DAO {
 		try {
 			stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?,?)  ");
 			stmt.setString(1, hd.getMaHoaDon());
-			stmt.setDate(2, hd.getNgayLap());
+//			stmt.setDate(2, hd.getNgayLap());
 			stmt.setString(3,hd.getNv().getMaNV());
 			stmt.setString(4, hd.getKh().getMaKH());
 			stmt.setString(5, hd.getMaHoaDon());

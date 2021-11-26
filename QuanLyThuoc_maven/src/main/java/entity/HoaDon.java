@@ -1,7 +1,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +29,7 @@ public class HoaDon implements Serializable {
 	@Column(columnDefinition = "char(10)")
 	private String maHoaDon;
 	@Column(nullable = false)
-	private Date ngayLap;
+	private LocalDate ngayLap;
 	@Column(columnDefinition = "money", nullable = false)
 	private double thanhtien;
 	@ManyToOne
@@ -51,7 +51,7 @@ public class HoaDon implements Serializable {
 		this.maHoaDon = maHoaDon;
 	}
 
-	public HoaDon(Date ngayLap, NhanVien nv, KhachHang kh) {
+	public HoaDon(LocalDate ngayLap, NhanVien nv, KhachHang kh) {
 		super();
 		this.ngayLap = ngayLap;
 		this.nv = nv;
@@ -71,11 +71,11 @@ public class HoaDon implements Serializable {
 		return maHoaDon;
 	}
 
-	public Date getNgayLap() {
+	public LocalDate getNgayLap() {
 		return ngayLap;
 	}
 
-	public void setNgayLap(Date ngayLap) {
+	public void setNgayLap(LocalDate ngayLap) {
 		this.ngayLap = ngayLap;
 	}
 
@@ -105,6 +105,13 @@ public class HoaDon implements Serializable {
 
 	public double getThanhtien() {
 		return thanhtien;
+	}
+
+	public void setThanhtien() {
+		this.thanhtien = 0;
+		for (ChiTietHoaDon chiTietHoaDon : ctHD) {
+			this.thanhtien += chiTietHoaDon.getDonGia();
+		}
 	}
 
 	@Override

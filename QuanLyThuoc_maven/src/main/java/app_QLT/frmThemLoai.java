@@ -1,6 +1,7 @@
 package app_QLT;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,6 +42,8 @@ public class frmThemLoai extends JFrame implements ActionListener, MouseListener
 	private JButton btnSua;
 	private LoaiThuoc1_DAO dao_Loai;
 	private Regex1 regex;
+	private DefaultTableModel modelLoaiThuoc;
+	private JTable tableLoaiThuoc;
 
 	public frmThemLoai() {
 		// TODO Auto-generated constructor stub
@@ -114,6 +117,20 @@ public class frmThemLoai extends JFrame implements ActionListener, MouseListener
 		btnSua.setForeground(Color.DARK_GRAY);
 		btnSua.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		pinput.add(btnSua);
+		
+//		String column[] = { "Mã loại thuốc", "Tên loại thuốc" };
+//		modelLoaiThuoc=new DefaultTableModel(column,0);
+//		tableLoaiThuoc=new JTable(modelLoaiThuoc);
+//		tableLoaiThuoc.setRowHeight(20);
+//		tableLoaiThuoc.getTableHeader().setFont(new Font("Times New Roman", Font.BOLD, 20));
+//		tableLoaiThuoc.setRowHeight(40);
+//		tableLoaiThuoc.setFont(new Font("Times New Roman", Font.BOLD, 20));
+//		JScrollPane scrollLoaiThuoc;
+//		scrollLoaiThuoc=new JScrollPane(tableLoaiThuoc,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		scrollLoaiThuoc.setBounds(10, 10, 1563, 499);
+//		scrollLoaiThuoc.setBackground(new Color(248,248,248));
+//		scrollLoaiThuoc.setBorder(BorderFactory.createTitledBorder("Danh sách nhân viên"));
+//		pinput.add(scrollLoaiThuoc);
 		
 		try {
 			ConnectDB.getInstance().connect();

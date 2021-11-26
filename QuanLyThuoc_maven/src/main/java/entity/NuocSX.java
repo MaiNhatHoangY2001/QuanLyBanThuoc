@@ -51,6 +51,12 @@ public class NuocSX implements Serializable {
 		super();
 	}
 
+	public NuocSX(String idNuoc, String tenNuoc) {
+		super();
+		this.idNuoc = idNuoc;
+		this.tenNuoc = tenNuoc;
+	}
+
 	@Override
 	public String toString() {
 		return "NuocSX [idNuoc=" + idNuoc + ", tenNuoc=" + tenNuoc + "]";

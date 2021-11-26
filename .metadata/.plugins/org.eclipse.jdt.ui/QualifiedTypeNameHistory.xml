@@ -48,6 +48,6 @@
     <fullyQualifiedTypeName name="chucNang.ChucNang"/>
     <fullyQualifiedTypeName name="java.rmi.RemoteException"/>
     <fullyQualifiedTypeName name="entity.ChiTietHoaDon"/>
-    <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="javax.persistence.Column"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
 </qualifiedTypeNameHistroy>

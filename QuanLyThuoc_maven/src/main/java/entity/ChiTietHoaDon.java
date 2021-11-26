@@ -70,6 +70,10 @@ public class ChiTietHoaDon implements Serializable {
 	public double getDonGia() {
 		return donGia;
 	}
+	
+	public void setDonGia() {
+		this.donGia = getSoLuong() * getThuoc().getDonGia();
+	}
 
 	@Override
 	public String toString() {

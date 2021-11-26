@@ -46,4 +46,61 @@ public class NhaCungCapDaoImpl extends UnicastRemoteObject implements NhaCungCap
 		return null;
 	}
 
+	@Override
+	public boolean themNCC(NhaCungCap ncc) throws RemoteException {
+		Session session = sessionFactory.getCurrentSession();
+
+		Transaction tr = session.getTransaction();
+
+		try {
+			tr.begin();
+			session.save(ncc); //JPA - persist
+			tr.commit();
+
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean xoaNCC(String ma) throws RemoteException {
+		Session session = sessionFactory.getCurrentSession();
+
+		Transaction tr = session.getTransaction();
+
+		try {
+			tr.begin();
+			session.delete(session.find(NhaCungCap.class, ma));
+			tr.commit();
+
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean updateNCC(NhaCungCap ncc) throws RemoteException {
+		Session session = sessionFactory.getCurrentSession();
+
+		Transaction tr = session.getTransaction();
+
+		try {
+			tr.begin();
+			session.update(ncc);
+			tr.commit();
+
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+		}
+
+		return false;
+	}
+
 }

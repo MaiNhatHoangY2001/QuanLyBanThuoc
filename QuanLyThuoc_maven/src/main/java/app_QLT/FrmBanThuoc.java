@@ -6,19 +6,26 @@ import javax.swing.JPanel;
 
 import chucNang.ChucNang;
 import chucNang.RoundedPanel;
+import dao.ChiTietHoaDonDao;
+import dao.HoaDonDao;
 import dao.KhachHangDao;
 import dao.LoaiThuocDao;
 import dao.NhaCungCapDao;
 import dao.NuocDao;
 import dao.ThuocDao;
+import dao.impl.ChiTietHoaDonDaoImpl;
+import dao.impl.HoaDonDaoImpl;
 import dao.impl.KhachHangDaoImpl;
 import dao.impl.LoaiThuocDaoImpl;
 import dao.impl.NhaCungCapDaoImpl;
 import dao.impl.NuocDaoImpl;
 import dao.impl.ThuocDaoImpl;
+import entity.ChiTietHoaDon;
+import entity.HoaDon;
 import entity.KhachHang;
 import entity.LoaiThuoc;
 import entity.NhaCungCap;
+import entity.NhanVien;
 import entity.NuocSX;
 import entity.Thuoc;
 
@@ -30,6 +37,7 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
@@ -75,6 +83,8 @@ public class FrmBanThuoc extends JPanel {
 	private LoaiThuocDao loaiDao;
 	private NhaCungCapDao nccDao;
 	private NuocDao nuocDao;
+	private HoaDonDao hdDao;
+	private ChiTietHoaDonDao cthdDao;
 	private KhachHang kh;
 	private JLabel lblTenKH;
 	private JLabel lblSDTKH;
@@ -92,20 +102,26 @@ public class FrmBanThuoc extends JPanel {
 	private JComboBox cmbLoaiThuoc;
 	private JComboBox cmbNuoc;
 	private JComboBox cmbNCC;
+	private ArrayList<ChiTietHoaDon> listChiTietHoaDon;
+	private ArrayList<Thuoc> listThuocMua;
+	private HoaDon hoadon;
+	private JComboBox cmbTimKiem;
 
 	/**
 	 * Create the panel.
 	 */
 	public FrmBanThuoc() {
+		hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
 		try {
 			khDao = new KhachHangDaoImpl();
 			loaiDao = new LoaiThuocDaoImpl();
 			nccDao = new NhaCungCapDaoImpl();
 			nuocDao = new NuocDaoImpl();
+			hdDao = new HoaDonDaoImpl();
+			cthdDao = new ChiTietHoaDonDaoImpl();
 			kh = null;
 			thuocDao = new ThuocDaoImpl();
 		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -136,7 +152,7 @@ public class FrmBanThuoc extends JPanel {
 		txtTimKiemSP = new JTextField();
 		txtTimKiemSP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				suKienTimKiemSanPham();
 			}
 		});
 		txtTimKiemSP.setMargin(new Insets(2, 14, 2, 2));
@@ -145,7 +161,7 @@ public class FrmBanThuoc extends JPanel {
 		txtTimKiemSP.setBounds(237, 11, 524, 40);
 		pnlChonSP.add(txtTimKiemSP);
 
-		JComboBox cmbTimKiem = new JComboBox();
+		cmbTimKiem = new JComboBox();
 		cmbTimKiem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmbTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cmbTimKiem.setModel(new DefaultComboBoxModel(new String[] { "Tìm theo tên", "Tìm theo mã" }));
@@ -176,12 +192,7 @@ public class FrmBanThuoc extends JPanel {
 		JButton btnLoc = new JButton("Lọc");
 		btnLoc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (cmbTimKiem.getSelectedItem().equals("Tìm theo tên")) {
-					
-				} else if (cmbTimKiem.getSelectedItem().equals("Tìm theo mã")) {
-					
-				}
-				
+				suKienTimKiemSanPham();
 			}
 		});
 		btnLoc.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -206,6 +217,7 @@ public class FrmBanThuoc extends JPanel {
 		txtNhapSoLuong.setHorizontalAlignment(SwingConstants.TRAILING);
 		txtNhapSoLuong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				suKienThemVaoGioHang();
 			}
 		});
 		txtNhapSoLuong.setMargin(new Insets(2, 14, 2, 14));
@@ -217,6 +229,7 @@ public class FrmBanThuoc extends JPanel {
 		JButton btnThemVaoGioHang = new JButton("Thêm vào giỏ hàng");
 		btnThemVaoGioHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				suKienThemVaoGioHang();
 			}
 		});
 		btnThemVaoGioHang.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -249,7 +262,6 @@ public class FrmBanThuoc extends JPanel {
 					return false;
 				}
 			}
-
 		};
 		// Table
 		tableChonSP = new JTable(modelChonSP);
@@ -277,7 +289,7 @@ public class FrmBanThuoc extends JPanel {
 		/*
 		 * Phần khách hàng
 		 */
-		JLabel lblNhapKH = new JLabel("Nhập số điện thoại hoặc CMND của khách hàng:");
+		JLabel lblNhapKH = new JLabel("Nhập số điện thoại khách hàng:");
 		lblNhapKH.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNhapKH.setBounds(1074, 11, 510, 40);
 		pnlNgang.add(lblNhapKH);
@@ -289,20 +301,7 @@ public class FrmBanThuoc extends JPanel {
 		btnTimKiemKH.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnTimKiemKH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String data = txtTimKiemKH.getText();
-				try {
-					kh = khDao.getKhachHangTheoMaVaSDT(data);
-					if (kh == null) {
-						JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng");
-						txtTimKiemKH.requestFocus();
-					} else {
-						lblTenKH.setText(kh.getHoTen());
-						lblSDTKH.setText(kh.getSDT());
-						lblDiaChiKH.setText(kh.getDiaChi());
-					}
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
+				suKienTimKiemKhachHang();
 			}
 		});
 		btnTimKiemKH.setBounds(1434, 49, 140, 40);
@@ -311,20 +310,7 @@ public class FrmBanThuoc extends JPanel {
 		txtTimKiemKH = new JTextField();
 		txtTimKiemKH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String data = txtTimKiemKH.getText();
-				try {
-					kh = khDao.getKhachHangTheoMaVaSDT(data);
-					if (kh == null) {
-						JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng");
-						txtTimKiemKH.requestFocus();
-					} else {
-						lblTenKH.setText(kh.getHoTen());
-						lblSDTKH.setText(kh.getSDT());
-						lblDiaChiKH.setText(kh.getDiaChi());
-					}
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
+				suKienTimKiemKhachHang();
 			}
 		});
 		txtTimKiemKH.setMargin(new Insets(2, 14, 2, 2));
@@ -451,8 +437,7 @@ public class FrmBanThuoc extends JPanel {
 		pnlNgang.add(scrollPane_1);
 
 		tableGioHang = new JTable();
-		String headerTitle1[] = { "Tên thuốc", "Loại thuốc", "Nước sản xuất", "Ngày sản xuất", "Hạn sử dụng",
-				"Số lượng", "Đơn giá", "Thành tiền" };
+		String headerTitle1[] = { "STT", "Tên thuốc", "Số lượng", "Đơn giá", "Thành tiền" };
 		// Model Table
 		modelGioHang = new DefaultTableModel(headerTitle1, 50) {
 			/**
@@ -517,6 +502,7 @@ public class FrmBanThuoc extends JPanel {
 		txtKHTra.setHorizontalAlignment(SwingConstants.TRAILING);
 		txtKHTra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				suKienThanhToan();
 			}
 		});
 		txtKHTra.setMargin(new Insets(2, 14, 2, 14));
@@ -552,40 +538,51 @@ public class FrmBanThuoc extends JPanel {
 		/*
 		 * Các nút thanh toán
 		 */
-		JButton btnThanhToanVaIn = new JButton("Thanh toán và in hóa đơn");
-		btnThanhToanVaIn.addActionListener(new ActionListener() {
+		JButton btnThanhToan = new JButton("Thanh Toán");
+		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				suKienThanhToan();
 			}
 		});
-		btnThanhToanVaIn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnThanhToanVaIn.setForeground(Color.WHITE);
-		btnThanhToanVaIn.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnThanhToanVaIn.setBackground(new Color(20, 140, 255));
-		btnThanhToanVaIn.setBounds(1074, 735, 500, 75);
-		pnlNgang.add(btnThanhToanVaIn);
+		btnThanhToan.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnThanhToan.setForeground(Color.WHITE);
+		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnThanhToan.setBackground(new Color(20, 140, 255));
+		btnThanhToan.setBounds(1074, 735, 500, 75);
+		pnlNgang.add(btnThanhToan);
 
-		JButton btnThanhTon = new JButton("Thanh toán");
-		btnThanhTon.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnThanhTon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnThanhTon.setForeground(Color.WHITE);
-		btnThanhTon.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnThanhTon.setBackground(new Color(20, 140, 255));
-		btnThanhTon.setBounds(1074, 821, 245, 75);
-		pnlNgang.add(btnThanhTon);
-
-		JButton btnHuyBo = new JButton("Hủy bỏ");
+		JButton btnHuyBo = new JButton("Làm Mới");
 		btnHuyBo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (txtKHTra.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Bạn chưa thanh toán hóa đơn");
+				} else {
+					hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
+					ChucNang.clearDataTable(modelGioHang);
+					try {
+						listThuocChon = thuocDao.getdsThuoc();
+					} catch (RemoteException e1) {
+						e1.printStackTrace();
+					}
+					loadThongTinVaoTableSanPham(listThuocChon);
+					cmbLoaiThuoc.setSelectedIndex(0);
+					cmbNCC.setSelectedIndex(0);
+					cmbNuoc.setSelectedIndex(0);
+					txtTongThanhTien.setText("");
+					txtKHTra.setText("");
+					txtTienTraLai.setText("");
+					txtTimKiemSP.setText("");
+					txtTimKiemKH.setText("");
+					listChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
+					listThuocMua = new ArrayList<Thuoc>();
+				}
 			}
 		});
 		btnHuyBo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnHuyBo.setForeground(Color.WHITE);
-		btnHuyBo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnHuyBo.setFont(new Font("Tahoma", Font.BOLD, 30));
 		btnHuyBo.setBackground(new Color(248, 96, 96));
-		btnHuyBo.setBounds(1329, 821, 245, 75);
+		btnHuyBo.setBounds(1074, 821, 500, 75);
 		pnlNgang.add(btnHuyBo);
 
 		try {
@@ -597,17 +594,247 @@ public class FrmBanThuoc extends JPanel {
 			listMaLoaiChon = new ArrayList<String>();
 			listMaNccChon = new ArrayList<String>();
 			listMaNuocChon = new ArrayList<String>();
+			listChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
+			listThuocMua = new ArrayList<Thuoc>();
 			loadThongTinVaoTableSanPham(listThuocChon);
 			loadThongTinVaoCmbLoai(listLoai);
 			loadThongTinVaoCmbNCC(listNcc);
 			loadThongTinVaoCmbNuoc(listNuoc);
 		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 	}
 
+	/**
+	 * Sự kiện tìm kiếm sản phẩm
+	 */
+	private void suKienTimKiemSanPham() {
+		String data = txtTimKiemSP.getText();
+		// Tim kiem theo ma san pha,
+		if (cmbTimKiem.getSelectedItem().equals("Tìm theo mã")) {
+			try {
+				Thuoc thuoc = thuocDao.getThuocTheoMa(data);
+				if (thuoc == null) {
+					JOptionPane.showMessageDialog(null, "Không tìm thấy");
+					loadThongTinVaoTableSanPham(listThuocChon);
+				} else {
+					ChucNang.clearDataTable(modelChonSP);
+					load1ThongTinThuoc(thuoc);
+				}
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			}
+			// Tim kiem theo ten san pham
+		} else if (cmbTimKiem.getSelectedItem().equals("Tìm theo tên")) {
+			try {
+				int indexLoai = cmbLoaiThuoc.getSelectedIndex();
+				String maloai = indexLoai == 0 ? "" : listMaLoaiChon.get(indexLoai - 1);
+				int indexNCC = cmbNCC.getSelectedIndex();
+				String maNCC = indexNCC == 0 ? "" : listMaNccChon.get(indexNCC - 1);
+				int indexNuoc = cmbNuoc.getSelectedIndex();
+				String maNuoc = indexNuoc == 0 ? "" : listMaNuocChon.get(indexNuoc - 1);
+				List<Thuoc> list = thuocDao.getdsThuocTheoTenNccNuocLoai(data, maNCC, maNuoc, maloai);
+				if (list == null) {
+					JOptionPane.showMessageDialog(null, "Không tìm thấy");
+					loadThongTinVaoTableSanPham(listThuocChon);
+				} else {
+					loadThongTinVaoTableSanPham(list);
+					if (listMaThuocChon.size() == 0) {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy");
+						loadThongTinVaoTableSanPham(listThuocChon);
+					}
+				}
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * Sự kiện tìm kiếm khách hàng
+	 */
+	private void suKienTimKiemKhachHang() {
+		String data = txtTimKiemKH.getText();
+		try {
+			kh = khDao.getKhachHangTheoMaVaSDT(data);
+			if (kh == null) {
+				JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng");
+				txtTimKiemKH.requestFocus();
+			} else {
+				lblTenKH.setText(kh.getHoTen());
+				lblSDTKH.setText(kh.getSDT());
+				lblDiaChiKH.setText(kh.getDiaChi());
+				hoadon.setKh(kh);
+			}
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	/**
+	 * sự kiện thanh toán tiền
+	 */
+	private void suKienThanhToan() {
+
+		try {
+			double tongthangtien = Double.parseDouble(txtTongThanhTien.getText());
+			double khachhangtra = Double.parseDouble(txtKHTra.getText());
+			if (khachhangtra < tongthangtien) { // Nếu tiền của khách hàng trả không đủ
+				JOptionPane.showMessageDialog(null, "Số tiền khách hàng trả chưa đủ");
+				txtKHTra.requestFocus();
+			} else { // Nếu tiền khách hàng trả đủ
+				if (txtKHTra.getText().equals("")) {
+					double tientra = khachhangtra - tongthangtien;
+					String thanhtien = (tientra % 1) == 0 ? ((int) tientra) + "" : tientra + "";
+					txtTienTraLai.setText(thanhtien);
+					hoadon.setCtHD(listChiTietHoaDon);
+					hoadon.setThanhtien();
+					// Cập nhật dữ liêu vào sql
+					try {
+						hdDao.themHoaDon(hoadon);
+						for (Thuoc thuoc : listThuocMua) {
+							thuocDao.capNhatThuoc(thuoc);
+						}
+						for (ChiTietHoaDon ct : listChiTietHoaDon) {
+							cthdDao.themChiTietHoaDon(ct);
+						}
+						JOptionPane.showMessageDialog(null, "Thanh toán thành công");
+					} catch (RemoteException e1) {
+						e1.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Hóa đơn đã được thanh toán");
+				}
+			}
+		} catch (NumberFormatException e2) {
+			e2.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Bạn chưa nhập số tiền khách hàng trả");
+			txtKHTra.requestFocus();
+		}
+	}
+
+	/**
+	 * Sự kiện thêm vào giỏ hàng
+	 */
+	private void suKienThemVaoGioHang() {
+		int count = tableChonSP.getSelectedRowCount();
+		if (count == 0) { // Chưa chọn sản phẩm cần thêm vào giỏ hàng
+			JOptionPane.showMessageDialog(null, "Hãy chọn sản phẩm để thêm vào giỏ hàng");
+		} else if (count > 1) { // Chọn từ 2 sản phẩm trở lên
+			JOptionPane.showMessageDialog(null, "Chỉ cho phép chọn 1 sản phẩm");
+		} else { // chọn 1 sản phẩm
+			try {
+				int soluong = Integer.parseInt(txtNhapSoLuong.getText());
+				String ma = listMaThuocChon.get(tableChonSP.getSelectedRow());
+				Thuoc thuoc = thuocDao.getThuocTheoMa(ma);
+				int viTriGioHang = KiemTraGioHang(listChiTietHoaDon, thuoc);
+				if (viTriGioHang == -1) { // Nếu trong giỏ hàng chưa có sản phẩm này
+					if (soluong > 0) { // số lượng thuốc cần mua lớn hơn 0
+						if (thuoc.getSLTon() >= soluong) { // kiểm tra tồn kho có đủ số lượng hay không
+							thuoc.setSLTon(thuoc.getSLTon() - soluong);
+							ChiTietHoaDon chitiet = new ChiTietHoaDon(hoadon, thuoc, soluong);
+							listChiTietHoaDon.add(chitiet);
+							listThuocMua.add(thuoc);
+							loadThongTinVaoTableGioHang(listChiTietHoaDon);
+							modelChonSP.setValueAt(thuoc.getSLTon(), tableChonSP.getSelectedRow(), 3);
+						} else { // kho không đủ số lượng
+							JOptionPane.showMessageDialog(null, "Không đủ số lượng");
+							txtNhapSoLuong.requestFocus();
+						}
+					} else if (thuoc.getSLTon() == 0) { // Nếu tồn kho = 0
+						JOptionPane.showMessageDialog(null, "Thuốc đã hết");
+						txtNhapSoLuong.requestFocus();
+					} else { // Nếu nhập số lượng thuốc là số âm
+						JOptionPane.showMessageDialog(null, "Sản phẩm chưa có trong giỏ hàng để giảm");
+						txtNhapSoLuong.requestFocus();
+					}
+				} else { // Nếu trong giỏ hàng đã có sản phẩm đã chọn
+					Thuoc t = listThuocMua.get(viTriGioHang);
+					ChiTietHoaDon chitiet = listChiTietHoaDon.get(viTriGioHang);
+					if (soluong >= 0) {
+						if (t.getSLTon() >= soluong) {
+							t.setSLTon(t.getSLTon() - soluong);
+							chitiet.setSoLuong(chitiet.getSoLuong() + soluong);
+							chitiet.setDonGia();
+							listChiTietHoaDon.add(viTriGioHang, chitiet);
+							listChiTietHoaDon.remove(viTriGioHang + 1);
+							listThuocMua.add(viTriGioHang, t);
+							listThuocMua.remove(viTriGioHang + 1);
+							loadThongTinVaoTableGioHang(listChiTietHoaDon);
+							modelChonSP.setValueAt(t.getSLTon(), tableChonSP.getSelectedRow(), 3);
+						} else if (t.getSLTon() == 0) {
+							JOptionPane.showMessageDialog(null, "Thuốc đã hết");
+							txtNhapSoLuong.requestFocus();
+						} else {
+							JOptionPane.showMessageDialog(null, "Không đủ số lượng");
+							txtNhapSoLuong.requestFocus();
+						}
+					} else {
+						if ((soluong * -1) <= chitiet.getSoLuong()) {
+							t.setSLTon(t.getSLTon() - soluong);
+							chitiet.setSoLuong(chitiet.getSoLuong() + soluong);
+							chitiet.setDonGia();
+							if (chitiet.getSoLuong() == 0) {
+								listChiTietHoaDon.remove(viTriGioHang);
+								loadThongTinVaoTableGioHang(listChiTietHoaDon);
+								listThuocMua.remove(viTriGioHang);
+								modelChonSP.setValueAt(t.getSLTon(), tableChonSP.getSelectedRow(), 3);
+							} else {
+								listChiTietHoaDon.add(viTriGioHang, chitiet);
+								listChiTietHoaDon.remove(viTriGioHang + 1);
+								listThuocMua.add(viTriGioHang, t);
+								listThuocMua.remove(viTriGioHang + 1);
+								loadThongTinVaoTableGioHang(listChiTietHoaDon);
+								modelChonSP.setValueAt(t.getSLTon(), tableChonSP.getSelectedRow(), 3);
+							}
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Lỗi! không được trả thuốc nhiều hơn thuốc hiện có trong giỏ hàng");
+							txtNhapSoLuong.requestFocus();
+						}
+					}
+				}
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			} catch (NumberFormatException n) {
+				JOptionPane.showMessageDialog(null, "Không được để rỗng số lượng");
+				txtNhapSoLuong.requestFocus();
+			}
+
+		}
+		double tongthanhtien = 0;
+		for (ChiTietHoaDon chiTietHoaDon : listChiTietHoaDon) {
+			tongthanhtien += chiTietHoaDon.getDonGia();
+		}
+		String thanhtien = (tongthanhtien % 1) == 0 ? ((int) tongthanhtien) + "" : tongthanhtien + "";
+		txtTongThanhTien.setText(thanhtien);
+	}
+
+	/**
+	 * kiểm tra thuốc có nằm trong giỏ hàng hay không
+	 * 
+	 * @param list
+	 * @param t
+	 * @return int: vị trí thuốc nằm trong giỏ hàng
+	 */
+	private int KiemTraGioHang(List<ChiTietHoaDon> list, Thuoc t) {
+		int index = 0;
+		if (list.size() == 0)
+			return -1;
+		for (ChiTietHoaDon ct : list) {
+			if (ct.getThuoc().getMaThuoc().equals(t.getMaThuoc()))
+				return index;
+			index++;
+		}
+		return -1;
+	}
+
+	/**
+	 * Load thông tin vào JComboBox Nước sản xuất
+	 * 
+	 * @param list
+	 */
 	private void loadThongTinVaoCmbNuoc(List<NuocSX> list) {
 		for (NuocSX nuocSX : list) {
 			cmbNuoc.addItem(nuocSX.getTenNuoc());
@@ -615,6 +842,11 @@ public class FrmBanThuoc extends JPanel {
 		}
 	}
 
+	/**
+	 * Load thông tin vào JComboBox nhà cung cấp
+	 * 
+	 * @param list
+	 */
 	private void loadThongTinVaoCmbNCC(List<NhaCungCap> list) {
 		for (NhaCungCap nhaCungCap : list) {
 			cmbNCC.addItem(nhaCungCap.getTenNCC());
@@ -622,6 +854,11 @@ public class FrmBanThuoc extends JPanel {
 		}
 	}
 
+	/**
+	 * Load thông tin vào JComboBox Loại thuốc
+	 * 
+	 * @param list
+	 */
 	private void loadThongTinVaoCmbLoai(List<LoaiThuoc> list) {
 		for (LoaiThuoc loaiThuoc : list) {
 			cmbLoaiThuoc.addItem(loaiThuoc.getTenLoai());
@@ -629,6 +866,37 @@ public class FrmBanThuoc extends JPanel {
 		}
 	}
 
+	/**
+	 * Load thông tin từ bảng sản phẩm vào bảng giỏ hàng(load chi tiết hóa đơn)
+	 * 
+	 * @param list
+	 */
+	private void loadThongTinVaoTableGioHang(List<ChiTietHoaDon> list) {
+		ChucNang.clearDataTable(modelGioHang);
+		int stt = 1;
+		for (ChiTietHoaDon ct : list) {
+			load1ThongTinChiTietHoaDon(ct, stt);
+			stt++;
+		}
+	}
+
+	/**
+	 * load 1 thông tin chi tiết hóa đơn
+	 * 
+	 * @param ct
+	 * @param stt
+	 */
+	private void load1ThongTinChiTietHoaDon(ChiTietHoaDon ct, int stt) {
+		String[] n = { stt + "", ct.getThuoc().getTenThuoc(), ct.getSoLuong() + "",
+				vnFormat.format(ct.getThuoc().getDonGia()), vnFormat.format(ct.getDonGia()) };
+		modelGioHang.addRow(n);
+	}
+
+	/**
+	 * load thông tin vào bảng sản phẩm thuốc
+	 * 
+	 * @param list
+	 */
 	private void loadThongTinVaoTableSanPham(List<Thuoc> list) {
 		ChucNang.clearDataTable(modelChonSP);
 		List<String> l = new ArrayList<String>();
@@ -636,9 +904,14 @@ public class FrmBanThuoc extends JPanel {
 			load1ThongTinThuoc(thuoc);
 			l.add(thuoc.getMaThuoc());
 		}
+		listMaThuocChon = l;
 	}
 
-	// "Tên thuốc", "Ngày sản xuất", "Hạn sử dụng", "Số lượng", "Đơn giá"
+	/**
+	 * load 1 thông tin sản phẩm vào bảng
+	 * 
+	 * @param thuoc
+	 */
 	private void load1ThongTinThuoc(Thuoc thuoc) {
 		String n[] = { thuoc.getTenThuoc(), dtf.format(thuoc.getNgaySX()), dtf.format(thuoc.getHanSuDung()),
 				thuoc.getSLTon() + "", vnFormat.format(thuoc.getDonGia()) };
