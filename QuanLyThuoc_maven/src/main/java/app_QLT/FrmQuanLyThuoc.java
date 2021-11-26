@@ -52,7 +52,7 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 	 * Create the panel.
 	 */
 	public FrmQuanLyThuoc() {
-		setSize(1600, 911);
+		setSize(1600, 935);
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 
@@ -62,7 +62,7 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		JPanel pnlNgang = new JPanel();
 		pnlNgang.setBounds(new Rectangle(10, 10, 10, 10));
 		pnlNgang.setLayout(null);
-		pnlNgang.setBounds(0, 0, 1600, 910);
+		pnlNgang.setBounds(0, 0, 1600, 935);
 		add(pnlNgang);
 
 		RoundedPanel pnlChonSP = new RoundedPanel();
@@ -115,7 +115,7 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		pnlThongTInNV.setShady(false);
 		pnlThongTInNV.setLayout(null);
 		pnlThongTInNV.setBackground(Color.WHITE);
-		pnlThongTInNV.setBounds(10, 422, 350, 477);
+		pnlThongTInNV.setBounds(10, 422, 350, 488);
 		pnlNgang.add(pnlThongTInNV);
 
 		JLabel lblNewLabel = new JLabel("Danh sách nhà cung cấp");
@@ -163,7 +163,7 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		pnlThongTInNV_1.setLayout(null);
 		pnlThongTInNV_1.setShady(false);
 		pnlThongTInNV_1.setBackground(Color.WHITE);
-		pnlThongTInNV_1.setBounds(370, 422, 894, 477);
+		pnlThongTInNV_1.setBounds(370, 422, 894, 488);
 		pnlNgang.add(pnlThongTInNV_1);
 
 		JLabel lblNhpThngTin = new JLabel("Nhập thông tin thuốc");
@@ -348,7 +348,7 @@ public class FrmQuanLyThuoc extends JPanel implements ActionListener, MouseListe
 		pnlThongTInNV_2.setLayout(null);
 		pnlThongTInNV_2.setShady(false);
 		pnlThongTInNV_2.setBackground(Color.WHITE);
-		pnlThongTInNV_2.setBounds(1274, 422, 300, 477);
+		pnlThongTInNV_2.setBounds(1274, 422, 300, 488);
 		pnlNgang.add(pnlThongTInNV_2);
 
 		JButton btnLuu = new JButton("Lưu");

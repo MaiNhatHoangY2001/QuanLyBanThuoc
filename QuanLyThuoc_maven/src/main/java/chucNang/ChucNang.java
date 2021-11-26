@@ -1,4 +1,5 @@
 package chucNang;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -28,10 +29,9 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-
 public class ChucNang {
 	/**
-	 * chá»‰nh giá» cho lable
+	 * chỉnh giờ cho lable
 	 * 
 	 * @param lblGio
 	 */
@@ -54,7 +54,7 @@ public class ChucNang {
 	}
 
 	/**
-	 * GiÃºp di chuyá»ƒn giao diá»‡n khi kÃ©o tháº£ giao diá»‡n
+	 * Giúp di chuyển giao diện khi kéo thả giao diện
 	 * 
 	 * @param frame
 	 */
@@ -81,7 +81,7 @@ public class ChucNang {
 	}
 
 	/**
-	 * Chá»©c nÄƒng giÃºp lÃ m cÃ¡ch 1 hÃ ng cá»§a báº£ng cÃ³ mÃ u
+	 * Chức năng giúp làm cách 1 hàng của bảng có màu
 	 */
 	public static void setTableAlternateRow() {
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
@@ -90,7 +90,7 @@ public class ChucNang {
 	}
 
 	/**
-	 * chá»©c nÄƒng giÃºp xÃ³a táº¥t cáº£ dá»¯ liá»‡u cÃ³ trong báº£ng
+	 * chức năng giúp xóa tất cả dữ liệu có trong bảng
 	 * 
 	 * @param model
 	 */
@@ -101,7 +101,7 @@ public class ChucNang {
 	}
 
 	/**
-	 * Chá»©c nÄƒng giÃºp thÃªm vÃ o nhá»¯ng hÃ ng rá»—ng cho Ä‘áº¹p báº£ng
+	 * Chức năng giúp thêm vào những hàng rỗng cho đẹp bảng
 	 * 
 	 * @param model
 	 */
@@ -112,7 +112,7 @@ public class ChucNang {
 	}
 
 	/**
-	 * Chá»©c nÄƒng cÄƒn pháº£i cÃ¡c cá»™t trong báº£ng
+	 * Chức năng căn phải các cột trong bảng
 	 * 
 	 * @param list
 	 */
@@ -126,7 +126,7 @@ public class ChucNang {
 	}
 
 	/**
-	 * Chá»©c nÄƒng cÄƒn giá»¯a cÃ¡c cá»™t trong báº£ng
+	 * Chức năng căn giữa các cột trong bảng
 	 * 
 	 * @param list
 	 */
@@ -138,10 +138,9 @@ public class ChucNang {
 		}
 
 	}
-	
 //	public static void setLabelName(String name,JPanel panel,Gui_Chinh fChinh,Gui_DangNhap fDangNhap){
 //		/**
-//		 * TÃªn Ä‘Äƒng nháº­p
+//		 * Tên đăng nhập
 //		 */
 //		
 //		JLabel lblTenDN = new JLabel(name);
@@ -159,9 +158,9 @@ public class ChucNang {
 //		panel.add(lblIconUser);
 //
 //		/**
-//		 * ÄÄƒng xuáº¥t
+//		 * Đăng xuất
 //		 */
-//		JLabel lblDangXuat = new JLabel("ÄÄƒng xuáº¥t");
+//		JLabel lblDangXuat = new JLabel("Đăng xuất");
 //		lblDangXuat.setForeground(Color.WHITE);
 //		lblDangXuat.setFont(new Font("Arial", Font.PLAIN, 24));
 //		lblDangXuat.setBounds(1419, 55, 110, 24);
@@ -183,7 +182,7 @@ public class ChucNang {
 //			
 //			@Override
 //			public void mousePressed(MouseEvent e) {
-//				int temp= JOptionPane.showConfirmDialog(fChinh, "Báº¡n cÃ³ muá»‘n Ä‘Äƒng xuáº¥t","ThÃ´ng bÃ¡o", JOptionPane.YES_NO_OPTION);
+//				int temp= JOptionPane.showConfirmDialog(fChinh, "Bạn có muốn đăng xuất","Thông báo", JOptionPane.YES_NO_OPTION);
 //				if(temp==JOptionPane.YES_OPTION) {
 //					fDangNhap.setVisible(true);
 //					fChinh.setVisible(false);
