@@ -22,10 +22,11 @@ public class NhaCungCap implements Serializable {
 	@Id
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "NC"), strategy = "generator.SinhMaTheoNgay")
+	@Column(columnDefinition = "char(10)")
 	private String maNCC;
-	@Column(columnDefinition = "nvarchar(255)")
+	@Column(columnDefinition = "nvarchar(255)", nullable = false)
 	private String tenNCC;
-	@Column(columnDefinition = "nvarchar(255)")
+	@Column(columnDefinition = "nvarchar(255)", nullable = false)
 	private String diaChi;
 
 	@OneToMany(mappedBy = "ncc")

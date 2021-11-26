@@ -3,6 +3,7 @@ package entity;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -19,13 +20,15 @@ public class ChiTietHoaDon implements Serializable {
 	private static final long serialVersionUID = 3956251130076722107L;
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "maHoaDon")
+	@JoinColumn(name = "maHoaDon", columnDefinition = "char(10)")
 	private HoaDon hoaDon;
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "maThuoc")
+	@JoinColumn(name = "maThuoc", columnDefinition = "char(10)")
 	private Thuoc thuoc;
+	@Column(columnDefinition = "money", nullable = false)
 	private double donGia;
+	@Column(nullable = false)
 	private int soLuong;
 
 	public ChiTietHoaDon() {

@@ -17,7 +17,6 @@ import org.hibernate.annotations.Parameter;
 @Entity
 public class NhanVien implements Serializable {
 
-
 	/**
 	 * 
 	 */
@@ -25,15 +24,19 @@ public class NhanVien implements Serializable {
 	@Id
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "NV"), strategy = "generator.SinhMaTheoNgay")
+	@Column(columnDefinition = "char(10)")
 	private String maNV;
-	@Column(columnDefinition = "nvarchar(255)")
+	@Column(columnDefinition = "nvarchar(255)", nullable = false)
 	private String hoTen;
-	@Column(name="SDT",columnDefinition = "nvarchar(255)")
+	@Column(name = "SDT", columnDefinition = "varchar(10)", nullable = false)
 	private String soDienThoai;
+	@Column(nullable = false)
 	private LocalDate ngaySinh;
+	@Column(nullable = false)
 	private boolean gioiTinh;
-	@Column(columnDefinition = "nvarchar(255)")
+	@Column(columnDefinition = "nvarchar(255)", nullable = false)
 	private String diaChi;
+	@Column(columnDefinition = "money", nullable = false)
 	private double luong;
 
 	@OneToMany(mappedBy = "nv")
@@ -91,7 +94,8 @@ public class NhanVien implements Serializable {
 		this.luong = luong;
 	}
 
-	public NhanVien(String hoTen, String soDienThoai, LocalDate ngaySinh, boolean gioiTinh, String diaChi, double luong) {
+	public NhanVien(String hoTen, String soDienThoai, LocalDate ngaySinh, boolean gioiTinh, String diaChi,
+			double luong) {
 		super();
 		this.hoTen = hoTen;
 		this.soDienThoai = soDienThoai;
@@ -100,8 +104,6 @@ public class NhanVien implements Serializable {
 		this.diaChi = diaChi;
 		this.luong = luong;
 	}
-	
-	
 
 	public NhanVien(String maNV, String hoTen, String soDienThoai, LocalDate ngaySinh, boolean gioiTinh, String diaChi,
 			double luong) {

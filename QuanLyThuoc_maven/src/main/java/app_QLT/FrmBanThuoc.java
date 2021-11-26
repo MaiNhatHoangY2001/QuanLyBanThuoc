@@ -112,7 +112,7 @@ public class FrmBanThuoc extends JPanel {
 	 */
 	public FrmBanThuoc() {
 		kh = new KhachHang();
-		hoadon = new HoaDon(LocalDateTime.now(), new NhanVien("NV21110001"), kh);
+		hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
 		try {
 			khDao = new KhachHangDaoImpl();
 			loaiDao = new LoaiThuocDaoImpl();
@@ -558,7 +558,8 @@ public class FrmBanThuoc extends JPanel {
 				if (txtKHTra.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Bạn chưa thanh toán hóa đơn");
 				} else {
-					hoadon = new HoaDon(LocalDateTime.now(), new NhanVien("NV21110001"), kh);
+					kh = new KhachHang();
+					hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
 					ChucNang.clearDataTable(modelGioHang);
 					try {
 						listThuocChon = thuocDao.getdsThuoc();
@@ -574,6 +575,9 @@ public class FrmBanThuoc extends JPanel {
 					txtTienTraLai.setText("");
 					txtTimKiemSP.setText("");
 					txtTimKiemKH.setText("");
+					lblTenKH.setText("");
+					lblDiaChiKH.setText("");
+					lblSDTKH.setText("");
 					listChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
 					listThuocMua = new ArrayList<Thuoc>();
 				}
@@ -636,6 +640,7 @@ public class FrmBanThuoc extends JPanel {
 				int indexNuoc = cmbNuoc.getSelectedIndex();
 				String maNuoc = indexNuoc == 0 ? "" : listMaNuocChon.get(indexNuoc - 1);
 				List<Thuoc> list = thuocDao.getdsThuocTheoTenNccNuocLoai(data, maNCC, maNuoc, maloai);
+				System.out.println(maloai+maNCC+maNuoc+list);
 				if (list == null) {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy");
 					loadThongTinVaoTableSanPham(listThuocChon);
@@ -677,35 +682,44 @@ public class FrmBanThuoc extends JPanel {
 	 * sự kiện thanh toán tiền
 	 */
 	private void suKienThanhToan() {
-		
+
 		try {
-			double tongthangtien = Double.parseDouble(txtTongThanhTien.getText());
-			double khachhangtra = Double.parseDouble(txtKHTra.getText());
-			if (khachhangtra < tongthangtien) { // Nếu tiền của khách hàng trả không đủ
-				JOptionPane.showMessageDialog(null, "Số tiền khách hàng trả chưa đủ");
-				txtKHTra.requestFocus();
-			} else { // Nếu tiền khách hàng trả đủ
-				if (txtKHTra.getText().equals("")) {
-					double tientra = khachhangtra - tongthangtien;
-					String thanhtien = (tientra % 1) == 0 ? ((int) tientra) + "" : tientra + "";
-					txtTienTraLai.setText(thanhtien);
-					hoadon.setCtHD(listChiTietHoaDon);
-					hoadon.setThanhtien();
-					// Cập nhật dữ liêu vào sql
-					try {
-						hdDao.themHoaDon(hoadon);
-						for (Thuoc thuoc : listThuocMua) {
-							thuocDao.capNhatThuoc(thuoc);
+			if (txtKHTra.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa nhập tiền khách hàng trả");
+			} else {
+				double tongthangtien = Double.parseDouble(txtTongThanhTien.getText());
+				double khachhangtra = Double.parseDouble(txtKHTra.getText());
+				if (khachhangtra < tongthangtien) { // Nếu tiền của khách hàng trả không đủ
+					JOptionPane.showMessageDialog(null, "Số tiền khách hàng trả chưa đủ");
+					txtKHTra.requestFocus();
+				} else { // Nếu tiền khách hàng trả đủ
+					if (txtTienTraLai.getText().equals("")) {
+						if (kh == null) {
+							JOptionPane.showMessageDialog(null, "Bạn hãy cho biết khách hàng nào đang mua");
+							txtTimKiemKH.requestFocus();
+						} else {
+							double tientra = khachhangtra - tongthangtien;
+							String thanhtien = (tientra % 1) == 0 ? ((int) tientra) + "" : tientra + "";
+							txtTienTraLai.setText(thanhtien);
+							hoadon.setCtHD(listChiTietHoaDon);
+							hoadon.setThanhtien();
+							// Cập nhật dữ liêu vào sql
+							try {
+								hdDao.themHoaDon(hoadon);
+								for (Thuoc thuoc : listThuocMua) {
+									thuocDao.capNhatThuoc(thuoc);
+								}
+								for (ChiTietHoaDon ct : listChiTietHoaDon) {
+									cthdDao.themChiTietHoaDon(ct);
+								}
+								JOptionPane.showMessageDialog(null, "Thanh toán thành công");
+							} catch (RemoteException e1) {
+								e1.printStackTrace();
+							}
 						}
-						for (ChiTietHoaDon ct : listChiTietHoaDon) {
-							cthdDao.themChiTietHoaDon(ct);
-						}
-						JOptionPane.showMessageDialog(null, "Thanh toán thành công");
-					} catch (RemoteException e1) {
-						e1.printStackTrace();
+					} else {
+						JOptionPane.showMessageDialog(null, "Hóa đơn đã được thanh toán");
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Hóa đơn đã được thanh toán");
 				}
 			}
 		} catch (NumberFormatException e2) {

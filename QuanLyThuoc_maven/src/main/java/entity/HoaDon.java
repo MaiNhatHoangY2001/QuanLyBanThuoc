@@ -1,12 +1,11 @@
 package entity;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,14 +26,17 @@ public class HoaDon implements Serializable {
 	@Id
 	@GeneratedValue(generator = "sinhMaTheoNgay")
 	@GenericGenerator(name = "sinhMaTheoNgay", parameters = @Parameter(name = "prefix", value = "HD"), strategy = "generator.SinhMaTheoNgay")
+	@Column(columnDefinition = "char(10)")
 	private String maHoaDon;
-	private LocalDateTime ngayLap;
+	@Column(nullable = false)
+	private LocalDate ngayLap;
+	@Column(columnDefinition = "money", nullable = false)
 	private double thanhtien;
 	@ManyToOne
-	@JoinColumn(name = "maNV")
+	@JoinColumn(name = "maNV", nullable = false)
 	private NhanVien nv;
 	@ManyToOne
-	@JoinColumn(name = "maKH")
+	@JoinColumn(name = "maKH", nullable = false)
 	private KhachHang kh;
 
 	@OneToMany(mappedBy = "hoaDon")
@@ -49,12 +51,11 @@ public class HoaDon implements Serializable {
 		this.maHoaDon = maHoaDon;
 	}
 
-	public HoaDon(LocalDateTime ngayLap, NhanVien nv, KhachHang kh) {
+	public HoaDon(LocalDate ngayLap, NhanVien nv, KhachHang kh) {
 		super();
 		this.ngayLap = ngayLap;
 		this.nv = nv;
 		this.kh = kh;
-		this.thanhtien = thanhTien();
 	}
 
 	public double thanhTien() {
@@ -69,11 +70,11 @@ public class HoaDon implements Serializable {
 		return maHoaDon;
 	}
 
-	public LocalDateTime getNgayLap() {
+	public LocalDate getNgayLap() {
 		return ngayLap;
 	}
 
-	public void setNgayLap(LocalDateTime ngayLap) {
+	public void setNgayLap(LocalDate ngayLap) {
 		this.ngayLap = ngayLap;
 	}
 
@@ -104,7 +105,7 @@ public class HoaDon implements Serializable {
 	public double getThanhtien() {
 		return thanhtien;
 	}
-	
+
 	public void setThanhtien() {
 		this.thanhtien = 0;
 		for (ChiTietHoaDon chiTietHoaDon : ctHD) {
