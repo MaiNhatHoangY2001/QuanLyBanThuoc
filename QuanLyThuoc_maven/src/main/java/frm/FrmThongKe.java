@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -35,9 +36,9 @@ import com.toedter.calendar.JYearChooser;
 import dao.CTHoaDon_DAO;
 import dao.KhachHangDao;
 import dao.ThuocDao;
-import dao.impl.CTHoaDonImpl;
-import dao.impl.KhachHangDaoImpl;
-import dao.impl.ThuocDaoImpl;
+//import dao.impl.CTHoaDonImpl;
+//import dao.impl.KhachHangDaoImpl;
+//import dao.impl.ThuocDaoImpl;
 import entity.KhachHang;
 import entity.Thuoc;
 import chucNang.ChucNang;
@@ -71,6 +72,21 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 	private JComboBox<Integer> cboLoc;
 
 	public FrmThongKe() {
+		SecurityManager securityManager=System.getSecurityManager();
+		if(securityManager==null) {
+			System.setProperty("java.security.policy", "policy/policy.policy");
+			System.setSecurityManager(new SecurityManager());
+		}
+		
+		try {
+			kh_dao = (KhachHangDao) Naming.lookup("rmi://192.168.1.7:9999/khachHangDao");
+			ctHD_dao = (CTHoaDon_DAO) Naming.lookup("rmi://192.168.1.7:9999/ctHoaDon_DAO");
+			thuoc_dao = (ThuocDao) Naming.lookup("rmi://192.168.1.7:9999/thuocDao");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		setLayout(null);
 		setSize(1600, 933);
 		setBackground(Color.WHITE);
@@ -314,14 +330,6 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 
 		// Them su kien
 		btnThongKe.addActionListener(this);
-
-		try {
-			kh_dao = new KhachHangDaoImpl();
-			ctHD_dao = new CTHoaDonImpl();
-			thuoc_dao = new ThuocDaoImpl();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
 
 		ChucNang.addNullDataTable(modelKH);
 		ChucNang.addNullDataTable(modelThuoc);

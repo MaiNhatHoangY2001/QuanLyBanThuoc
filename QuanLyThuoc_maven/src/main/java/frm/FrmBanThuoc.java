@@ -13,13 +13,13 @@ import dao.LoaiThuocDao;
 import dao.NhaCungCapDao;
 import dao.NuocDao;
 import dao.ThuocDao;
-import dao.impl.CTHoaDonImpl;
-import dao.impl.HoaDonDaoImpl;
-import dao.impl.KhachHangDaoImpl;
-import dao.impl.LoaiThuocDaoImpl;
-import dao.impl.NhaCungCapDaoImpl;
-import dao.impl.NuocDaoImpl;
-import dao.impl.ThuocDaoImpl;
+//import dao.impl.CTHoaDonImpl;
+//import dao.impl.HoaDonDaoImpl;
+//import dao.impl.KhachHangDaoImpl;
+//import dao.impl.LoaiThuocDaoImpl;
+//import dao.impl.NhaCungCapDaoImpl;
+//import dao.impl.NuocDaoImpl;
+//import dao.impl.ThuocDaoImpl;
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
 import entity.KhachHang;
@@ -60,6 +60,7 @@ import javax.swing.table.JTableHeader;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 public class FrmBanThuoc extends JPanel {
@@ -113,16 +114,30 @@ public class FrmBanThuoc extends JPanel {
 	public FrmBanThuoc() {
 		kh = new KhachHang();
 		hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
+		
+		SecurityManager securityManager=System.getSecurityManager();
+		if(securityManager==null) {
+			System.setProperty("java.security.policy", "policy/policy.policy");
+			System.setSecurityManager(new SecurityManager());
+		}
 		try {
-			khDao = new KhachHangDaoImpl();
-			loaiDao = new LoaiThuocDaoImpl();
-			nccDao = new NhaCungCapDaoImpl();
-			nuocDao = new NuocDaoImpl();
-			hdDao = new HoaDonDaoImpl();
-			cthdDao = new CTHoaDonImpl();
+			khDao=(KhachHangDao) Naming.lookup("rmi://192.168.1.7:9999/khachHangDao");
+			nccDao=(NhaCungCapDao) Naming.lookup("rmi://192.168.1.7:9999/nhaCungCapDao");
+			loaiDao=(LoaiThuocDao) Naming.lookup("rmi://192.168.1.7:9999/loaiThuocDao");
+			nuocDao=(NuocDao) Naming.lookup("rmi://192.168.1.7:9999/nuocDao");
+			hdDao=(HoaDonDao) Naming.lookup("rmi://192.168.1.7:9999/hoaDonDao");
+			cthdDao=(CTHoaDon_DAO) Naming.lookup("rmi://192.168.1.7:9999/ctHoaDon_DAO");
+			thuocDao=(ThuocDao) Naming.lookup("rmi://192.168.1.7:9999/thuocDao");
+			
+			//khDao = new KhachHangDaoImpl();
+			//loaiDao = new LoaiThuocDaoImpl();
+			//nccDao = new NhaCungCapDaoImpl();
+			//nuocDao = new NuocDaoImpl();
+			//hdDao = new HoaDonDaoImpl();
+			//cthdDao = new CTHoaDonImpl();
 			kh = null;
-			thuocDao = new ThuocDaoImpl();
-		} catch (RemoteException e1) {
+			//thuocDao = new ThuocDaoImpl();
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 

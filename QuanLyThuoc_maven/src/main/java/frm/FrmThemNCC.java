@@ -7,8 +7,8 @@ import chucNang.Regex;
 import chucNang.RoundedPanel;
 import dao.KhachHangDao;
 import dao.NhaCungCapDao;
-import dao.impl.KhachHangDaoImpl;
-import dao.impl.NhaCungCapDaoImpl;
+//import dao.impl.KhachHangDaoImpl;
+//import dao.impl.NhaCungCapDaoImpl;
 import entity.KhachHang;
 import entity.NhaCungCap;
 import entity.NuocSX;
@@ -42,9 +42,10 @@ import java.awt.Cursor;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-public class FrmThemNCCNew extends JFrame implements ActionListener, MouseListener{
+public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 
 	/**
 	 * 
@@ -53,7 +54,7 @@ public class FrmThemNCCNew extends JFrame implements ActionListener, MouseListen
 	private JTextField txtTen;
 	private JButton btnLuu;
 	private JButton btnXoa,btnSua,btnXoaRong;
-	private KhachHangDaoImpl khDao;
+	//private KhachHangDaoImpl khDao;
 	private JTextField txtMa;
 	private DefaultTableModel tableModel;
 	private JTable table;
@@ -63,10 +64,17 @@ public class FrmThemNCCNew extends JFrame implements ActionListener, MouseListen
 	/**
 	 * Create the frame.
 	 */
-	public FrmThemNCCNew() {
+	public FrmThemNCC() {
+		
+		SecurityManager securityManager=System.getSecurityManager();
+		if(securityManager==null) {
+			System.setProperty("java.security.policy", "policy/policy.policy");
+			System.setSecurityManager(new SecurityManager());
+		}
 		try {
-			khDao = new KhachHangDaoImpl();
-		} catch (RemoteException e1) {
+			//khDao = new KhachHangDaoImpl();
+			nhaCungCapDao=(NhaCungCapDao) Naming.lookup("rmi://192.168.1.7:9999/nhaCungCapDao");
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
@@ -207,12 +215,12 @@ public class FrmThemNCCNew extends JFrame implements ActionListener, MouseListen
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
 		lblTitle.setBounds(209, 30, 582, 73);
 		pnlXanh.add(lblTitle);
-		
-		try {
-			nhaCungCapDao=new NhaCungCapDaoImpl();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+//		
+//		try {
+//			nhaCungCapDao=new NhaCungCapDaoImpl();
+//		} catch (RemoteException e1) {
+//			e1.printStackTrace();
+//		}
 		
 		try {
 			loadAllNCC();

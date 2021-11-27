@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import chucNang.Regex;
 import chucNang.RoundedPanel;
 import dao.KhachHangDao;
-import dao.impl.KhachHangDaoImpl;
+//import dao.impl.KhachHangDaoImpl;
 import entity.KhachHang;
 
 import java.awt.Color;
@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Cursor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 public class FrmCapNhatThongTinKH extends JFrame {
@@ -55,10 +56,16 @@ public class FrmCapNhatThongTinKH extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmCapNhatThongTinKH(KhachHang kh) {
+		
+
+		SecurityManager securityManager=System.getSecurityManager();
+		if(securityManager==null) {
+			System.setProperty("java.security.policy", "policy/policy.policy");
+			System.setSecurityManager(new SecurityManager());
+		}
 		try {
-			khDao = new KhachHangDaoImpl();
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
+			khDao=(KhachHangDao) Naming.lookup("rmi://192.168.1.7:9999/khachHangDao");
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 

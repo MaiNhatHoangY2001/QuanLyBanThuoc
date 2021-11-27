@@ -16,10 +16,10 @@ import dao.LoaiThuocDao;
 import dao.NhaCungCapDao;
 import dao.NuocDao;
 import dao.ThuocDao;
-import dao.impl.LoaiThuocDaoImpl;
-import dao.impl.NhaCungCapDaoImpl;
-import dao.impl.NuocDaoImpl;
-import dao.impl.ThuocDaoImpl;
+//import dao.impl.LoaiThuocDaoImpl;
+//import dao.impl.NhaCungCapDaoImpl;
+//import dao.impl.NuocDaoImpl;
+//import dao.impl.ThuocDaoImpl;
 import entity.LoaiThuoc;
 import entity.NhaCungCap;
 import entity.NuocSX;
@@ -54,6 +54,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.text.NumberFormat;
 
@@ -110,6 +111,40 @@ public class FrmQuanLyThuoc extends JPanel {
 	 * Create the panel.
 	 */
 	public FrmQuanLyThuoc() {
+		
+		SecurityManager securityManager=System.getSecurityManager();
+		if(securityManager==null) {
+			System.setProperty("java.security.policy", "policy/policy.policy");
+			System.setSecurityManager(new SecurityManager());
+		}
+		
+		try {
+			nccDao=(NhaCungCapDao) Naming.lookup("rmi://192.168.1.7:9999/nhaCungCapDao");
+			listNCC = nccDao.getdsNhaCungCap();
+			listMaNCC = new ArrayList<String>();
+
+			thuocDao=(ThuocDao) Naming.lookup("rmi://192.168.1.7:9999/thuocDao");
+			listMaThuoc = new ArrayList<String>();
+			
+			loaiDao=(LoaiThuocDao) Naming.lookup("rmi://192.168.1.7:9999/loaiThuocDao");
+			//loaiDao = new LoaiThuocDaoImpl();
+			listLoai = loaiDao.getdsLoaiThuoc();
+			listMaLoai = new ArrayList<String>();
+
+			//nuocDao = new NuocDaoImpl();
+			nuocDao=(NuocDao) Naming.lookup("rmi://192.168.1.7:9999/nuocDao");
+			listNuoc = nuocDao.getdsNuocSX();
+			listMaNuoc = new ArrayList<String>();
+
+			loadNCCVaoTree(listNCC);
+			tree.setSelectionRow(0);
+			loadLoaiVaoCmb(listLoai);
+			loadNuocVaoCmb(listNuoc);
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
 		setSize(1600, 935);
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -576,30 +611,7 @@ public class FrmQuanLyThuoc extends JPanel {
 		btnLamMoi.setBounds(25, 364, 250, 80);
 		pnlThongTInNV_2.add(btnLamMoi);
 
-		try {
-			nccDao = new NhaCungCapDaoImpl();
-			listNCC = nccDao.getdsNhaCungCap();
-			listMaNCC = new ArrayList<String>();
-
-			thuocDao = new ThuocDaoImpl();
-			listMaThuoc = new ArrayList<String>();
-
-			loaiDao = new LoaiThuocDaoImpl();
-			listLoai = loaiDao.getdsLoaiThuoc();
-			listMaLoai = new ArrayList<String>();
-
-			nuocDao = new NuocDaoImpl();
-			listNuoc = nuocDao.getdsNuocSX();
-			listMaNuoc = new ArrayList<String>();
-
-			loadNCCVaoTree(listNCC);
-			tree.setSelectionRow(0);
-			loadLoaiVaoCmb(listLoai);
-			loadNuocVaoCmb(listNuoc);
-
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+		
 	}
 
 	private void xoaRong() {

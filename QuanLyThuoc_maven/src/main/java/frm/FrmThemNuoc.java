@@ -6,9 +6,10 @@ import javax.swing.JPanel;
 import chucNang.Regex;
 import chucNang.RoundedPanel;
 import dao.KhachHangDao;
+import dao.NhaCungCapDao;
 import dao.NuocDao;
-import dao.impl.KhachHangDaoImpl;
-import dao.impl.NuocDaoImpl;
+//import dao.impl.KhachHangDaoImpl;
+//import dao.impl.NuocDaoImpl;
 import entity.KhachHang;
 import entity.LoaiThuoc;
 import entity.NuocSX;
@@ -42,6 +43,7 @@ import java.awt.Cursor;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener{
@@ -53,7 +55,7 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 	private JTextField txtTen;
 	private JButton btnLuu;
 	private JButton btnXoa,btnSua,btnXoaRong;
-	private KhachHangDaoImpl khDao;
+	//private KhachHangDaoImpl khDao;
 	private JTextField txtMa;
 	private DefaultTableModel tableModel;
 	private JTable table;
@@ -63,9 +65,15 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 	 * Create the frame.
 	 */
 	public FrmThemNuoc() {
+		SecurityManager securityManager=System.getSecurityManager();
+		if(securityManager==null) {
+			System.setProperty("java.security.policy", "policy/policy.policy");
+			System.setSecurityManager(new SecurityManager());
+		}
 		try {
-			khDao = new KhachHangDaoImpl();
-		} catch (RemoteException e1) {
+			//khDao = new KhachHangDaoImpl();
+			nuocDao=(NuocDao) Naming.lookup("rmi://192.168.1.7:9999/nuocDao");
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
@@ -200,12 +208,12 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 		btnSua.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnXoaRong.addActionListener(this);
-		
-		try {
-			nuocDao=new NuocDaoImpl();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+//		
+//		try {
+//			nuocDao=new NuocDaoImpl();
+//		} catch (RemoteException e1) {
+//			e1.printStackTrace();
+//		}
 		try {
 			loadAllNuoc();
 		} catch (RemoteException e1) {
