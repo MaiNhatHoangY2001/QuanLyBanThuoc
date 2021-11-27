@@ -5,13 +5,10 @@ import javax.swing.JPanel;
 
 import chucNang.Regex;
 import chucNang.RoundedPanel;
-import dao.KhachHangDao;
 import dao.NhaCungCapDao;
 import dao.impl.KhachHangDaoImpl;
 import dao.impl.NhaCungCapDaoImpl;
-import entity.KhachHang;
 import entity.NhaCungCap;
-import entity.NuocSX;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -20,31 +17,24 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import java.awt.Insets;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
-import javax.swing.SwingConstants;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 
-public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
+public class FrmThemNCC extends JFrame implements ActionListener, MouseListener {
 
 	/**
 	 * 
@@ -52,7 +42,7 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 	private static final long serialVersionUID = 5885586881253507338L;
 	private JTextField txtTen;
 	private JButton btnLuu;
-	private JButton btnXoa,btnSua,btnXoaRong;
+	private JButton btnXoa, btnSua, btnXoaRong;
 	private KhachHangDaoImpl khDao;
 	private JTextField txtMa;
 	private DefaultTableModel tableModel;
@@ -116,38 +106,39 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 		txtTen.setBounds(185, 88, 594, 40);
 		pnlInput.add(txtTen);
 		txtTen.setColumns(10);
-		
+
 		JLabel lblMLoiThuc = new JLabel("Mã nhà cung cấp:");
 		lblMLoiThuc.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblMLoiThuc.setBounds(0, 22, 175, 40);
 		pnlInput.add(lblMLoiThuc);
-		
+
 		txtMa = new JTextField();
 		txtMa.setMargin(new Insets(2, 14, 2, 2));
 		txtMa.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtMa.setColumns(10);
 		txtMa.setBounds(185, 22, 594, 40);
 		pnlInput.add(txtMa);
-		
-		String column[] = { "Mã nhà cung cấp", "Tên nhà cung cấp","Địa chỉ" };
-		tableModel=new DefaultTableModel(column,0);
-		table=new JTable(tableModel);
+
+		String column[] = { "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ" };
+		tableModel = new DefaultTableModel(column, 0);
+		table = new JTable(tableModel);
 		table.setRowHeight(20);
 		table.getTableHeader().setFont(new Font("Times New Roman", Font.BOLD, 20));
 		table.setRowHeight(40);
 		table.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		JScrollPane scroll;
-		scroll=new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(10, 218, 769, 249);
-		scroll.setBackground(new Color(248,248,248));
+		scroll.setBackground(new Color(248, 248, 248));
 		scroll.setBorder(BorderFactory.createTitledBorder("Danh sách nhà cung cấp"));
 		pnlInput.add(scroll);
-		
+
 		JLabel lblaCh = new JLabel("Địa chỉ:");
 		lblaCh.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblaCh.setBounds(0, 156, 175, 40);
 		pnlInput.add(lblaCh);
-		
+
 		txtDiaChi = new JTextField();
 		txtDiaChi.setMargin(new Insets(2, 14, 2, 2));
 		txtDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -181,14 +172,14 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 		btnXoa.setBackground(new Color(20, 140, 255));
 		btnXoa.setBounds(273, 298, 144, 50);
 		pnlTrang.add(btnXoa);
-		
+
 		btnSua = new JButton("Sửa");
 		btnSua.setForeground(Color.WHITE);
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnSua.setBackground(new Color(20, 140, 255));
 		btnSua.setBounds(527, 298, 158, 50);
 		pnlTrang.add(btnSua);
-		
+
 		btnXoaRong = new JButton("Làm mới");
 		btnXoaRong.setForeground(Color.WHITE);
 		btnXoaRong.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -207,19 +198,19 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
 		lblTitle.setBounds(209, 30, 582, 73);
 		pnlXanh.add(lblTitle);
-		
+
 		try {
-			nhaCungCapDao=new NhaCungCapDaoImpl();
+			nhaCungCapDao = new NhaCungCapDaoImpl();
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		try {
 			loadAllNCC();
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		table.addMouseListener(this);
 		btnLuu.addActionListener(this);
 		btnSua.addActionListener(this);
@@ -247,14 +238,15 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 		Regex r = new Regex();
 		if (r.RegexTen(txtTen))
 			return false;
-		if(r.kiemTraRong(txtTen))
+		if (r.kiemTraRong(txtTen))
 			return false;
 		if (r.kiemTraRong(txtDiaChi))
 			return false;
-		if(r.kiemTraRong(txtDiaChi))
+		if (r.kiemTraRong(txtDiaChi))
 			return false;
 		return true;
 	}
+
 	/**
 	 * Viet hoa chu cai dau tien
 	 * 
@@ -286,37 +278,33 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object o=e.getSource();
-		if(o.equals(btnLuu)) {
-			if(kiemTraThongTin()) {
-				//String ma=txtMa.getText();
-				String ten=txtTen.getText();
-				String dc=txtDiaChi.getText();
-				NhaCungCap ncc=new NhaCungCap(ten, dc);
+		Object o = e.getSource();
+		if (o.equals(btnLuu)) {
+			if (kiemTraThongTin()) {
+				// String ma=txtMa.getText();
+				String ten = txtTen.getText();
+				String dc = txtDiaChi.getText();
+				NhaCungCap ncc = new NhaCungCap(ten, dc);
 				try {
 					nhaCungCapDao.themNCC(ncc);
 					JOptionPane.showMessageDialog(this, "Thêm thành công");
@@ -325,19 +313,19 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}
-				
+
 			}
-			
+
 		}
-		if(o.equals(btnSua)) {
-			if(kiemTraThongTin()) {
-				String ma=txtMa.getText();
-				String ten=txtTen.getText();
-				String dc=txtDiaChi.getText();
-				NhaCungCap ncc=new NhaCungCap(ma, ten, dc);
+		if (o.equals(btnSua)) {
+			if (kiemTraThongTin()) {
+				String ma = txtMa.getText();
+				String ten = txtTen.getText();
+				String dc = txtDiaChi.getText();
+				NhaCungCap ncc = new NhaCungCap(ma, ten, dc);
 				int tl;
-				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nhà cung cấp này không ?", "Cảnh báo",
-						JOptionPane.YES_OPTION);
+				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nhà cung cấp này không ?",
+						"Cảnh báo", JOptionPane.YES_OPTION);
 				if (tl == JOptionPane.YES_OPTION) {
 					try {
 						nhaCungCapDao.updateNCC(ncc);
@@ -347,18 +335,17 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}
-				}
-				else
+				} else
 					JOptionPane.showMessageDialog(this, "Đã hủy");
 			}
-			}
-		if(o.equals(btnXoa)) {
+		}
+		if (o.equals(btnXoa)) {
 			if (table.getSelectedRow() == -1) {
 				JOptionPane.showMessageDialog(this, "Hãy chọn nhà cung cấp cần xóa");
 			} else {
 				int tl;
-				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa nhà cung cấp này không ?", "Cảnh báo",
-						JOptionPane.YES_OPTION);
+				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa nhà cung cấp này không ?",
+						"Cảnh báo", JOptionPane.YES_OPTION);
 				if (tl == JOptionPane.YES_OPTION) {
 					int index = table.getSelectedRow();
 					try {
@@ -371,19 +358,19 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener{
 				}
 			}
 		}
-		if(o.equals(btnXoaRong)) {
+		if (o.equals(btnXoaRong)) {
 			xoaRong();
 		}
-		
-		
+
 	}
-	
+
 	private void loadAllNCC() throws RemoteException {
-		List<NhaCungCap> ds=nhaCungCapDao.getdsNhaCungCap();
-		for(NhaCungCap n:ds) {
-			tableModel.addRow(new Object[] { n.getMaNCC(),n.getTenNCC(),n.getDiaChi() });
+		List<NhaCungCap> ds = nhaCungCapDao.getdsNhaCungCap();
+		for (NhaCungCap n : ds) {
+			tableModel.addRow(new Object[] { n.getMaNCC(), n.getTenNCC(), n.getDiaChi() });
 		}
 	}
+
 	private void clearTable() {
 		while (table.getRowCount() > 0) {
 			tableModel.removeRow(0);
