@@ -6,9 +6,10 @@ import javax.swing.JPanel;
 import chucNang.Regex;
 import chucNang.RoundedPanel;
 import dao.KhachHangDao;
+import dao.NhaCungCapDao;
 import dao.NuocDao;
-import dao.impl.KhachHangDaoImpl;
-import dao.impl.NuocDaoImpl;
+//import dao.impl.KhachHangDaoImpl;
+//import dao.impl.NuocDaoImpl;
 import entity.KhachHang;
 import entity.LoaiThuoc;
 import entity.NuocSX;
@@ -25,6 +26,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+
+import app.App;
+
 import javax.swing.JTextField;
 import java.awt.Insets;
 import javax.swing.JRadioButton;
@@ -42,9 +46,10 @@ import java.awt.Cursor;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener{
+public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener {
 
 	/**
 	 * 
@@ -52,22 +57,26 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 	private static final long serialVersionUID = 5885586881253507338L;
 	private JTextField txtTen;
 	private JButton btnLuu;
-	private JButton btnXoa,btnSua,btnXoaRong;
-	private KhachHangDaoImpl khDao;
+	private JButton btnXoa, btnSua, btnXoaRong;
 	private JTextField txtMa;
 	private DefaultTableModel tableModel;
 	private JTable table;
-	private NuocDao nuocDao;
 
 	/**
 	 * Create the frame.
 	 */
 	public FrmThemNuoc() {
-		try {
-			khDao = new KhachHangDaoImpl();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+//		SecurityManager securityManager=System.getSecurityManager();
+//		if(securityManager==null) {
+//			System.setProperty("java.security.policy", "policy/policy.policy");
+//			System.setSecurityManager(new SecurityManager());
+//		}
+//		try {
+//			//khDao = new KhachHangDaoImpl();
+//			nuocDao=(NuocDao) Naming.lookup("rmi://192.168.1.7:9999/nuocDao");
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -115,30 +124,31 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 		txtTen.setBounds(185, 100, 594, 40);
 		pnlInput.add(txtTen);
 		txtTen.setColumns(10);
-		
+
 		JLabel lblMLoiThuc = new JLabel("Mã  nước:");
 		lblMLoiThuc.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblMLoiThuc.setBounds(0, 22, 175, 40);
 		pnlInput.add(lblMLoiThuc);
-		
+
 		txtMa = new JTextField();
 		txtMa.setMargin(new Insets(2, 14, 2, 2));
 		txtMa.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtMa.setColumns(10);
 		txtMa.setBounds(185, 22, 594, 40);
 		pnlInput.add(txtMa);
-		
+
 		String column[] = { "Mã nước", "Tên nước" };
-		tableModel=new DefaultTableModel(column,0);
-		table=new JTable(tableModel);
+		tableModel = new DefaultTableModel(column, 0);
+		table = new JTable(tableModel);
 		table.setRowHeight(20);
 		table.getTableHeader().setFont(new Font("Times New Roman", Font.BOLD, 20));
 		table.setRowHeight(40);
 		table.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		JScrollPane scrool;
-		scrool=new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrool = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrool.setBounds(10, 166, 769, 301);
-		scrool.setBackground(new Color(248,248,248));
+		scrool.setBackground(new Color(248, 248, 248));
 		scrool.setBorder(BorderFactory.createTitledBorder("Danh sách nước sản xuất"));
 		pnlInput.add(scrool);
 
@@ -168,14 +178,14 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 		btnXoa.setBackground(new Color(20, 140, 255));
 		btnXoa.setBounds(273, 298, 144, 50);
 		pnlTrang.add(btnXoa);
-		
+
 		btnSua = new JButton("Sửa");
 		btnSua.setForeground(Color.WHITE);
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnSua.setBackground(new Color(20, 140, 255));
 		btnSua.setBounds(527, 298, 158, 50);
 		pnlTrang.add(btnSua);
-		
+
 		btnXoaRong = new JButton("Làm mới");
 		btnXoaRong.setForeground(Color.WHITE);
 		btnXoaRong.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -194,18 +204,18 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
 		lblTitle.setBounds(209, 30, 582, 73);
 		pnlXanh.add(lblTitle);
-		
+
 		table.addMouseListener(this);
 		btnLuu.addActionListener(this);
 		btnSua.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnXoaRong.addActionListener(this);
-		
-		try {
-			nuocDao=new NuocDaoImpl();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+//		
+//		try {
+//			nuocDao=new NuocDaoImpl();
+//		} catch (RemoteException e1) {
+//			e1.printStackTrace();
+//		}
 		try {
 			loadAllNuoc();
 		} catch (RemoteException e1) {
@@ -232,10 +242,11 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 		Regex r = new Regex();
 		if (r.RegexTen(txtTen))
 			return false;
-		if(r.kiemTraRong(txtTen))
+		if (r.kiemTraRong(txtTen))
 			return false;
 		return true;
 	}
+
 	/**
 	 * Viet hoa chu cai dau tien
 	 * 
@@ -267,70 +278,69 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object o=e.getSource();
-		if(o.equals(btnLuu)) {
-			if(kiemTraThongTin()) {
-				//String ma=txtMa.getText();
-				String ten=txtTen.getText();
-				NuocSX nuocSX=new NuocSX(ten);
+		Object o = e.getSource();
+		if (o.equals(btnLuu)) {
+			if (kiemTraThongTin()) {
+				// String ma=txtMa.getText();
+				String ten = txtTen.getText();
+				NuocSX nuocSX = new NuocSX(ten);
 				try {
-					nuocDao.themNuocSX(nuocSX);
+					App.nuocDao.themNuocSX(nuocSX);
 					JOptionPane.showMessageDialog(this, "Thêm thành công");
 					clearTable();
 					loadAllNuoc();
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}
-				
+
 			}
-			
+
 		}
-		if(o.equals(btnSua)) {
-			if(kiemTraThongTin()) {
-				String ma=txtMa.getText();
-				String ten=txtTen.getText();
-				NuocSX nuocSX=new NuocSX(ma,ten);
+		if (o.equals(btnSua)) {
+			if (kiemTraThongTin()) {
+				String ma = txtMa.getText();
+				String ten = txtTen.getText();
+				NuocSX nuocSX = new NuocSX(ma, ten);
 				int tl;
-				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nước sản xuất này không ?", "Cảnh báo",
-						JOptionPane.YES_OPTION);
+				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nước sản xuất này không ?",
+						"Cảnh báo", JOptionPane.YES_OPTION);
 				if (tl == JOptionPane.YES_OPTION) {
 					try {
-						nuocDao.updateNuocSX(nuocSX);
+						App.nuocDao.updateNuocSX(nuocSX);
 						JOptionPane.showMessageDialog(this, "Thông tin nước sản xuất đã được cập nhật");
 						clearTable();
 						loadAllNuoc();
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}
-				}
-				else
+				} else
 					JOptionPane.showMessageDialog(this, "Đã hủy");
 			}
-			}
-		if(o.equals(btnXoa)) {
+		}
+		if (o.equals(btnXoa)) {
 			if (table.getSelectedRow() == -1) {
 				JOptionPane.showMessageDialog(this, "Hãy chọn nước sản xuất cần xóa");
 			} else {
@@ -340,7 +350,7 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 				if (tl == JOptionPane.YES_OPTION) {
 					int index = table.getSelectedRow();
 					try {
-						nuocDao.xoaNuocSX(tableModel.getValueAt(index, 0).toString());
+						App.nuocDao.xoaNuocSX(tableModel.getValueAt(index, 0).toString());
 						clearTable();
 						loadAllNuoc();
 					} catch (RemoteException e1) {
@@ -349,17 +359,19 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 				}
 			}
 		}
-		if(o.equals(btnXoaRong)) {
+		if (o.equals(btnXoaRong)) {
 			xoaRong();
 		}
-		
+
 	}
+
 	private void loadAllNuoc() throws RemoteException {
-		List<NuocSX> ds=nuocDao.getdsNuocSX();
-		for(NuocSX n:ds) {
-			tableModel.addRow(new Object[] { n.getIdNuoc(),n.getTenNuoc() });
+		List<NuocSX> ds = App.nuocDao.getdsNuocSX();
+		for (NuocSX n : ds) {
+			tableModel.addRow(new Object[] { n.getIdNuoc(), n.getTenNuoc() });
 		}
 	}
+
 	private void clearTable() {
 		while (table.getRowCount() > 0) {
 			tableModel.removeRow(0);

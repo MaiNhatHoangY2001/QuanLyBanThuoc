@@ -13,13 +13,13 @@ import dao.LoaiThuocDao;
 import dao.NhaCungCapDao;
 import dao.NuocDao;
 import dao.ThuocDao;
-import dao.impl.CTHoaDonImpl;
-import dao.impl.HoaDonDaoImpl;
-import dao.impl.KhachHangDaoImpl;
-import dao.impl.LoaiThuocDaoImpl;
-import dao.impl.NhaCungCapDaoImpl;
-import dao.impl.NuocDaoImpl;
-import dao.impl.ThuocDaoImpl;
+//import dao.impl.CTHoaDonImpl;
+//import dao.impl.HoaDonDaoImpl;
+//import dao.impl.KhachHangDaoImpl;
+//import dao.impl.LoaiThuocDaoImpl;
+//import dao.impl.NhaCungCapDaoImpl;
+//import dao.impl.NuocDaoImpl;
+//import dao.impl.ThuocDaoImpl;
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
 import entity.KhachHang;
@@ -58,8 +58,11 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import app.App;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 public class FrmBanThuoc extends JPanel {
@@ -78,13 +81,6 @@ public class FrmBanThuoc extends JPanel {
 	private JTextField txtTienTraLai;
 	private DefaultTableModel modelChonSP;
 	private DefaultTableModel modelGioHang;
-	private KhachHangDao khDao;
-	private ThuocDao thuocDao;
-	private LoaiThuocDao loaiDao;
-	private NhaCungCapDao nccDao;
-	private NuocDao nuocDao;
-	private HoaDonDao hdDao;
-	private CTHoaDon_DAO cthdDao;
 	private KhachHang kh;
 	private JLabel lblTenKH;
 	private JLabel lblSDTKH;
@@ -113,18 +109,6 @@ public class FrmBanThuoc extends JPanel {
 	public FrmBanThuoc() {
 		kh = new KhachHang();
 		hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
-		try {
-			khDao = new KhachHangDaoImpl();
-			loaiDao = new LoaiThuocDaoImpl();
-			nccDao = new NhaCungCapDaoImpl();
-			nuocDao = new NuocDaoImpl();
-			hdDao = new HoaDonDaoImpl();
-			cthdDao = new CTHoaDonImpl();
-			kh = null;
-			thuocDao = new ThuocDaoImpl();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
 
 		setSize(1600, 911);
 		setBackground(Color.LIGHT_GRAY);
@@ -378,7 +362,7 @@ public class FrmBanThuoc extends JPanel {
 				else {
 					KhachHang khachhang;
 					try {
-						khachhang = khDao.getKhachHangTheoMa(kh.getMaKH());
+						khachhang = App.khDao.getKhachHangTheoMa(kh.getMaKH());
 						new FrmCapNhatThongTinKH(khachhang).setVisible(true);
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
@@ -562,7 +546,7 @@ public class FrmBanThuoc extends JPanel {
 					hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
 					ChucNang.clearDataTable(modelGioHang);
 					try {
-						listThuocChon = thuocDao.getdsThuoc();
+						listThuocChon = App.thuocDao.getdsThuoc();
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}
@@ -591,10 +575,10 @@ public class FrmBanThuoc extends JPanel {
 		pnlNgang.add(btnHuyBo);
 
 		try {
-			listThuocChon = thuocDao.getdsThuoc();
-			listLoai = loaiDao.getdsLoaiThuoc();
-			listNcc = nccDao.getdsNhaCungCap();
-			listNuoc = nuocDao.getdsNuocSX();
+			listThuocChon = App.thuocDao.getdsThuoc();
+			listLoai = App.loaiDao.getdsLoaiThuoc();
+			listNcc = App.nccDao.getdsNhaCungCap();
+			listNuoc = App.nuocDao.getdsNuocSX();
 			listMaThuocChon = new ArrayList<String>();
 			listMaLoaiChon = new ArrayList<String>();
 			listMaNccChon = new ArrayList<String>();
@@ -619,7 +603,7 @@ public class FrmBanThuoc extends JPanel {
 		// Tim kiem theo ma san pha,
 		if (cmbTimKiem.getSelectedItem().equals("Tìm theo mã")) {
 			try {
-				Thuoc thuoc = thuocDao.getThuocTheoMa(data);
+				Thuoc thuoc = App.thuocDao.getThuocTheoMa(data);
 				if (thuoc == null) {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy");
 					loadThongTinVaoTableSanPham(listThuocChon);
@@ -639,7 +623,7 @@ public class FrmBanThuoc extends JPanel {
 				String maNCC = indexNCC == 0 ? "" : listMaNccChon.get(indexNCC - 1);
 				int indexNuoc = cmbNuoc.getSelectedIndex();
 				String maNuoc = indexNuoc == 0 ? "" : listMaNuocChon.get(indexNuoc - 1);
-				List<Thuoc> list = thuocDao.getdsThuocTheoTenNccNuocLoai(data, maNCC, maNuoc, maloai);
+				List<Thuoc> list = App.thuocDao.getdsThuocTheoTenNccNuocLoai(data, maNCC, maNuoc, maloai);
 				System.out.println(maloai + maNCC + maNuoc + list);
 				if (list == null) {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy");
@@ -663,7 +647,7 @@ public class FrmBanThuoc extends JPanel {
 	private void suKienTimKiemKhachHang() {
 		String data = txtTimKiemKH.getText();
 		try {
-			kh = khDao.getKhachHangTheoMaVaSDT(data);
+			kh = App.khDao.getKhachHangTheoMaVaSDT(data);
 			if (kh == null) {
 				JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng");
 				txtTimKiemKH.requestFocus();
@@ -705,12 +689,12 @@ public class FrmBanThuoc extends JPanel {
 							hoadon.thanhTien();
 							// Cập nhật dữ liêu vào sql
 							try {
-								hdDao.themHoaDon(hoadon);
+								App.hdDao.themHoaDon(hoadon);
 								for (Thuoc thuoc : listThuocMua) {
-									thuocDao.capNhatThuoc(thuoc);
+									App.thuocDao.capNhatThuoc(thuoc);
 								}
 								for (ChiTietHoaDon ct : listChiTietHoaDon) {
-									cthdDao.themChiTietHoaDon(ct);
+									App.cthdDao.themChiTietHoaDon(ct);
 								}
 								JOptionPane.showMessageDialog(null, "Thanh toán thành công");
 							} catch (RemoteException e1) {
@@ -742,7 +726,7 @@ public class FrmBanThuoc extends JPanel {
 			try {
 				int soluong = Integer.parseInt(txtNhapSoLuong.getText());
 				String ma = listMaThuocChon.get(tableChonSP.getSelectedRow());
-				Thuoc thuoc = thuocDao.getThuocTheoMa(ma);
+				Thuoc thuoc = App.thuocDao.getThuocTheoMa(ma);
 				int viTriGioHang = KiemTraGioHang(listChiTietHoaDon, thuoc);
 				if (viTriGioHang == -1) { // Nếu trong giỏ hàng chưa có sản phẩm này
 					if (soluong > 0) { // số lượng thuốc cần mua lớn hơn 0

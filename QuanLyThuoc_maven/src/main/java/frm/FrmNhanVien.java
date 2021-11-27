@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -39,11 +40,12 @@ import org.jdatepicker.impl.SqlDateModel;
 
 import com.toedter.calendar.JDateChooser;
 
+import app.App;
 import chucNang.ChucNang;
 import chucNang.Regex;
-
-import dao.NhanVien_DAO;
-import dao.impl.NhanVienImlp;
+import dao.KhachHangDao;
+import dao.NhanVienDao;
+//import dao.impl.NhanVienImlp;
 import entity.NhanVien;
 
 import java.awt.Font;
@@ -65,7 +67,8 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 			"Lương" };
 	private JTable tblNhanVien;
 	private DefaultTableModel modelNV;
-	private NhanVien_DAO nv_dao;
+	private JTable tableNV;
+	private SqlDateModel modelNgay;
 	private DecimalFormat df = new DecimalFormat("#");
 	private JDateChooser ngaySinh;
 	private Regex regex;
@@ -74,6 +77,20 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	private String ma;
 
 	public FrmNhanVien() {
+
+//		SecurityManager securityManager = System.getSecurityManager();
+//		if (securityManager == null) {
+//			System.setProperty("java.security.policy", "policy/policy.policy");
+//			System.setSecurityManager(new SecurityManager());
+//		}
+//
+//		try {
+//			nv_dao = (NhanVienDao) Naming.lookup("rmi://192.168.1.7:9999/nhanVienDao");
+//			// nv_dao = new NhanVienImlp();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+
 		setLayout(null);
 		setBounds(0, 0, 1600, 1002);
 
@@ -284,13 +301,6 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		tblNhanVien.addMouseListener(this);
 		btnTim.addActionListener(this);
 
-		// kết nối database
-		try {
-			nv_dao = new NhanVienImlp();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-
 		try {
 			DocDuLieuDatabase();
 		} catch (RemoteException e) {
@@ -300,7 +310,7 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 	}
 
 	private void DocDuLieuDatabase() throws RemoteException {
-		List<NhanVien> list = nv_dao.getAllNhanVien();
+		List<NhanVien> list = App.nv_dao.getAllNhanVien();
 		ChucNang.clearDataTable(modelNV);
 		for (NhanVien nv : list) {
 			modelNV.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(),
@@ -335,9 +345,9 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 			btnTim.setText("Hủy tìm");
 
 			if (cboLoaiTK.getSelectedIndex() == 1)
-				dsnv = nv_dao.getNhanVienTheoMa(txtTim.getText());
+				dsnv = App.nv_dao.getNhanVienTheoMa(txtTim.getText());
 			else
-				dsnv = nv_dao.getNhanVienTheoTen((txtTim.getText()));
+				dsnv = App.nv_dao.getNhanVienTheoTen((txtTim.getText()));
 
 			clearTable();// xóa bảng
 
@@ -371,7 +381,8 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 			tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nhân viên này không ?", "Cảnh báo",
 					JOptionPane.YES_OPTION);
 			if (tl == JOptionPane.YES_OPTION) {
-				nv_dao.suaNhanVien(nv);
+				App.nv_dao.suaNhanVien(nv);
+				clearTable();
 				DocDuLieuDatabase();
 				JOptionPane.showMessageDialog(this, "Thông tin nhân viên đã được cập nhật");
 			} else
@@ -395,14 +406,14 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 					JOptionPane.YES_OPTION);
 			if (tl == JOptionPane.YES_OPTION) {
 				int index = tblNhanVien.getSelectedRow();
-				nv_dao.xoaNhanVien(tblNhanVien.getValueAt(index, 0).toString());
+				App.nv_dao.xoaNhanVien(tblNhanVien.getValueAt(index, 0).toString());
 				clearTable();
 				DocDuLieuDatabase();
 			}
 		}
 	}
 
-	private void xoaRong() throws ParseException {
+	private void xoaRong() throws RemoteException, ParseException {
 		txtDiaChi.setText("");
 		txtLuong.setText("");
 		txtSDT.setText("");
@@ -410,6 +421,11 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 		ngaySinh.setDate(dateFormat.parse("28-4-1990"));
 		tblNhanVien.clearSelection();
 		txtTenNV.requestFocus();
+		// modelNgay.setDate(1990, 8, 24);
+		tableNV.clearSelection();
+		clearTable();
+		DocDuLieuDatabase();
+
 	}
 
 	private void themNV() throws RemoteException {
@@ -419,11 +435,12 @@ public class FrmNhanVien extends JPanel implements ActionListener, MouseListener
 			String soDienThoai = txtSDT.getText();
 			Date date = new Date(ngaySinh.getDate().getTime());
 			LocalDate ns = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
 			boolean gioiTinh = radNam.isSelected();
 			String diaChi = txtDiaChi.getText();
 			NhanVien nv = new NhanVien(hoTen, soDienThoai, ns, gioiTinh, diaChi, luong);
 
-			nv_dao.themNhanVien(nv);
+			App.nv_dao.themNhanVien(nv);
 			JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công");
 			clearTable();
 			DocDuLieuDatabase();

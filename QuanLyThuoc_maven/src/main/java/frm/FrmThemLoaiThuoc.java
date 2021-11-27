@@ -7,8 +7,8 @@ import chucNang.Regex;
 import chucNang.RoundedPanel;
 import dao.KhachHangDao;
 import dao.LoaiThuocDao;
-import dao.impl.KhachHangDaoImpl;
-import dao.impl.LoaiThuocDaoImpl;
+//import dao.impl.KhachHangDaoImpl;
+//import dao.impl.LoaiThuocDaoImpl;
 import entity.KhachHang;
 import entity.LoaiThuoc;
 
@@ -24,6 +24,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+
+import app.App;
+
 import javax.swing.JTextField;
 import java.awt.Insets;
 import javax.swing.JRadioButton;
@@ -41,9 +44,10 @@ import java.awt.Cursor;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseListener{
+public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseListener {
 
 	/**
 	 * 
@@ -51,22 +55,28 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 	private static final long serialVersionUID = 5885586881253507338L;
 	private JTextField txtTen;
 	private JButton btnLuu;
-	private JButton btnXoa,btnSua,btnXoaRong;
-	private KhachHangDaoImpl khDao;
+	private JButton btnXoa, btnSua, btnXoaRong;
 	private JTextField txtMa;
 	private DefaultTableModel modelLoaiThuoc;
 	private JTable tableLoaiThuoc;
-	private LoaiThuocDao loaiThuocDao;
 
 	/**
 	 * Create the frame.
 	 */
 	public FrmThemLoaiThuoc() {
-		try {
-			khDao = new KhachHangDaoImpl();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+//		SecurityManager securityManager=System.getSecurityManager();
+//		if(securityManager==null) {
+//			System.setProperty("java.security.policy", "policy/policy.policy");
+//			System.setSecurityManager(new SecurityManager());
+//		}
+//		try {
+//			//khDao = new KhachHangDaoImpl();
+//			//loaiThuocDao=new LoaiThuocDaoImpl();
+//			loaiThuocDao=(LoaiThuocDao) Naming.lookup("rmi://192.168.1.7:9999/loaiThuocDao");
+//			khDao=(KhachHangDao) Naming.lookup("rmi://192.168.1.7:9999/khachHangDao");
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -128,16 +138,17 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 		pnlInput.add(txtMa);
 
 		String column[] = { "Mã loại thuốc", "Tên loại thuốc" };
-		modelLoaiThuoc=new DefaultTableModel(column,0);
-		tableLoaiThuoc=new JTable(modelLoaiThuoc);
+		modelLoaiThuoc = new DefaultTableModel(column, 0);
+		tableLoaiThuoc = new JTable(modelLoaiThuoc);
 		tableLoaiThuoc.setRowHeight(20);
 		tableLoaiThuoc.getTableHeader().setFont(new Font("Times New Roman", Font.BOLD, 20));
 		tableLoaiThuoc.setRowHeight(40);
 		tableLoaiThuoc.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		JScrollPane scrollLoaiThuoc;
-		scrollLoaiThuoc=new JScrollPane(tableLoaiThuoc,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollLoaiThuoc = new JScrollPane(tableLoaiThuoc, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollLoaiThuoc.setBounds(10, 166, 769, 301);
-		scrollLoaiThuoc.setBackground(new Color(248,248,248));
+		scrollLoaiThuoc.setBackground(new Color(248, 248, 248));
 		scrollLoaiThuoc.setBorder(BorderFactory.createTitledBorder("Danh sách loại thuốc"));
 		pnlInput.add(scrollLoaiThuoc);
 
@@ -193,19 +204,13 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
 		lblTitle.setBounds(209, 30, 582, 73);
 		pnlXanh.add(lblTitle);
-		
+
 		tableLoaiThuoc.addMouseListener(this);
 		btnLuu.addActionListener(this);
 		btnSua.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnXoaRong.addActionListener(this);
-		
-		try {
-			loaiThuocDao=new LoaiThuocDaoImpl();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
-		
+
 		try {
 			loadAllLoaiThuoc();
 		} catch (RemoteException e1) {
@@ -231,10 +236,11 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 		Regex r = new Regex();
 		if (r.RegexTen(txtTen))
 			return false;
-		if(r.kiemTraRong(txtTen))
+		if (r.kiemTraRong(txtTen))
 			return false;
 		return true;
 	}
+
 	/**
 	 * Viet hoa chu cai dau tien
 	 * 
@@ -290,47 +296,46 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object o=e.getSource();
-		if(o.equals(btnLuu)) {
-			if(kiemTraThongTin()) {
-				String maLoai=txtMa.getText();
-				String tenLoai=txtTen.getText();
-				LoaiThuoc loaiThuoc=new LoaiThuoc(maLoai, tenLoai);
+		Object o = e.getSource();
+		if (o.equals(btnLuu)) {
+			if (kiemTraThongTin()) {
+				String maLoai = txtMa.getText();
+				String tenLoai = txtTen.getText();
+				LoaiThuoc loaiThuoc = new LoaiThuoc(maLoai, tenLoai);
 				try {
-					loaiThuocDao.themLoaiThuoc(loaiThuoc);
+					App.loaiDao.themLoaiThuoc(loaiThuoc);
 					JOptionPane.showMessageDialog(this, "Thêm thành công");
 					clearTable();
 					loadAllLoaiThuoc();
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}
-				
+
 			}
-			
+
 		}
-		if(o.equals(btnSua)) {
-			if(kiemTraThongTin()) {
-				String maLoai=txtMa.getText();
-				String tenLoai=txtTen.getText();
-				LoaiThuoc loaiThuoc=new LoaiThuoc(maLoai, tenLoai);
+		if (o.equals(btnSua)) {
+			if (kiemTraThongTin()) {
+				String maLoai = txtMa.getText();
+				String tenLoai = txtTen.getText();
+				LoaiThuoc loaiThuoc = new LoaiThuoc(maLoai, tenLoai);
 				int tl;
 				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa loại thuốc này không ?", "Cảnh báo",
 						JOptionPane.YES_OPTION);
 				if (tl == JOptionPane.YES_OPTION) {
 					try {
-						loaiThuocDao.updateloaiThuoc(loaiThuoc);
+						App.loaiDao.updateloaiThuoc(loaiThuoc);
 						JOptionPane.showMessageDialog(this, "Thông tin loại thuốc đã được cập nhật");
 						clearTable();
 						loadAllLoaiThuoc();
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}
-				}
-				else
+				} else
 					JOptionPane.showMessageDialog(this, "Đã hủy");
 			}
-			}
-		if(o.equals(btnXoa)) {
+		}
+		if (o.equals(btnXoa)) {
 			if (tableLoaiThuoc.getSelectedRow() == -1) {
 				JOptionPane.showMessageDialog(this, "Hãy chọn loại thuốc cần xóa");
 			} else {
@@ -340,7 +345,7 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 				if (tl == JOptionPane.YES_OPTION) {
 					int index = tableLoaiThuoc.getSelectedRow();
 					try {
-						loaiThuocDao.xoaLoaiThuoc(modelLoaiThuoc.getValueAt(index, 0).toString());
+						App.loaiDao.xoaLoaiThuoc(modelLoaiThuoc.getValueAt(index, 0).toString());
 						clearTable();
 						loadAllLoaiThuoc();
 					} catch (RemoteException e1) {
@@ -349,20 +354,22 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 				}
 			}
 		}
-		if(o.equals(btnXoaRong)) {
+		if (o.equals(btnXoaRong)) {
 			xoaRong();
 		}
 
 	}
+
 	private void clearTable() {
 		while (tableLoaiThuoc.getRowCount() > 0) {
 			modelLoaiThuoc.removeRow(0);
 		}
 	}
+
 	private void loadAllLoaiThuoc() throws RemoteException {
-		List<LoaiThuoc> ds=loaiThuocDao.getdsLoaiThuoc();
-		for(LoaiThuoc loaiThuoc:ds) {
-			modelLoaiThuoc.addRow(new Object[] { loaiThuoc.getMaLoai(),loaiThuoc.getTenLoai() });
+		List<LoaiThuoc> ds = App.loaiDao.getdsLoaiThuoc();
+		for (LoaiThuoc loaiThuoc : ds) {
+			modelLoaiThuoc.addRow(new Object[] { loaiThuoc.getMaLoai(), loaiThuoc.getTenLoai() });
 		}
 	}
 }

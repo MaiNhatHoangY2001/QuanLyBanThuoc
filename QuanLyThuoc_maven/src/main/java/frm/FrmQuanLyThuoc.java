@@ -16,10 +16,10 @@ import dao.LoaiThuocDao;
 import dao.NhaCungCapDao;
 import dao.NuocDao;
 import dao.ThuocDao;
-import dao.impl.LoaiThuocDaoImpl;
-import dao.impl.NhaCungCapDaoImpl;
-import dao.impl.NuocDaoImpl;
-import dao.impl.ThuocDaoImpl;
+//import dao.impl.LoaiThuocDaoImpl;
+//import dao.impl.NhaCungCapDaoImpl;
+//import dao.impl.NuocDaoImpl;
+//import dao.impl.ThuocDaoImpl;
 import entity.LoaiThuoc;
 import entity.NhaCungCap;
 import entity.NuocSX;
@@ -40,6 +40,9 @@ import javax.swing.table.JTableHeader;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
+import app.App;
+
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import java.awt.Cursor;
@@ -54,6 +57,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.text.NumberFormat;
 
@@ -75,10 +79,6 @@ public class FrmQuanLyThuoc extends JPanel {
 	private JTextField txtDonGia;
 	private JTextField txtSoLuong;
 	private DefaultTableModel model;
-	private NhaCungCapDao nccDao;
-	private ThuocDao thuocDao;
-	private LoaiThuocDao loaiDao;
-	private NuocDao nuocDao;
 	private DefaultMutableTreeNode node;
 	private List<NhaCungCap> listNCC;
 	private List<String> listMaNCC;
@@ -110,6 +110,7 @@ public class FrmQuanLyThuoc extends JPanel {
 	 * Create the panel.
 	 */
 	public FrmQuanLyThuoc() {
+
 		setSize(1600, 935);
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -216,7 +217,7 @@ public class FrmQuanLyThuoc extends JPanel {
 					Object ncc = chon.getLastPathComponent();
 					if (ncc.toString().equals("Nhà cung cấp")) {
 						try {
-							listThuoc = thuocDao.getdsThuoc();
+							listThuoc = App.thuocDao.getdsThuoc();
 							loadThongTinThuoc(listThuoc);
 						} catch (RemoteException e) {
 							e.printStackTrace();
@@ -225,7 +226,7 @@ public class FrmQuanLyThuoc extends JPanel {
 						int index = tree.getSelectionRows()[0];
 						String ma = listMaNCC.get(index - 1);
 						try {
-							listThuoc = thuocDao.getdsThuocTheoMaNcc(ma);
+							listThuoc = App.thuocDao.getdsThuocTheoMaNcc(ma);
 							loadThongTinThuoc(listThuoc);
 						} catch (RemoteException e) {
 							e.printStackTrace();
@@ -473,7 +474,7 @@ public class FrmQuanLyThuoc extends JPanel {
 					Thuoc thuoc = getThuoc();
 					if (thuoc != null) {
 						try {
-							boolean rs = thuocDao.themThuoc(thuoc);
+							boolean rs = App.thuocDao.themThuoc(thuoc);
 							if (rs) {
 								JOptionPane.showMessageDialog(null, "Thêm thành công");
 								tree.setSelectionRow(0);
@@ -528,7 +529,7 @@ public class FrmQuanLyThuoc extends JPanel {
 						System.out.println(thuoc);
 						if (thuoc != null) {
 							try {
-								boolean rs = thuocDao.capNhatThuoc(thuoc);
+								boolean rs = App.thuocDao.capNhatThuoc(thuoc);
 								if (rs) {
 									JOptionPane.showMessageDialog(null, "Cập nhật thành công");
 									tree.setSelectionRow(0);
@@ -556,12 +557,12 @@ public class FrmQuanLyThuoc extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				xoaRong();
 				try {
-					listNCC = nccDao.getdsNhaCungCap();
+					listNCC = App.nccDao.getdsNhaCungCap();
 					loadNCCVaoTree(listNCC);
 					tree.setSelectionRow(0);
-					listLoai = loaiDao.getdsLoaiThuoc();
+					listLoai = App.loaiDao.getdsLoaiThuoc();
 					loadLoaiVaoCmb(listLoai);
-					listNuoc = nuocDao.getdsNuocSX();
+					listNuoc = App.nuocDao.getdsNuocSX();
 					loadNuocVaoCmb(listNuoc);
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
@@ -577,29 +578,21 @@ public class FrmQuanLyThuoc extends JPanel {
 		pnlThongTInNV_2.add(btnLamMoi);
 
 		try {
-			nccDao = new NhaCungCapDaoImpl();
-			listNCC = nccDao.getdsNhaCungCap();
+			listNCC = App.nccDao.getdsNhaCungCap();
 			listMaNCC = new ArrayList<String>();
-
-			thuocDao = new ThuocDaoImpl();
-			listMaThuoc = new ArrayList<String>();
-
-			loaiDao = new LoaiThuocDaoImpl();
-			listLoai = loaiDao.getdsLoaiThuoc();
+			listLoai = App.loaiDao.getdsLoaiThuoc();
 			listMaLoai = new ArrayList<String>();
-
-			nuocDao = new NuocDaoImpl();
-			listNuoc = nuocDao.getdsNuocSX();
+			listNuoc = App.nuocDao.getdsNuocSX();
 			listMaNuoc = new ArrayList<String>();
-
+			listMaThuoc = new ArrayList<String>();
 			loadNCCVaoTree(listNCC);
 			tree.setSelectionRow(0);
 			loadLoaiVaoCmb(listLoai);
 			loadNuocVaoCmb(listNuoc);
-
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
+		} catch (RemoteException e2) {
+			e2.printStackTrace();
 		}
+
 	}
 
 	private void xoaRong() {

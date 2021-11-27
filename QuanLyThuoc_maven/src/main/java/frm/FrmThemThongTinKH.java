@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import chucNang.Regex;
 import chucNang.RoundedPanel;
 import dao.KhachHangDao;
-import dao.impl.KhachHangDaoImpl;
+//import dao.impl.KhachHangDaoImpl;
 import entity.KhachHang;
 
 import java.awt.Color;
@@ -19,6 +19,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
+
+import app.App;
+
 import javax.swing.JTextField;
 import java.awt.Insets;
 import javax.swing.JRadioButton;
@@ -31,6 +34,7 @@ import java.awt.Cursor;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 public class FrmThemThongTinKH extends JFrame {
@@ -50,17 +54,22 @@ public class FrmThemThongTinKH extends JFrame {
 	private JButton btnLoc;
 	private JButton btnXoaRong;
 	private JButton btnHuyBo;
-	private KhachHangDaoImpl khDao;
 
 	/**
 	 * Create the frame.
 	 */
 	public FrmThemThongTinKH() {
-		try {
-			khDao = new KhachHangDaoImpl();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+//		SecurityManager securityManager=System.getSecurityManager();
+//		if(securityManager==null) {
+//			System.setProperty("java.security.policy", "policy/policy.policy");
+//			System.setSecurityManager(new SecurityManager());
+//		}
+//		try {
+//			//khDao = new KhachHangDaoImpl();
+//			khDao=(KhachHangDao) Naming.lookup("rmi://192.168.1.7:9999/khachHangDao");
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -208,7 +217,7 @@ public class FrmThemThongTinKH extends JFrame {
 				KhachHang kh = getThongTinKhachHang();
 				if (kh != null)
 					try {
-						boolean rs = khDao.themKhachHang(kh);
+						boolean rs = App.khDao.themKhachHang(kh);
 						if (rs)
 							JOptionPane.showMessageDialog(null, "Thêm thành công");
 						else

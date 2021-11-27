@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -32,12 +33,13 @@ import javax.swing.table.JTableHeader;
 
 import com.toedter.calendar.JYearChooser;
 
+import app.App;
 import dao.CTHoaDon_DAO;
 import dao.KhachHangDao;
 import dao.ThuocDao;
-import dao.impl.CTHoaDonImpl;
-import dao.impl.KhachHangDaoImpl;
-import dao.impl.ThuocDaoImpl;
+//import dao.impl.CTHoaDonImpl;
+//import dao.impl.KhachHangDaoImpl;
+//import dao.impl.ThuocDaoImpl;
 import entity.KhachHang;
 import entity.Thuoc;
 import chucNang.ChucNang;
@@ -60,9 +62,6 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 	private JTable tblKhachHang, tblThuoc;
 	private JTextField txtTongKH, txtTongSoThuoc;
 	private JButton btnThongKe;
-	private KhachHangDao kh_dao;
-	private ThuocDao thuoc_dao;
-	private CTHoaDon_DAO ctHD_dao;
 	private DecimalFormat df = new DecimalFormat("#,###.0");
 	private JLabel lblSLThuoc;
 	private JLabel lblTongDoanhThu;
@@ -71,6 +70,20 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 	private JComboBox<Integer> cboLoc;
 
 	public FrmThongKe() {
+//		SecurityManager securityManager=System.getSecurityManager();
+//		if(securityManager==null) {
+//			System.setProperty("java.security.policy", "policy/policy.policy");
+//			System.setSecurityManager(new SecurityManager());
+//		}
+//		
+//		try {
+//			App.khDao = (KhachHangDao) Naming.lookup("rmi://192.168.1.7:9999/khachHangDao");
+//			App.cthdDao = (CTHoaDon_DAO) Naming.lookup("rmi://192.168.1.7:9999/ctHoaDon_DAO");
+//			App.thuocDao = (ThuocDao) Naming.lookup("rmi://192.168.1.7:9999/thuocDao");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+
 		setLayout(null);
 		setSize(1600, 933);
 		setBackground(Color.WHITE);
@@ -317,14 +330,6 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 		// Them su kien
 		btnThongKe.addActionListener(this);
 
-		try {
-			kh_dao = new KhachHangDaoImpl();
-			ctHD_dao = new CTHoaDonImpl();
-			thuoc_dao = new ThuocDaoImpl();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-
 		ChucNang.addNullDataTable(modelKH);
 		ChucNang.addNullDataTable(modelThuoc);
 
@@ -368,29 +373,30 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 					thang = (int) cboThang.getSelectedItem();
 					nam = (int) cboNam.getSelectedItem();
 
-					dskh = kh_dao.getKhachHangDaMuaThuocTheoNgay(ngay, thang, nam);
-					txtTongSoThuoc.setText("" + thuoc_dao.getTongLoaiThuocTheoNgay(ngay, thang, nam));
+					dskh = App.khDao.getKhachHangDaMuaThuocTheoNgay(ngay, thang, nam);
+					txtTongSoThuoc.setText("" + App.thuocDao.getTongLoaiThuocTheoNgay(ngay, thang, nam));
 					lblTongDoanhThu
-							.setText(vnFormat.format(ctHD_dao.getTongDoanhThuThuocTheoNgay(ngay, thang, nam)) + "đ");
-					lblSLThuoc.setText("" + thuoc_dao.getTongSoLuongThuocTheoNgay(ngay, thang, nam));
+							.setText(vnFormat.format(App.cthdDao.getTongDoanhThuThuocTheoNgay(ngay, thang, nam)) + "đ");
+					lblSLThuoc.setText("" + App.thuocDao.getTongSoLuongThuocTheoNgay(ngay, thang, nam));
 					break;
 				case 1:
 					thang = (int) cboThang.getSelectedItem();
 					nam = (int) cboNam.getSelectedItem();
 
-					dskh = kh_dao.getKhachHangDaMuaThuocTheoThang(thang, nam);
-					txtTongSoThuoc.setText("" + thuoc_dao.getTongLoaiThuocTheoThang(thang, nam));
-					lblTongDoanhThu.setText(vnFormat.format(ctHD_dao.getTongDoanhThuThuocTheoThang(thang, nam)) + "đ");
-					lblSLThuoc.setText("" + thuoc_dao.getTongLoaiThuocTheoThang(thang, nam));
+					dskh = App.khDao.getKhachHangDaMuaThuocTheoThang(thang, nam);
+					txtTongSoThuoc.setText("" + App.thuocDao.getTongLoaiThuocTheoThang(thang, nam));
+					lblTongDoanhThu
+							.setText(vnFormat.format(App.cthdDao.getTongDoanhThuThuocTheoThang(thang, nam)) + "đ");
+					lblSLThuoc.setText("" + App.thuocDao.getTongLoaiThuocTheoThang(thang, nam));
 					break;
 
 				case 2:
 					nam = (int) cboNam.getSelectedItem();
 
-					dskh = kh_dao.getKhachHangDaMuaThuocTheoNam(nam);
-					txtTongSoThuoc.setText("" + thuoc_dao.getTongLoaiThuocTheoNam(nam));
-					lblTongDoanhThu.setText(vnFormat.format(ctHD_dao.getTongDoanhThuThuocTheoNam(nam)) + "đ");
-					lblSLThuoc.setText("" + thuoc_dao.getTongLoaiThuocTheoNam(nam));
+					dskh = App.khDao.getKhachHangDaMuaThuocTheoNam(nam);
+					txtTongSoThuoc.setText("" + App.thuocDao.getTongLoaiThuocTheoNam(nam));
+					lblTongDoanhThu.setText(vnFormat.format(App.cthdDao.getTongDoanhThuThuocTheoNam(nam)) + "đ");
+					lblSLThuoc.setText("" + App.thuocDao.getTongLoaiThuocTheoNam(nam));
 					break;
 
 				}
@@ -450,7 +456,7 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 			List<Thuoc> dsthuoc = new ArrayList<Thuoc>();
 			try {
 				if (maKH != null) {
-					dsthuoc = thuoc_dao.getThuocKhachHangDaMua(maKH.toString());
+					dsthuoc = App.thuocDao.getThuocKhachHangDaMua(maKH.toString());
 				}
 
 			} catch (RemoteException e1) {

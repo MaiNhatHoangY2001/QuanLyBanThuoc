@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import chucNang.Regex;
 import chucNang.RoundedPanel;
 import dao.KhachHangDao;
-import dao.impl.KhachHangDaoImpl;
+//import dao.impl.KhachHangDaoImpl;
 import entity.KhachHang;
 
 import java.awt.Color;
@@ -19,6 +19,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
+
+import app.App;
+
 import javax.swing.JTextField;
 import java.awt.Insets;
 import javax.swing.JRadioButton;
@@ -30,6 +33,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Cursor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 public class FrmCapNhatThongTinKH extends JFrame {
@@ -49,18 +53,23 @@ public class FrmCapNhatThongTinKH extends JFrame {
 	private JButton btnLoc;
 	private JButton btnXoaRong;
 	private JButton btnHuyBo;
-	private KhachHangDao khDao;
 
 	/**
 	 * Create the frame.
 	 */
 	public FrmCapNhatThongTinKH(KhachHang kh) {
-		try {
-			khDao = new KhachHangDaoImpl();
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+
+//		SecurityManager securityManager=System.getSecurityManager();
+//		if(securityManager==null) {
+//			System.setProperty("java.security.policy", "policy/policy.policy");
+//			System.setSecurityManager(new SecurityManager());
+//		}
+//		try {
+//			khDao=(KhachHangDao) Naming.lookup("rmi://192.168.1.7:9999/khachHangDao");
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -209,7 +218,7 @@ public class FrmCapNhatThongTinKH extends JFrame {
 				khachhang.setMaKH(kh.getMaKH());
 				if (khachhang != null)
 					try {
-						boolean rs = khDao.capNhatKhachHang(khachhang);
+						boolean rs = App.khDao.capNhatKhachHang(khachhang);
 						if (rs) {
 							JOptionPane.showMessageDialog(null, "Cập nhật thành công");
 							System.out.println(khachhang);
