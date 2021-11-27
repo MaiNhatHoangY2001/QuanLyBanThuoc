@@ -103,6 +103,7 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 		headerTableKH.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		headerTableKH.setBackground(new Color(248, 198, 153));
 		JScrollPane thanhCuonKH = new JScrollPane(tblKhachHang);
+		thanhCuonKH.setBackground(Color.WHITE);
 		thanhCuonKH.setBorder(new TitledBorder(null, "Th\u00F4ng tin kh\u00E1ch h\u00E0ng", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
 		thanhCuonKH.setBounds(10, 231, 1575, 293);
@@ -140,6 +141,7 @@ public class FrmThongKe extends JPanel implements ActionListener, MouseListener 
 		headerTableThuoc.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		headerTableThuoc.setBackground(new Color(248, 198, 153));
 		JScrollPane thanhCuonThuoc = new JScrollPane(tblThuoc);
+		thanhCuonThuoc.setBackground(Color.WHITE);
 		thanhCuonThuoc.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
 				"Th\u00F4ng tin thu\u1ED1c kh\u00E1ch h\u00E0ng mua", TitledBorder.LEADING, TitledBorder.TOP, null,

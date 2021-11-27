@@ -1,7 +1,7 @@
 package chucNang;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import org.jdatepicker.impl.SqlDateModel;
+
+import com.toedter.calendar.JDateChooser;
 
 public class Regex implements Serializable {
 	/**
@@ -30,10 +32,10 @@ public class Regex implements Serializable {
 			return false;
 	}
 
-	public boolean kiemTraTuoi(SqlDateModel modelNgay) {
+	public boolean kiemTraTuoi(JDateChooser modelNgay) {
 		long millis = System.currentTimeMillis();
 		Date today = new Date(millis);
-		Date ngaySinh = (Date) modelNgay.getValue();
+		Date ngaySinh = (Date) modelNgay.getDate();
 		if (ngaySinh.compareTo(today) > 0) {
 			JOptionPane.showMessageDialog(null, "Dữ liệu tuổi không hợp lệ phải trước ngày hiện tại");
 			return true;

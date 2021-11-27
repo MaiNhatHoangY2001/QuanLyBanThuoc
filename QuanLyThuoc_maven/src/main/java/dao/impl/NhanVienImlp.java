@@ -103,7 +103,7 @@ public class NhanVienImlp extends UnicastRemoteObject implements NhanVien_DAO {
 	}
 
 	@Override
-	public NhanVien getNhanVienTheoMa(String maNV) throws RemoteException {
+	public List<NhanVien> getNhanVienTheoMa(String maNV) throws RemoteException {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tr = session.getTransaction();
 		try {
@@ -111,7 +111,7 @@ public class NhanVienImlp extends UnicastRemoteObject implements NhanVien_DAO {
 
 			String sql = "select * from NhanVien where maNV = '" + maNV + "'";
 
-			NhanVien nv = session.createNativeQuery(sql, NhanVien.class).getSingleResult();
+			List<NhanVien> nv = session.createNativeQuery(sql, NhanVien.class).getResultList();
 
 			tr.commit();
 

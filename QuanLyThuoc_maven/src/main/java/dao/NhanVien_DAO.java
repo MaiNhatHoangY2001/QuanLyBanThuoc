@@ -16,7 +16,7 @@ public interface NhanVien_DAO extends Remote {
 
 	public List<NhanVien> getAllNhanVien() throws RemoteException;
 
-	public NhanVien getNhanVienTheoMa(String maNV) throws RemoteException;
+	public List<NhanVien> getNhanVienTheoMa(String maNV) throws RemoteException;
 
 	public List<NhanVien> getNhanVienTheoTen(String tenNV) throws RemoteException;
 }
