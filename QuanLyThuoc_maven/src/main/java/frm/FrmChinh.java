@@ -71,7 +71,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		setUndecorated(false);
 //		setSize(1920, 1037);
 		setSize(r.width, r.height);
-		setTitle("Ứng dụng quản lý cửa hàng thuốc Long Đúng");
+		setTitle("Ứng dụng quản lý cửa hàng thuốc Hoàng Long");
 		setIconImage(new ImageIcon("icon/thuoc _navbar.png").getImage());
 		getContentPane().setLayout(null);
 
@@ -90,7 +90,7 @@ public class FrmChinh extends JFrame implements ActionListener, WindowListener {
 		lblNewLabel.setBounds(69, 21, 185, 104);
 		pnlHeadMenu.add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("CỬA HÀNG LONG ĐÚNG");
+		JLabel lblNewLabel_1 = new JLabel("CỬA HÀNG HOÀNG LONG");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
