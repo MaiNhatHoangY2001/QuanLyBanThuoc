@@ -24,7 +24,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="lib/QuanLyThuocServer.jar"/>
+	<classpathentry kind="lib" path="lib/QuanLyThuocserver.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
