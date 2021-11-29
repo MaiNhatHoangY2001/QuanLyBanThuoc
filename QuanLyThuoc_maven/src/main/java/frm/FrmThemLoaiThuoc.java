@@ -222,11 +222,11 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 	 * @return boolean
 	 */
 	private boolean kiemTraThongTin() {
-		Regex r = new Regex();
-		if (r.RegexTen(txtTen))
-			return false;
-		if (r.kiemTraRong(txtTen))
-			return false;
+//		Regex r = new Regex();
+//		if (r.RegexTen(txtTen))
+//			return false;
+//		if (r.kiemTraRong(txtTen))
+//			return false;
 		return true;
 	}
 
@@ -303,23 +303,29 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 		}
 		if (o.equals(btnSua)) {
 			if (kiemTraThongTin()) {
-				String tenLoai = txtTen.getText();
-				LoaiThuoc loaiThuoc = new LoaiThuoc(tenLoai);
-				int tl;
-				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa loại thuốc này không ?", "Cảnh báo",
-						JOptionPane.YES_OPTION);
-				if (tl == JOptionPane.YES_OPTION) {
-					try {
-						App.loaiDao.updateloaiThuoc(loaiThuoc);
-						JOptionPane.showMessageDialog(this, "Thông tin loại thuốc đã được cập nhật");
-						clearTable();
-						loadAllLoaiThuoc();
-					} catch (RemoteException e1) {
-						e1.printStackTrace();
-					}
-				} else
-					JOptionPane.showMessageDialog(this, "Đã hủy");
-			}
+				int i=tableLoaiThuoc.getSelectedRow();
+				if(i==-1)
+					JOptionPane.showMessageDialog(this, "Vui lòng chọn loại thuốc cần xóa");
+				else {
+					String tenLoai = txtTen.getText();
+					LoaiThuoc loaiThuoc = new LoaiThuoc(modelLoaiThuoc.getValueAt(i, 0).toString(),tenLoai);
+					int tl;
+					tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa loại thuốc này không ?", "Cảnh báo",
+							JOptionPane.YES_OPTION);
+					if (tl == JOptionPane.YES_OPTION) {
+						try {
+							App.loaiDao.updateloaiThuoc(loaiThuoc);
+							JOptionPane.showMessageDialog(this, "Thông tin loại thuốc đã được cập nhật");
+							clearTable();
+							loadAllLoaiThuoc();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					} else
+						JOptionPane.showMessageDialog(this, "Đã hủy");
+				}
+				}
+				
 		}
 		if (o.equals(btnXoa)) {
 			if (tableLoaiThuoc.getSelectedRow() == -1) {

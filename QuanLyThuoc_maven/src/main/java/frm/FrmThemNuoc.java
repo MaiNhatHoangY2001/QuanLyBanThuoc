@@ -228,11 +228,11 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 	 * @return boolean
 	 */
 	private boolean kiemTraThongTin() {
-		Regex r = new Regex();
-		if (r.RegexTen(txtTen))
-			return false;
-		if (r.kiemTraRong(txtTen))
-			return false;
+//		Regex r = new Regex();
+//		if (r.RegexTen(txtTen))
+//			return false;
+//		if (r.kiemTraRong(txtTen))
+//			return false;
 		return true;
 	}
 
@@ -308,24 +308,30 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 
 		}
 		if (o.equals(btnSua)) {
-			if (kiemTraThongTin()) {
-				String ten = txtTen.getText();
-				NuocSX nuocSX = new NuocSX(ten);
-				int tl;
-				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nước sản xuất này không ?",
-						"Cảnh báo", JOptionPane.YES_OPTION);
-				if (tl == JOptionPane.YES_OPTION) {
-					try {
-						App.nuocDao.updateNuocSX(nuocSX);
-						JOptionPane.showMessageDialog(this, "Thông tin nước sản xuất đã được cập nhật");
-						clearTable();
-						loadAllNuoc();
-					} catch (RemoteException e1) {
-						e1.printStackTrace();
-					}
-				} else
-					JOptionPane.showMessageDialog(this, "Đã hủy");
+			int i=table.getSelectedRow();
+			if(i==-1)
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn nước sản xuất");
+			else {
+				if (kiemTraThongTin()) {
+					String ten = txtTen.getText();
+					NuocSX nuocSX = new NuocSX(tableModel.getValueAt(i, 0).toString(),ten);
+					int tl;
+					tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nước sản xuất này không ?",
+							"Cảnh báo", JOptionPane.YES_OPTION);
+					if (tl == JOptionPane.YES_OPTION) {
+						try {
+							App.nuocDao.updateNuocSX(nuocSX);
+							JOptionPane.showMessageDialog(this, "Thông tin nước sản xuất đã được cập nhật");
+							clearTable();
+							loadAllNuoc();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					} else
+						JOptionPane.showMessageDialog(this, "Đã hủy");
+				}
 			}
+			
 		}
 		if (o.equals(btnXoa)) {
 			if (table.getSelectedRow() == -1) {

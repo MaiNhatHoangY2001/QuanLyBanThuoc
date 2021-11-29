@@ -243,15 +243,15 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener 
 	 * @return boolean
 	 */
 	private boolean kiemTraThongTin() {
-		Regex r = new Regex();
-		if (r.RegexTen(txtTen))
-			return false;
-		if (r.kiemTraRong(txtTen))
-			return false;
-		if (r.kiemTraRong(txtDiaChi))
-			return false;
-		if (r.kiemTraRong(txtDiaChi))
-			return false;
+//		Regex r = new Regex();
+//		if (r.RegexTen(txtTen))
+//			return false;
+//		if (r.kiemTraRong(txtTen))
+//			return false;
+//		if (r.kiemTraRong(txtDiaChi))
+//			return false;
+//		if (r.kiemTraRong(txtDiaChi))
+//			return false;
 		return true;
 	}
 
@@ -329,25 +329,31 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener 
 
 		}
 		if (o.equals(btnSua)) {
-			if (kiemTraThongTin()) {
-				String ten = txtTen.getText();
-				String dc = txtDiaChi.getText();
-				NhaCungCap ncc = new NhaCungCap(ten, dc);
-				int tl;
-				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nhà cung cấp này không ?",
-						"Cảnh báo", JOptionPane.YES_OPTION);
-				if (tl == JOptionPane.YES_OPTION) {
-					try {
-						App.nccDao.updateNCC(ncc);
-						JOptionPane.showMessageDialog(this, "Thông tin nhà cung cấp đã được cập nhật");
-						clearTable();
-						loadAllNCC();
-					} catch (RemoteException e1) {
-						e1.printStackTrace();
-					}
-				} else
-					JOptionPane.showMessageDialog(this, "Đã hủy");
+			int i=table.getSelectedRow();
+			if(i==-1)
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần sửa");
+			else {
+				if (kiemTraThongTin()) {
+					String ten = txtTen.getText();
+					String dc = txtDiaChi.getText();
+					NhaCungCap ncc = new NhaCungCap(tableModel.getValueAt(i, 0).toString(),ten, dc);
+					int tl;
+					tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nhà cung cấp này không ?",
+							"Cảnh báo", JOptionPane.YES_OPTION);
+					if (tl == JOptionPane.YES_OPTION) {
+						try {
+							App.nccDao.updateNCC(ncc);
+							JOptionPane.showMessageDialog(this, "Thông tin nhà cung cấp đã được cập nhật");
+							clearTable();
+							loadAllNCC();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					} else
+						JOptionPane.showMessageDialog(this, "Đã hủy");
+				}
 			}
+			
 		}
 		if (o.equals(btnXoa)) {
 			if (table.getSelectedRow() == -1) {

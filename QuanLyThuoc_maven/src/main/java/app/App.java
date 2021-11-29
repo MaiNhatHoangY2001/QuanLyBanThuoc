@@ -30,9 +30,9 @@ public class App {
 		}
 		try {
 //			String ip = "192.168.1.6:9999";
-			// String ip = "192.168.1.5:9999";
+			 String ip = "192.168.1.5:9999";
 //			String ip = "192.168.1.5:9999";
-			 String ip = "192.168.1.8:9999";
+//			 String ip = "192.168.1.8:9999";
 
 			khDao = (KhachHangDao) Naming.lookup("rmi://" + ip + "/khachHangDao");
 			nccDao = (NhaCungCapDao) Naming.lookup("rmi://" + ip + "/nhaCungCapDao");

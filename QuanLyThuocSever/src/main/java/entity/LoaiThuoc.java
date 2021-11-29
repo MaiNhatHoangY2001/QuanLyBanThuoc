@@ -52,9 +52,9 @@ public class LoaiThuoc implements Serializable {
 		this.tenLoai = tenLoai;
 	}
 
-	public LoaiThuoc(String maLoai) {
+	public LoaiThuoc(String tenLoai) {
 		super();
-		this.maLoai = maLoai;
+		this.tenLoai = tenLoai;
 	}
 
 	public LoaiThuoc() {
