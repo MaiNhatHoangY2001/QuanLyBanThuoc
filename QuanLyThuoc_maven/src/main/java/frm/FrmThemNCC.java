@@ -22,6 +22,7 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
@@ -93,6 +94,8 @@ public class FrmThemNCC extends JFrame implements ActionListener, MouseListener 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
+		setTitle("Ứng dụng quản lý cửa hàng thuốc Hoàng Long");
+		setIconImage(new ImageIcon("icon/thuoc _navbar.png").getImage());
 		setResizable(false);
 
 		RoundedPanel pnlInputKH = new RoundedPanel();
