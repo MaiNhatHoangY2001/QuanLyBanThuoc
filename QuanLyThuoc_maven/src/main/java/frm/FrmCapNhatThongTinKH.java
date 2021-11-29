@@ -58,18 +58,6 @@ public class FrmCapNhatThongTinKH extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmCapNhatThongTinKH(KhachHang kh) {
-		
-
-//		SecurityManager securityManager=System.getSecurityManager();
-//		if(securityManager==null) {
-//			System.setProperty("java.security.policy", "policy/policy.policy");
-//			System.setSecurityManager(new SecurityManager());
-//		}
-//		try {
-//			khDao=(KhachHangDao) Naming.lookup("rmi://192.168.1.7:9999/khachHangDao");
-//		} catch (Exception e1) {
-//			e1.printStackTrace();
-//		}
 
 		addWindowListener(new WindowAdapter() {
 			@Override

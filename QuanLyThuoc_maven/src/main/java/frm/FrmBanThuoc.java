@@ -107,7 +107,7 @@ public class FrmBanThuoc extends JPanel {
 	 * Create the panel.
 	 */
 	public FrmBanThuoc() {
-		kh = new KhachHang();
+		kh = null;
 		hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
 
 		setSize(1600, 911);
@@ -542,7 +542,7 @@ public class FrmBanThuoc extends JPanel {
 				if (txtKHTra.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Bạn chưa thanh toán hóa đơn");
 				} else {
-					kh = new KhachHang();
+					kh = null;
 					hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
 					ChucNang.clearDataTable(modelGioHang);
 					try {
@@ -555,6 +555,7 @@ public class FrmBanThuoc extends JPanel {
 					cmbNCC.setSelectedIndex(0);
 					cmbNuoc.setSelectedIndex(0);
 					txtTongThanhTien.setText("");
+					txtNhapSoLuong.setText("");
 					txtKHTra.setText("");
 					txtTienTraLai.setText("");
 					txtTimKiemSP.setText("");
@@ -686,7 +687,7 @@ public class FrmBanThuoc extends JPanel {
 							String thanhtien = (tientra % 1) == 0 ? ((int) tientra) + "" : tientra + "";
 							txtTienTraLai.setText(thanhtien);
 							hoadon.setCtHD(listChiTietHoaDon);
-							hoadon.thanhTien();
+							hoadon.setKh(kh);
 							// Cập nhật dữ liêu vào sql
 							try {
 								App.hdDao.themHoaDon(hoadon);

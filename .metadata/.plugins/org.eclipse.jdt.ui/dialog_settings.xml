@@ -101,6 +101,7 @@
 		<item key="JarManifestWizardPage.MANIFEST_LOCATION" value=""/>
 		<item key="JarManifestWizardPage.SEAL_JAR" value="false"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="QuanLyThuoc_maven\lib\QuanLyThuocserver.jar"/>
 			<item value="QuanLyThuoc_maven/lib/QuanLyThuocserver.jar"/>
 		</list>
 	</section>
