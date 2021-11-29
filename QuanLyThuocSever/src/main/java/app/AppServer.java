@@ -40,11 +40,11 @@ public class AppServer {
 			ThuocDao thuocDao = new ThuocDaoImpl();
 
 			LocateRegistry.createRegistry(9999);
-//			 String ip = "192.168.1.6:9999";
+			 String ip = "192.168.1.6:9999";
 			//String ip = "192.168.1.5:9999";
 //			String ip = "192.168.1.5:9999";
 			// String ip = "192.168.1.7:9999";
-			String ip = "192.168.1.8:9999";
+		//	String ip = "192.168.1.8:9999";
 			
 			Naming.bind("rmi://" + ip + "/ctHoaDon_DAO", ctHoaDon_DAO);
 			Naming.bind("rmi://" + ip + "/hoaDonDao", hoaDonDao);
