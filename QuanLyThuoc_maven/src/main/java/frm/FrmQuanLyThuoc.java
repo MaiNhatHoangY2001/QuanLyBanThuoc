@@ -526,7 +526,6 @@ public class FrmQuanLyThuoc extends JPanel {
 						thuoc.setHanSuDung(thuoc1.getHanSuDung());
 						thuoc.setSLTon(thuoc1.getSLTon());
 						thuoc.setDonGia(thuoc1.getDonGia());
-						System.out.println(thuoc);
 						if (thuoc != null) {
 							try {
 								boolean rs = App.thuocDao.capNhatThuoc(thuoc);

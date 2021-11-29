@@ -402,7 +402,7 @@ public class FrmBanThuoc extends JPanel {
 		lblTitleTenNV.setBounds(10, 96, 134, 40);
 		pnlThongTInNV.add(lblTitleTenNV);
 
-		lblTenNV = new JLabel("Nguyễn Tiến Linh");
+		lblTenNV = new JLabel("");
 		lblTenNV.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblTenNV.setBounds(154, 96, 324, 40);
 		pnlThongTInNV.add(lblTenNV);

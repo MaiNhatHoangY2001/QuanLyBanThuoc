@@ -147,7 +147,7 @@ public class NhanVienImlp extends UnicastRemoteObject implements NhanVienDao {
 		try {
 			tr.begin();
 
-			String sql = "select * from NhanVien where hoTen = N'" + tenNV + "'";
+			String sql = "select * from NhanVien where hoTen like N'%" + tenNV + "%'";
 
 			List<NhanVien> dsNV = session.createNativeQuery(sql, NhanVien.class).getResultList();
 
