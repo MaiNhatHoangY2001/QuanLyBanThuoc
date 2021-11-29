@@ -59,7 +59,6 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 	private JTextField txtTen;
 	private JButton btnLuu;
 	private JButton btnXoa, btnSua, btnXoaRong;
-	private JTextField txtMa;
 	private DefaultTableModel tableModel;
 	private JTable table;
 
@@ -104,7 +103,7 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 		getContentPane().add(pnlInputKH);
 		pnlInputKH.setLayout(null);
 
-		JLabel lblTileInput = new JLabel("Nhập thông tin loại thuốc");
+		JLabel lblTileInput = new JLabel("Nhập thông tin nước sản xuất");
 		lblTileInput.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTileInput.setBounds(20, 10, 320, 40);
 		pnlInputKH.add(lblTileInput);
@@ -118,27 +117,15 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 
 		JLabel lblTen = new JLabel("Tên nước:");
 		lblTen.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTen.setBounds(0, 99, 175, 40);
+		lblTen.setBounds(0, 45, 175, 40);
 		pnlInput.add(lblTen);
 
 		txtTen = new JTextField();
 		txtTen.setMargin(new Insets(2, 14, 2, 2));
 		txtTen.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtTen.setBounds(185, 100, 594, 40);
+		txtTen.setBounds(185, 45, 605, 40);
 		pnlInput.add(txtTen);
 		txtTen.setColumns(10);
-
-		JLabel lblMLoiThuc = new JLabel("Mã  nước:");
-		lblMLoiThuc.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblMLoiThuc.setBounds(0, 22, 175, 40);
-		pnlInput.add(lblMLoiThuc);
-
-		txtMa = new JTextField();
-		txtMa.setMargin(new Insets(2, 14, 2, 2));
-		txtMa.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtMa.setColumns(10);
-		txtMa.setBounds(185, 22, 594, 40);
-		pnlInput.add(txtMa);
 
 		String column[] = { "Mã nước", "Tên nước" };
 		tableModel = new DefaultTableModel(column, 0);
@@ -150,7 +137,7 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 		JScrollPane scrool;
 		scrool = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrool.setBounds(10, 166, 769, 301);
+		scrool.setBounds(0, 130, 790, 301);
 		scrool.setBackground(new Color(248, 248, 248));
 		scrool.setBorder(BorderFactory.createTitledBorder("Danh sách nước sản xuất"));
 		pnlInput.add(scrool);
@@ -202,10 +189,10 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 		getContentPane().add(pnlXanh);
 		pnlXanh.setLayout(null);
 
-		JLabel lblTitle = new JLabel("Thêm Thông Tin Loại Thuốc");
+		JLabel lblTitle = new JLabel("Thêm Thông Tin nước sản xuất");
 		lblTitle.setForeground(Color.WHITE);
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblTitle.setBounds(209, 30, 582, 73);
+		lblTitle.setBounds(184, 30, 631, 73);
 		pnlXanh.add(lblTitle);
 
 		table.addMouseListener(this);
@@ -232,7 +219,6 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 	 */
 	public void xoaRong() {
 		txtTen.setText("");
-		txtMa.setText("");
 		txtTen.requestFocus();
 	}
 
@@ -274,7 +260,6 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int row = table.getSelectedRow();
-		txtMa.setText(tableModel.getValueAt(row, 0).toString());
 		txtTen.setText(tableModel.getValueAt(row, 1).toString());
 	}
 
@@ -324,9 +309,8 @@ public class FrmThemNuoc extends JFrame implements ActionListener, MouseListener
 		}
 		if (o.equals(btnSua)) {
 			if (kiemTraThongTin()) {
-				String ma = txtMa.getText();
 				String ten = txtTen.getText();
-				NuocSX nuocSX = new NuocSX(ma, ten);
+				NuocSX nuocSX = new NuocSX(ten);
 				int tl;
 				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa nước sản xuất này không ?",
 						"Cảnh báo", JOptionPane.YES_OPTION);

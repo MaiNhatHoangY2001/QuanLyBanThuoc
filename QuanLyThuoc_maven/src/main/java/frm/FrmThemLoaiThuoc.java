@@ -57,7 +57,6 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 	private JTextField txtTen;
 	private JButton btnLuu;
 	private JButton btnXoa, btnSua, btnXoaRong;
-	private JTextField txtMa;
 	private DefaultTableModel modelLoaiThuoc;
 	private JTable tableLoaiThuoc;
 
@@ -118,27 +117,15 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 
 		JLabel lblTen = new JLabel("Tên loại thuốc:");
 		lblTen.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTen.setBounds(0, 99, 175, 40);
+		lblTen.setBounds(0, 45, 175, 40);
 		pnlInput.add(lblTen);
 
 		txtTen = new JTextField();
 		txtTen.setMargin(new Insets(2, 14, 2, 2));
 		txtTen.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtTen.setBounds(185, 100, 594, 40);
+		txtTen.setBounds(185, 45, 605, 40);
 		pnlInput.add(txtTen);
 		txtTen.setColumns(10);
-
-		JLabel lblMLoiThuc = new JLabel("Mã loại thuốc");
-		lblMLoiThuc.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblMLoiThuc.setBounds(0, 22, 175, 40);
-		pnlInput.add(lblMLoiThuc);
-
-		txtMa = new JTextField();
-		txtMa.setMargin(new Insets(2, 14, 2, 2));
-		txtMa.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtMa.setColumns(10);
-		txtMa.setBounds(185, 22, 594, 40);
-		pnlInput.add(txtMa);
 
 		String column[] = { "Mã loại thuốc", "Tên loại thuốc" };
 		modelLoaiThuoc = new DefaultTableModel(column, 0);
@@ -150,7 +137,7 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 		JScrollPane scrollLoaiThuoc;
 		scrollLoaiThuoc = new JScrollPane(tableLoaiThuoc, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollLoaiThuoc.setBounds(10, 166, 769, 301);
+		scrollLoaiThuoc.setBounds(0, 130, 790, 301);
 		scrollLoaiThuoc.setBackground(new Color(248, 248, 248));
 		scrollLoaiThuoc.setBorder(BorderFactory.createTitledBorder("Danh sách loại thuốc"));
 		pnlInput.add(scrollLoaiThuoc);
@@ -226,7 +213,6 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 	 */
 	public void xoaRong() {
 		txtTen.setText("");
-		txtMa.setText("");
 		txtTen.requestFocus();
 	}
 
@@ -268,7 +254,6 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int row = tableLoaiThuoc.getSelectedRow();
-		txtMa.setText(modelLoaiThuoc.getValueAt(row, 0).toString());
 		txtTen.setText(modelLoaiThuoc.getValueAt(row, 1).toString());
 
 	}
@@ -302,9 +287,8 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 		Object o = e.getSource();
 		if (o.equals(btnLuu)) {
 			if (kiemTraThongTin()) {
-				String maLoai = txtMa.getText();
 				String tenLoai = txtTen.getText();
-				LoaiThuoc loaiThuoc = new LoaiThuoc(maLoai, tenLoai);
+				LoaiThuoc loaiThuoc = new LoaiThuoc(tenLoai);
 				try {
 					App.loaiDao.themLoaiThuoc(loaiThuoc);
 					JOptionPane.showMessageDialog(this, "Thêm thành công");
@@ -319,9 +303,8 @@ public class FrmThemLoaiThuoc extends JFrame implements ActionListener, MouseLis
 		}
 		if (o.equals(btnSua)) {
 			if (kiemTraThongTin()) {
-				String maLoai = txtMa.getText();
 				String tenLoai = txtTen.getText();
-				LoaiThuoc loaiThuoc = new LoaiThuoc(maLoai, tenLoai);
+				LoaiThuoc loaiThuoc = new LoaiThuoc(tenLoai);
 				int tl;
 				tl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa loại thuốc này không ?", "Cảnh báo",
 						JOptionPane.YES_OPTION);
