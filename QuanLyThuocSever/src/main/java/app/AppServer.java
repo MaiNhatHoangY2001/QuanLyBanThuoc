@@ -41,6 +41,7 @@ public class AppServer {
 
 			LocateRegistry.createRegistry(9999);
 			String ip = "192.168.1.6:9999";
+			//String ip = "192.168.1.5:9999";
 			// String ip = "192.168.1.7:9999";
 			
 			Naming.bind("rmi://" + ip + "/ctHoaDon_DAO", ctHoaDon_DAO);

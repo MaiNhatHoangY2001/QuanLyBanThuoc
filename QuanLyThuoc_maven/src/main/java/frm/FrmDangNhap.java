@@ -62,19 +62,19 @@ public class FrmDangNhap extends JFrame {
 		pnlTrai.setLayout(null);
 		setLocationRelativeTo(null);
 		setIconImage(new ImageIcon("icon/thuoc _navbar.png").getImage());
-		setTitle("Phần mềm quản lý bán thuốc cửa hàng Long Đúng");
+		setTitle("Phần mềm quản lý bán thuốc cửa hàng Hoàng Long");
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon("icon/R.png"));
 		lblNewLabel.setBounds(125, 189, 350, 321);
 		pnlTrai.add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("Long Đúng");
+		JLabel lblNewLabel_1 = new JLabel("Hoàng Long");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblNewLabel_1.setBounds(35, 20, 555, 37);
 		pnlTrai.add(lblNewLabel_1);
 
-		JLabel lblNewLabel_2 = new JLabel("Quầy thuốc tây Long Đúng hân hạnh phục vụ");
+		JLabel lblNewLabel_2 = new JLabel("Quầy thuốc tây Hoàng Long hân hạnh phục vụ");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel_2.setBounds(10, 521, 580, 30);
