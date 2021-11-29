@@ -101,14 +101,19 @@ public class FrmBanThuoc extends JPanel {
 	private ArrayList<ChiTietHoaDon> listChiTietHoaDon;
 	private ArrayList<Thuoc> listThuocMua;
 	private HoaDon hoadon;
+	private NhanVien nv;
 	private JComboBox cmbTimKiem;
+	private JTextField txtMaNV;
+	private JLabel lblTenNV;
+	private JButton btnTimNV;
 
 	/**
 	 * Create the panel.
 	 */
 	public FrmBanThuoc() {
 		kh = null;
-		hoadon = new HoaDon(LocalDate.now(), new NhanVien("NV21110001"), kh);
+		nv = null;
+		hoadon = new HoaDon(LocalDate.now(), nv, kh);
 
 		setSize(1600, 911);
 		setBackground(Color.LIGHT_GRAY);
@@ -389,33 +394,43 @@ public class FrmBanThuoc extends JPanel {
 
 		JLabel lblTitleMSNV = new JLabel("Mã nhân viên:");
 		lblTitleMSNV.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTitleMSNV.setBounds(10, 11, 134, 40);
+		lblTitleMSNV.setBounds(10, 28, 134, 40);
 		pnlThongTInNV.add(lblTitleMSNV);
 
 		JLabel lblTitleTenNV = new JLabel("Tên nhân viên:");
 		lblTitleTenNV.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTitleTenNV.setBounds(10, 62, 140, 40);
+		lblTitleTenNV.setBounds(10, 96, 134, 40);
 		pnlThongTInNV.add(lblTitleTenNV);
 
-		JLabel lblTitleChucVu = new JLabel("Chức vụ:");
-		lblTitleChucVu.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTitleChucVu.setBounds(10, 113, 83, 40);
-		pnlThongTInNV.add(lblTitleChucVu);
-
-		JLabel lblMSNV = new JLabel("NV0001");
-		lblMSNV.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblMSNV.setBounds(154, 11, 324, 40);
-		pnlThongTInNV.add(lblMSNV);
-
-		JLabel lblTenNV = new JLabel("Nguyễn Tiến Linh");
+		lblTenNV = new JLabel("Nguyễn Tiến Linh");
 		lblTenNV.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTenNV.setBounds(154, 62, 324, 40);
+		lblTenNV.setBounds(154, 96, 324, 40);
 		pnlThongTInNV.add(lblTenNV);
-
-		JLabel lblChucVu = new JLabel("Nhân viên bán hàng");
-		lblChucVu.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblChucVu.setBounds(103, 113, 375, 40);
-		pnlThongTInNV.add(lblChucVu);
+		
+		btnTimNV = new JButton("Tìm");
+		btnTimNV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				suKienTimKiemNV();
+			}
+		});
+		btnTimNV.setForeground(Color.WHITE);
+		btnTimNV.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnTimNV.setBackground(new Color(20, 140, 255));
+		btnTimNV.setBounds(378, 28, 100, 40);
+		pnlThongTInNV.add(btnTimNV);
+		
+		txtMaNV = new JTextField();
+		txtMaNV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				suKienTimKiemNV();
+			}
+			
+		});
+		txtMaNV.setMargin(new Insets(2, 6, 2, 2));
+		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtMaNV.setBounds(154, 28, 214, 40);
+		pnlThongTInNV.add(txtMaNV);
+		txtMaNV.setColumns(10);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 422, 1564, 302);
@@ -595,6 +610,31 @@ public class FrmBanThuoc extends JPanel {
 		}
 
 	}
+	
+	/**
+	 * Sự kiện tìm kiếm nhân viên
+	 */
+	private void suKienTimKiemNV() {
+		String data = txtMaNV.getText();
+		if (data.equals("")) {
+			JOptionPane.showMessageDialog(null, "Bạn hãy nhập thông tin cần tìm");
+			txtMaNV.requestFocus();
+		} else {
+			try {
+				nv = App.nv_dao.getNVTheoMa(data);
+				if (nv == null) {
+					JOptionPane.showMessageDialog(null, "Không tìm thấy nhân viên");
+					txtMaNV.requestFocus();
+				}
+				else {
+					lblTenNV.setText(nv.getHoTen());
+				}
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
 
 	/**
 	 * Sự kiện tìm kiếm sản phẩm
@@ -682,12 +722,16 @@ public class FrmBanThuoc extends JPanel {
 						if (kh == null) {
 							JOptionPane.showMessageDialog(null, "Bạn hãy cho biết khách hàng nào đang mua");
 							txtTimKiemKH.requestFocus();
+						} else if (nv == null) {
+							JOptionPane.showMessageDialog(null, "Bạn hãy cho biết nhân viên nào đang lập hóa đơn");
+							txtMaNV.requestFocus();
 						} else {
 							double tientra = khachhangtra - tongthangtien;
 							String thanhtien = (tientra % 1) == 0 ? ((int) tientra) + "" : tientra + "";
 							txtTienTraLai.setText(thanhtien);
 							hoadon.setCtHD(listChiTietHoaDon);
 							hoadon.setKh(kh);
+							hoadon.setNv(nv);
 							// Cập nhật dữ liêu vào sql
 							try {
 								App.hdDao.themHoaDon(hoadon);
@@ -917,5 +961,4 @@ public class FrmBanThuoc extends JPanel {
 				thuoc.getSLTon() + "", vnFormat.format(thuoc.getDonGia()) };
 		modelChonSP.addRow(n);
 	}
-
 }

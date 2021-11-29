@@ -101,6 +101,23 @@ public class NhanVienImlp extends UnicastRemoteObject implements NhanVienDao {
 
 		return null;
 	}
+	
+	@Override
+	public NhanVien getNVTheoMa(String MaNV) throws RemoteException {
+		Session session = sessionFactory.getCurrentSession();
+		Transaction tr = session.getTransaction();
+		try {
+			tr.begin();
+			NhanVien nv = session.find(NhanVien.class, MaNV);
+			tr.commit();
+			return nv;
+		} catch (Exception e) {
+			e.printStackTrace();
+			tr.rollback();
+		}
+		return null;
+	}
+	
 
 	@Override
 	public List<NhanVien> getNhanVienTheoMa(String maNV) throws RemoteException {
